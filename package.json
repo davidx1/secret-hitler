@@ -1,0 +1,16 @@
+{
+  "name": "secret-hitler",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/davidx1/secret-hitler.git",
+  "author": "David Xu <davidxu1991@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "client": "cd client && yarn dev",
+    "server": "cd server && yarn dev",
+    "dev": "concurrently - kill-others \"yarn run server\" \"yarn run client\""
+  },
+  "devDependencies": {
+    "concurrently": "^5.1.0"
+  }
+}
