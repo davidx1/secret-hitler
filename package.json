@@ -6,9 +6,12 @@
   "author": "David Xu <davidxu1991@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "client": "cd client && yarn dev",
-    "server": "cd server && yarn dev",
-    "dev": "concurrently - kill-others \"yarn run server\" \"yarn run client\""
+    "client:dev": "cd client && yarn dev",
+    "client:build": "cd client && yarn && yarn build",
+    "server:dev": "cd server && yarn dev",
+    "server:start": "cd server && yarn && yarn start",
+    "dev": "concurrently - kill-others \"yarn run server:dev\" \"yarn run client:dev\"",
+    "start": "yarn run client:build &&  yarn run server:start"
   },
   "devDependencies": {
     "concurrently": "^5.1.0"

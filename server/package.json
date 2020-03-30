@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "npm init template for bootstraping an empty Colyseus project",
   "main": "lib/index.js",
+  "engines": {
+    "node": "12.x"
+  },
   "scripts": {
     "dev": "nodemon src/index.ts",
     "start": "ts-node src/index.ts",
