@@ -11,7 +11,7 @@
     "server:dev": "cd server && yarn dev",
     "start": "cd server && yarn && yarn start",
     "dev": "concurrently - kill-others \"yarn run server:dev\" \"yarn run client:dev\"",
-    "heroku-postbuild": "yarn run client:build"
+    "heroku-postbuild": "yarn run client:build && yarn run start"
   },
   "devDependencies": {
     "concurrently": "^5.1.0"
