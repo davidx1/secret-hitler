@@ -32,6 +32,10 @@ app.use(express.static(path.join(__dirname, '../../client/build')))
 // register colyseus monitor AFTER registering your room handlers
 app.use("/colyseus", monitor());
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'../../client/build/index.html'));
+});
+
 
 gameServer.listen(port);
 console.log(`Listening on ws://localhost:${ port }`)
