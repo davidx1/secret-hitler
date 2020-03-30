@@ -28,14 +28,13 @@ gameServer.define('my_room', MyRoom);
  * - uncomment if you want to use default authentication (https://docs.colyseus.io/authentication/)
  * - also uncomment the import statement
  */
-app.use(express.static(path.join(__dirname, '../../client/build')))
+app.use(express.static(path.join(__dirname, '../client/build')))
 // register colyseus monitor AFTER registering your room handlers
 app.use("/colyseus", monitor());
 
-app.get("/", (req, res) => "Hello world")
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'../../client/build/index.html'));
+  res.sendFile(path.join(__dirname+'..//client/build/index.html'));
 });
 
 
