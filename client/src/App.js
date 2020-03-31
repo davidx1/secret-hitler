@@ -32,11 +32,11 @@ function App() {
   const { room } = useRoom();
 
   const onClick = () => {
-    room.send({ move: "left" });
+    room.send({ message: "left" });
   };
 
   const onClick2 = () => {
-    room.send({ move: "right" });
+    room.send({ message: "right" });
   };
 
   return (
