@@ -15,7 +15,7 @@ const useRoom = () => {
 
   useEffect(
     () =>
-      client.joinOrCreate("my_room").then(newRoom => {
+      client.joinOrCreate("my_room", { name: "bob" }).then(newRoom => {
         newRoom.onMessage(function(message) {
           console.log(message);
         });
