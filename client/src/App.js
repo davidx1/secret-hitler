@@ -1,51 +1,34 @@
-import React, { useEffect, useState } from "react";
-import * as Colyseus from "colyseus.js";
+import React from "react";
+import SecretHitler from "./journeys/secret-hitler";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-const host = window.document.location.host.replace(/:.*/, "");
-const location = window.location;
-const client = new Colyseus.Client(
-  location.protocol.replace("http", "ws") +
-    "//" +
-    host +
-    (location.port ? ":" + 3001 : "")
-);
-
-const useRoom = () => {
-  const [room, setRoom] = useState();
-
-  useEffect(
-    () =>
-      client.joinOrCreate("my_room", { name: "bob" }).then(newRoom => {
-        newRoom.onMessage(function(message) {
-          console.log(message);
-        });
-
-        setRoom(newRoom);
-      }),
-    []
-  );
-
-  return { room };
-};
-
-function App() {
-  const { room } = useRoom();
-
-  const onClick = () => {
-    room.send({ message: "left" });
-  };
-
-  const onClick2 = () => {
-    room.send({ message: "right" });
-  };
-
+export default function App() {
   return (
-    <div>
-      <button onClick={onClick}>Button</button>
-      <button onClick={onClick2}>Button</button>
-      <p>Hello world</p>
-    </div>
+    <Router>
+      <div style={{ margin: "50px auto", maxWidth: "1020px" }}>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/secret-hitler">Secret Hitler</Link>
+            </li>
+          </ul>
+        </nav>
+        <hr />
+
+        {/* A <Switch> looks through its children <Route>s and
+          renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/secret-hitler">
+            <SecretHitler />
+          </Route>
+          <Route path="/">
+            <h1>Home</h1>
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
-
-export default App;
