@@ -1,13 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Colyseus from "colyseus.js";
-import {
-  Switch,
-  Route,
-  useLocation,
-  useHistory,
-  Link,
-  useRouteMatch,
-} from "react-router-dom";
+import { Switch, Route, useHistory, useRouteMatch } from "react-router-dom";
 import Play from "./pages/Play";
 
 const host = window.document.location.host.replace(/:.*/, "");
@@ -22,8 +15,10 @@ const client = new Colyseus.Client(
 function SecretHitler() {
   const [room, setRoom] = useState();
   const [rooms, setAvaliableRooms] = useState([]);
+  useEffect(() => {
+    getAvailableRooms();
+  }, []);
 
-  let location = useLocation();
   const history = useHistory();
   let match = useRouteMatch();
 
