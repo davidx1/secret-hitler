@@ -3,12 +3,23 @@ import { useParams, Redirect } from "react-router-dom";
 
 export default function Game({ room }) {
   const [state, setState] = useState([]);
+  const [roomState, setRoomState] = useState();
   let { id } = useParams();
 
   useEffect(() => {
-    if (room) {
+    if (room.state) {
       room.onMessage(function(message) {
-        setState(state => [...state, message]);
+        const newLine = `${message.id}: ${message.message}`;
+        setState(state => [...state, newLine]);
+      });
+
+      room.onStateChange(newState => {
+        console.log("state change");
+        console.log(newState);
+        setRoomState(state => ({
+          ...state,
+          ...newState,
+        }));
       });
 
       return () => {
@@ -22,17 +33,26 @@ export default function Game({ room }) {
     room.send({ message: "Yo" });
   };
 
-  if (!room) {
+  if (!room || !state) {
     return <Redirect to={"/"} />;
   }
 
   return (
     <div>
-      <h4>{id}</h4>
-      <button onClick={onClick}>Yo</button>
-      {state.map(s => (
-        <p>{s}</p>
-      ))}
+      {roomState ? (
+        <>
+          <h4>{id}</h4>
+          <button onClick={onClick}>Yo</button>
+          {Object.keys(roomState.players).map(p => (
+            <h4>{roomState.players[p].displayName}</h4>
+          ))}
+          {state.map(s => (
+            <p>{s}</p>
+          ))}
+        </>
+      ) : (
+        <h4>Loading</h4>
+      )}
     </div>
   );
 }
