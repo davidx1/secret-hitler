@@ -1,41 +1,47 @@
 {
-    "name": "my-app",
-    "version": "1.0.0",
-    "description": "npm init template for bootstraping an empty Colyseus project",
-    "main": "src/index.ts",
-    "engines": {
-        "node": "12.x"
-    },
-    "scripts": {
-        "start": "ts-node src/index.ts",
-        "loadtest": "colyseus-loadtest loadtest/example.ts --room my_room --numClients 2",
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "server:dev": "nodemon src/index.ts",
-        "client:dev": "cd client && yarn dev",
-        "dev": "concurrently --kill-others \"yarn run server:dev\" \"yarn run client:dev\"",
-        "heroku-postbuild": "cd client && yarn && yarn build"
-    },
-    "author": "",
-    "license": "UNLICENSED",
-    "bugs": {
-        "url": "https://github.com/colyseus/create-colyseus/issues"
-    },
-    "homepage": "https://github.com/colyseus/create-colyseus#readme",
-    "devDependencies": {
-        "concurrently": "^5.1.0"
-    },
-    "dependencies": {
-        "@colyseus/loadtest": "^0.12.0",
-        "@colyseus/monitor": "^0.12.1",
-        "@colyseus/social": "^0.11.6",
-        "@types/cors": "^2.8.6",
-        "@types/express": "^4.17.3",
-        "colyseus": "^0.12.4",
-        "cors": "^2.8.5",
-        "express": "^4.16.4",
-        "express-jwt": "^5.3.1",
-        "nodemon": "^2.0.2",
-        "ts-node": "^8.8.1",
-        "typescript": "^3.8.3"
-    }
+  "name": "my-app",
+  "version": "1.0.0",
+  "description": "npm init template for bootstraping an empty Colyseus project",
+  "main": "src/index.ts",
+  "engines": {
+    "node": "12.x"
+  },
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "loadtest": "colyseus-loadtest loadtest/example.ts --room my_room --numClients 2",
+    "test": "jest",
+    "server:dev": "nodemon src/index.ts",
+    "client:dev": "cd client && yarn dev",
+    "dev": "concurrently --kill-others \"yarn run server:dev\" \"yarn run client:dev\"",
+    "heroku-postbuild": "cd client && yarn && yarn build"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/colyseus/create-colyseus/issues"
+  },
+  "homepage": "https://github.com/colyseus/create-colyseus#readme",
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-typescript": "^7.9.0",
+    "babel-jest": "^25.3.0",
+    "concurrently": "^5.1.0",
+    "jest": "^25.3.0"
+  },
+  "dependencies": {
+    "@colyseus/loadtest": "^0.12.0",
+    "@colyseus/monitor": "^0.12.1",
+    "@colyseus/social": "^0.11.6",
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.3",
+    "colyseus": "^0.12.4",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-jwt": "^5.3.1",
+    "nodemon": "^2.0.2",
+    "ts-node": "^8.8.1",
+    "typescript": "^3.8.3",
+    "xstate": "^4.8.0"
+  }
 }
