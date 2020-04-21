@@ -516,6 +516,7 @@ const stateMachine = Machine(
       setNewDrawPile,
       setPolicyInHand,
       setNewPolicy,
+      killPlayer,
       removePolicyFromHand
     },
     guards: {
