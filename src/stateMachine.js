@@ -72,7 +72,7 @@ const boardFor = {
   ]
 }
 
-const prodInitialState = {
+export const prodInitialState = {
   value: "waiting",
   context: {
     players: [],

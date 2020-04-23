@@ -408,25 +408,3 @@ test("Can go into view three cards successfully", () => {
     context: nextState.context
   }).toMatchSnapshot()
 })
-
-test("Can get out of view three cards successfully", () => {
-  nextState = stateMachine.transition(nextState, {
-    "type": "doneViewingCards"
-  })
-
-  expect({
-    value: nextState.value,
-    context: nextState.context
-  }).toMatchSnapshot()
-})
-
-test("Can go into kill a player", () => {
-  nextState = stateMachine.transition(nextState, {
-    "type": "doneViewingCards"
-  })
-
-  expect({
-    value: nextState.value,
-    context: nextState.context
-  }).toMatchSnapshot()
-})

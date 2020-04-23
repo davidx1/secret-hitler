@@ -1,86 +1,47 @@
-import { Room, Client } from 'colyseus'
-import { Schema, type, MapSchema } from '@colyseus/schema'
-
-export class Player extends Schema {
-  @type('string')
-  displayName: string
-  @type('boolean')
-  ready: boolean
-  @type('boolean')
-  agree: boolean
-  @type('string')
-  role: 'F' | 'H' | 'L'
-}
-
-export class GameState extends Schema {
-  @type('string')
-  major: 'WAITING' | 'STARTED' | 'END'
-  @type('string')
-  minor: string
-  @type('string')
-  patch: 'SELECTING' | 'VOTING' | 'FILTERING' | 'PICKING'
-}
-
-export class State extends Schema {
-  @type({ map: Player })
-  players = new MapSchema<Player>()
-  @type(GameState)
-  gameState = new GameState()
-
-  createPlayer(id: string, displayName: string) {
-    console.log(`createPlayer - creating player with name ${displayName}`)
-    this.players[id] = new Player()
-    this.players[id].displayName = displayName
-  }
-
-  removePlayer(id: string) {
-    delete this.players[id]
-  }
-
-  getDisplayName(id: string) {
-    return this.players[id].displayName || 'Unknown'
-  }
-
-  toggleReady(id: string) {
-    this.players[id].ready = !this.players[id].ready
-  }
-
-  startGame() {
-    this.gameState.major = 'STARTED'
-    this.gameState.minor = this.players[0].id
-    this.gameState.patch = 'SELECTING'
-  }
-}
+import { Room, Client } from "colyseus"
+import { Schema } from "@colyseus/schema"
+import stateMachine, { prodInitialState } from "./stateMachine"
 
 export class MyRoom extends Room {
+  roomStateMachine = stateMachine
+  roomState = this.roomStateMachine.initialState
+
+  br() {
+    this.broadcast({
+      state: this.roomState.value,
+      ...this.roomState.context
+    })
+  }
+
   onCreate(options: any) {
-    console.log('BasicRoom created!', options)
-    this.setState(new State())
+    console.log("BasicRoom created!", options)
   }
 
   onJoin(client: { sessionId: any }, data: { displayName: string }) {
-    console.log(`onJoin - data:`)
-    console.log(data)
-    this.state.createPlayer(client.sessionId, data.displayName)
-    this.broadcast({ id: data.displayName, message: 'joined' })
+    // console.log(`onJoin - data:`)
+    this.roomState = stateMachine.transition(this.roomState, {
+      "type": "newPlayer",
+      "id": client.sessionId,
+      "displayName": data.displayName
+    })
+    this.broadcast({ id: data.displayName, message: "joined" })
+    this.br()
   }
 
   onLeave(client: { sessionId: any }) {
-    this.broadcast({
-      id: this.state.getDisplayName(client.sessionId),
-      message: 'has left the room',
-    })
-    this.state.removePlayer(client.sessionId)
+    // this.broadcast({
+    //   id: this.state.getDisplayName(client.sessionId),
+    //   message: "has left the room"
+    // })
+    // this.state.removePlayer(client.sessionId)
   }
 
-  onMessage(client: { sessionId: any }, data: { message: any }) {
-    this.broadcast({
-      id: this.state.getDisplayName(client.sessionId),
-      message: data.message,
-    })
+  onMessage(client: { sessionId: any }, payload: any) {
+    this.roomState = stateMachine.transition(this.roomState, payload)
+    this.br()
   }
 
   onDispose() {
-    console.log('Dispose BasicRoom')
+    console.log("Dispose BasicRoom")
   }
 }
