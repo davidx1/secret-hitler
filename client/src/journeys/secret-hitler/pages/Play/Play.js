@@ -1,40 +1,41 @@
-import React, { useEffect, useState } from "react";
-import { useParams, Redirect } from "react-router-dom";
+import React, { useEffect, useState } from "react"
+import { useParams, Redirect } from "react-router-dom"
 
 export default function Game({ room }) {
-  const [state, setState] = useState([]);
-  const [roomState, setRoomState] = useState();
-  let { id } = useParams();
+  const [state, setState] = useState([])
+  const [roomState, setRoomState] = useState()
+  let { id } = useParams()
 
   useEffect(() => {
     if (room.state) {
-      room.onMessage(function(message) {
-        const newLine = `${message.id}: ${message.message}`;
-        setState(state => [...state, newLine]);
-      });
+      room.onMessage(function (message) {
+        const newLine = `${message.id}: ${message.message}`
 
-      room.onStateChange(newState => {
-        console.log("state change");
-        console.log(newState);
-        setRoomState(state => ({
+        setState((state) => [...state, newLine])
+      })
+
+      room.onStateChange((newState) => {
+        console.log("state change")
+        console.log(newState)
+        setRoomState((state) => ({
           ...state,
-          ...newState,
-        }));
-      });
+          ...newState
+        }))
+      })
 
       return () => {
-        console.log("leaving room");
-        room.leave();
-      };
+        console.log("leaving room")
+        room.leave()
+      }
     }
-  }, [room]);
+  }, [room])
 
   const onClick = () => {
-    room.send({ message: "Yo" });
-  };
+    room.send({ message: "Yo" })
+  }
 
   if (!room || !state) {
-    return <Redirect to={"/"} />;
+    return <Redirect to={"/"} />
   }
 
   return (
@@ -43,10 +44,10 @@ export default function Game({ room }) {
         <>
           <h4>{id}</h4>
           <button onClick={onClick}>Yo</button>
-          {Object.keys(roomState.players).map(p => (
+          {Object.keys(roomState.players).map((p) => (
             <h4>{roomState.players[p].displayName}</h4>
           ))}
-          {state.map(s => (
+          {state.map((s) => (
             <p>{s}</p>
           ))}
         </>
@@ -54,5 +55,5 @@ export default function Game({ room }) {
         <h4>Loading</h4>
       )}
     </div>
-  );
+  )
 }
