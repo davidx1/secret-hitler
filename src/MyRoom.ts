@@ -7,9 +7,11 @@ export class MyRoom extends Room {
   roomState = this.roomStateMachine.initialState
 
   br() {
+    console.log("broadcasting")
+    const { value, context } = this.roomState
     this.broadcast({
-      state: this.roomState.value,
-      ...this.roomState.context
+      state: value,
+      context
     })
   }
 
@@ -24,7 +26,6 @@ export class MyRoom extends Room {
       "id": client.sessionId,
       "displayName": data.displayName
     })
-    this.broadcast({ id: data.displayName, message: "joined" })
     this.br()
   }
 
@@ -37,7 +38,11 @@ export class MyRoom extends Room {
   }
 
   onMessage(client: { sessionId: any }, payload: any) {
-    this.roomState = stateMachine.transition(this.roomState, payload)
+    console.log("message Received")
+    console.log(payload.type)
+    console.log(payload)
+    this.roomState = stateMachine.transition(this.roomState, { ...payload })
+    console.log("new room state set")
     this.br()
   }
 

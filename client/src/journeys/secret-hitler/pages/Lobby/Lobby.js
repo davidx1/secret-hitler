@@ -25,10 +25,10 @@ export default function Lobby({ client, playUrl, setRoom }) {
   }
 
   const postJoiningCallback = (newRoom) => {
-    newRoom.onMessage(function (message) {
-      console.log("new Message")
-      console.log(message)
-    })
+    console.log(newRoom)
+    sessionStorage.setItem("secret-h-session-id", newRoom.sessionId)
+    sessionStorage.setItem("secret-h-room-id", newRoom.id)
+
     setRoom(newRoom)
   }
 
