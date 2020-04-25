@@ -9,6 +9,7 @@ const GlobalWrapper = styled(Div100vh)`
   width: 100vw;
   padding: 25px;
   background-color: ${(props) => props.theme.neutral};
+  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
   box-sizing: border-box;
   min-width: 550px;
   @media only screen and (max-width: 1200px) {
