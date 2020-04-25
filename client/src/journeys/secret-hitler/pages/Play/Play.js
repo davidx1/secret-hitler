@@ -99,11 +99,11 @@ export default function Game({ room, setRoom, client }) {
   const InteractionLayer = styled.div`
     position: absolute;
     height: 100%;
-    background-color: red;
-    width: 80%;
+    background-color: #00000080;
+    width: 100%;
     bottom: 0;
-    left: auto;
-    right: auto;
+    left: 0;
+    right: 0;
   `
 
   return (
@@ -125,7 +125,7 @@ export default function Game({ room, setRoom, client }) {
         <Player roleToDisplay={"liberal"}></Player>
       </PlayerSlot>
       <InteractionLayer>
-        <VoteSelection />
+        {/* <VoteSelection /> */}
         <PolicySelection />
       </InteractionLayer>
     </GameWrapper>

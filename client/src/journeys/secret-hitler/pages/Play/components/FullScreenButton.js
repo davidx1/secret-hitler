@@ -6,10 +6,15 @@ import useFullscreen from "use-fullscreen"
 const buttonStyle = css`
   position: absolute;
   cursor: pointer;
+  background-color: #ffffffbb;
   right: 10px;
   top: 10px;
   height: 20px;
   width: 20px;
+  z-index: 100;
+  &:hover {
+    background-color: #ffffff;
+  }
   @media only screen and (min-width: 768px) {
     right: 15px;
     top: 15px;

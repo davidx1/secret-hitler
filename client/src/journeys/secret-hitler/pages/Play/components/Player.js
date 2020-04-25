@@ -9,25 +9,25 @@ const PlayerImage = styled.div`
   background-size: cover;
   background-position: center;
   border-radius: 20%;
-  height: 40px;
-  width: 40px;
+  height: ${(props) => 40 * props.scale}px;
+  width: ${(props) => 40 * props.scale}px;
   @media only screen and (min-width: 768px) {
-    height: 50px;
-    width: 50px;
+    height: ${(props) => 50 * props.scale}px;
+    width: ${(props) => 50 * props.scale}px;
   }
   @media only screen and (min-width: 992px) {
-    height: 100px;
-    width: 100px;
+    height: ${(props) => 100 * props.scale}px;
+    width: ${(props) => 100 * props.scale}px;
   }
   @media only screen and (min-width: 1200px) {
     padding: 0;
-    height: 100px;
-    width: 100px;
+    height: ${(props) => 100 * props.scale}px;
+    width: ${(props) => 100 * props.scale}px;
   }
   @media only screen and (min-width: 1400px) {
     padding: 0;
-    height: 150px;
-    width: 150px;
+    height: ${(props) => 150 * props.scale}px;
+    width: ${(props) => 150 * props.scale}px;
   }
 `
 
@@ -37,19 +37,19 @@ const PlayerLabel = styled.p`
   left: 2px;
   text-align: center;
   background-color: #ffffffdd;
-  font-size: 10px;
+  font-size: ${(props) => 10 * props.scale}px;
   margin: 0;
   @media only screen and (min-width: 768px) {
-    font-size: 14px;
+    font-size: ${(props) => 14 * props.scale}px;
   }
   @media only screen and (min-width: 992px) {
-    font-size: 18px;
+    font-size: ${(props) => 18 * props.scale}px;
   }
   @media only screen and (min-width: 1200px) {
-    font-size: 22px;
+    font-size: ${(props) => 22 * props.scale}px;
   }
   @media only screen and (min-width: 1400px) {
-    font-size: 28px;
+    font-size: ${(props) => 28 * props.scale}px;
   }
 `
 
@@ -58,10 +58,9 @@ const PlayerWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
 `
 
-export const Player = ({ roleToDisplay }) => {
+export const Player = ({ roleToDisplay, scale = 1 }) => {
   const srcs = {
     "liberal": liberal,
     "fascist": fascist,
@@ -69,8 +68,8 @@ export const Player = ({ roleToDisplay }) => {
   }
   return (
     <PlayerWrapper>
-      <PlayerImage src={srcs[roleToDisplay]}></PlayerImage>
-      <PlayerLabel>Robbercopter</PlayerLabel>
+      <PlayerImage scale={scale} src={srcs[roleToDisplay]}></PlayerImage>
+      <PlayerLabel scale={scale}>Robbercopter</PlayerLabel>
     </PlayerWrapper>
   )
 }

@@ -8,32 +8,32 @@ const PolicyImage = styled.div`
   background-size: cover;
   background-position: center;
   border-radius: 10%;
-  height: 50px;
-  width: 40px;
+  height: ${(props) => props.scale * 50}px;
+  width: ${(props) => props.scale * 40}px;
   @media only screen and (min-width: 768px) {
-    height: 50px;
-    width: 40px;
+    height: ${(props) => props.scale * 50}px;
+    width: ${(props) => props.scale * 40}px;
   }
   @media only screen and (min-width: 992px) {
-    height: 120px;
-    width: 100px;
+    height: ${(props) => props.scale * 12}0px;
+    width: ${(props) => props.scale * 10}0px;
   }
   @media only screen and (min-width: 1200px) {
     padding: 0;
-    height: 120px;
-    width: 100px;
+    height: ${(props) => props.scale * 12}0px;
+    width: ${(props) => props.scale * 10}0px;
   }
   @media only screen and (min-width: 1400px) {
     padding: 0;
-    height: 150px;
-    width: 120px;
+    height: ${(props) => props.scale * 15}0px;
+    width: ${(props) => props.scale * 12}0px;
   }
 `
 
-export const Policy_Fascist = () => {
-  return <PolicyImage src={policyf} />
+export const Policy_Fascist = ({ scale }) => {
+  return <PolicyImage src={policyf} scale={scale} />
 }
 
-export const Policy_Liberal = () => {
-  return <PolicyImage src={policyl} />
+export const Policy_Liberal = ({ scale }) => {
+  return <PolicyImage src={policyl} scale={scale} />
 }
