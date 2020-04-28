@@ -4,5 +4,5 @@ export const theme = {
   orange_dark: "#AB1D1D",
   blue_light: "#78C2CF",
   blue_dark: "#417B93",
-  dark: "888888"
+  dark: "#4f0d00"
 }

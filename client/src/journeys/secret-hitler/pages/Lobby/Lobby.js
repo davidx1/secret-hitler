@@ -6,11 +6,11 @@ const chance = new Chance()
 
 export default function Lobby({ client, playUrl, setRoom }) {
   const [rooms, setAvaliableRooms] = useState([])
-  const [displayName, setDisplayName] = useState(chance.name())
+  const [displayName, setDisplayName] = useState(chance.first())
   const history = useHistory()
 
   const makeNewName = () => {
-    setDisplayName(chance.name())
+    setDisplayName(chance.first())
   }
 
   const getAvailableRooms = () => {

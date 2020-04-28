@@ -10,8 +10,11 @@ export class MyRoom extends Room {
     console.log("broadcasting")
     const { value, context } = this.roomState
     this.broadcast({
-      state: value,
-      context
+      type: "state",
+      payload: {
+        state: value,
+        context
+      }
     })
   }
 
@@ -20,7 +23,6 @@ export class MyRoom extends Room {
   }
 
   onJoin(client: { sessionId: any }, data: { displayName: string }) {
-    // console.log(`onJoin - data:`)
     this.roomState = stateMachine.transition(this.roomState, {
       "type": "newPlayer",
       "id": client.sessionId,
@@ -30,20 +32,22 @@ export class MyRoom extends Room {
   }
 
   onLeave(client: { sessionId: any }) {
-    // this.broadcast({
-    //   id: this.state.getDisplayName(client.sessionId),
-    //   message: "has left the room"
-    // })
-    // this.state.removePlayer(client.sessionId)
+    this.roomState = stateMachine.transition(this.roomState, {
+      "type": "removePlayer",
+      "id": client.sessionId
+    })
+    this.br()
   }
 
   onMessage(client: { sessionId: any }, payload: any) {
     console.log("message Received")
     console.log(payload.type)
     console.log(payload)
-    this.roomState = stateMachine.transition(this.roomState, { ...payload })
-    console.log("new room state set")
-    this.br()
+    if (payload.type !== "chat") {
+      this.roomState = stateMachine.transition(this.roomState, { ...payload })
+      console.log("new room state set")
+      this.br()
+    }
   }
 
   onDispose() {

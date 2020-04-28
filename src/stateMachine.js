@@ -90,7 +90,7 @@ export const prodInitialState = {
 
 const filterCardsInitialState = {
   "context": {
-    "chancellorIndex": 2,
+    "chancellorIndex": null,
     "board": [
       ability.NONE,
       ability.NONE,
@@ -273,6 +273,10 @@ const setNewPlayer = assign((context, action) => ({
   ]
 }))
 
+const setRemovePlayer = assign((context, action) => ({
+  players: context.players.filter((p) => p.id !== action.id)
+}))
+
 const removePolicyFromHand = assign((context, action) => ({
   policiesInHand: context.policiesInHand.filter((item, index) => {
     return index !== action.index
@@ -376,6 +380,10 @@ const stateMachine = Machine(
           newPlayer: {
             target: "waiting",
             actions: "setNewPlayer"
+          },
+          removePlayer: {
+            target: "waiting",
+            actions: "setRemovePlayer"
           },
           start: {
             target: "chancellorSelection",
@@ -509,6 +517,7 @@ const stateMachine = Machine(
     actions: {
       setBoardToUse,
       setNewPlayer,
+      setRemovePlayer,
       setNewChancellor,
       setOneVote,
       setNewPresident,

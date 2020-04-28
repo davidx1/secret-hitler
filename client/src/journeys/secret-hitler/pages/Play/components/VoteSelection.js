@@ -3,8 +3,9 @@ import styled from "styled-components"
 import ja from "../../../../../img/ja.png"
 import nein from "../../../../../img/nein.png"
 import { Player } from "./Player"
+import { Overlay } from "./Overlay"
 
-const Wrapper = styled.div`
+const Wrapper = styled(Overlay)`
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -30,10 +30,10 @@ const PolicyImage = styled.div`
   }
 `
 
-export const Policy_Fascist = ({ scale }) => {
+export const PolicyFascist = ({ scale }) => {
   return <PolicyImage src={policyf} scale={scale} />
 }
 
-export const Policy_Liberal = ({ scale }) => {
+export const PolicyLiberal = ({ scale }) => {
   return <PolicyImage src={policyl} scale={scale} />
 }
