@@ -182,7 +182,8 @@ const setBoardToUse = assign({
 })
 
 const setNewChancellor = assign({
-  chancellorIndex: (_, event) => event.index
+  chancellorIndex: (_, event) => event.index,
+  players: (context) => context.players.map((p) => ({ ...p, vote: null }))
 })
 
 const setNewPresident = assign((context, event) => {
@@ -190,7 +191,6 @@ const setNewPresident = assign((context, event) => {
     prevChancellorIndex: context.chancellorIndex,
     prevPresidentIndex: context.presidentIndex,
     chancellorIndex: null,
-    players: context.players.map((p) => ({ ...p, vote: null })),
     policiesInHand: [],
     presidentIndex:
       context.presidentIndex === null
@@ -320,7 +320,7 @@ function isValidKillingCandidate(context, event) {
 }
 
 function isAllVotesIn(context) {
-  return context.players.filter((p) => p.vote === null).length === 0
+  return context.players.filter((p) => typeof p.vote !== "boolean").length === 0
 }
 
 function isEnoughPlayers(context) {
