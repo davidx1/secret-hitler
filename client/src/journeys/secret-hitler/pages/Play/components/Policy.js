@@ -23,7 +23,7 @@ const PolicyImage = styled.div`
     height: ${(props) => props.scale * 12}0px;
     width: ${(props) => props.scale * 10}0px;
   }
-  @media only screen and (min-width: 1400px) {
+  @media only screen and (min-width: 1450px) {
     padding: 0;
     height: ${(props) => props.scale * 15}0px;
     width: ${(props) => props.scale * 12}0px;

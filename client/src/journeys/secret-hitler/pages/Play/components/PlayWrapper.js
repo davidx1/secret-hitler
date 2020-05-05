@@ -27,9 +27,9 @@ export const PlayWrapper = styled.div`
     padding: 25px 100px;
     max-height: 1000px;
   }
-  @media only screen and (min-width: 1400px) {
+  @media only screen and (min-width: 1450px) {
     padding: 25px 150px;
-    max-height: 1400px;
+    max-height: 1450px;
     max-width: 1920px;
   }
 `

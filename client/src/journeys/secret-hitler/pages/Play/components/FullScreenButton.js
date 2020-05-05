@@ -29,7 +29,7 @@ const buttonStyle = css`
     right: 20px;
     top: 20px;
   }
-  @media only screen and (min-width: 1400px) {
+  @media only screen and (min-width: 1450px) {
     height: 40px;
     width: 40px;
   }

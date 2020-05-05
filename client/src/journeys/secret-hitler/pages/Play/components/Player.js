@@ -1,9 +1,12 @@
-import React from "react"
+import React, { useContext } from "react"
 import styled, { css } from "styled-components"
+import { DoneOutline } from "@styled-icons/material-sharp/DoneOutline"
+import { CloseOutline } from "@styled-icons/evaicons-outline/CloseOutline"
+import { HowToVote } from "@styled-icons/material/HowToVote"
 import fascist from "../../../../../img/fascist.png"
 import liberal from "../../../../../img/liberal.png"
 import hitler from "../../../../../img/hitler.png"
-import { UserSolidSquare } from "@styled-icons/zondicons/UserSolidSquare"
+import { StateContext, ActionContext } from "../Play"
 
 const PlayerImage = styled.div`
   display: flex;
@@ -29,7 +32,7 @@ const PlayerImage = styled.div`
     height: ${(props) => 100 * props.scale}px;
     width: ${(props) => 100 * props.scale}px;
   }
-  @media only screen and (min-width: 1400px) {
+  @media only screen and (min-width: 1450px) {
     padding: 0;
     height: ${(props) => 150 * props.scale}px;
     width: ${(props) => 150 * props.scale}px;
@@ -38,7 +41,7 @@ const PlayerImage = styled.div`
 
 const PlayerLabel = styled.p`
   box-sizing: border-box;
-  border-radius: 20px;
+  border-radius: 10%;
   padding: 0 5px;
   line-height: 1.25;
   left: 2px;
@@ -67,7 +70,7 @@ const PlayerLabel = styled.p`
   @media only screen and (min-width: 1200px) {
     font-size: ${(props) => 20 * props.scale}px;
   }
-  @media only screen and (min-width: 1400px) {
+  @media only screen and (min-width: 1450px) {
     font-size: ${(props) => 24 * props.scale}px;
     min-width: ${(props) => 120 * props.scale}px;
     max-width: ${(props) => 240 * props.scale}px;
@@ -99,6 +102,7 @@ const Marker = styled.div`
   border-style: solid;
   border-radius: 50%;
   font-size: ${(props) => 10 * props.scale}px;
+  margin-right: 2px;
 
   @media only screen and (min-width: 768px) {
     font-size: ${(props) => 10 * props.scale}px;
@@ -112,7 +116,7 @@ const Marker = styled.div`
   @media only screen and (min-width: 1200px) {
     font-size: ${(props) => 18 * props.scale}px;
   }
-  @media only screen and (min-width: 1400px) {
+  @media only screen and (min-width: 1450px) {
     font-size: ${(props) => 20 * props.scale}px;
   }
 `
@@ -127,28 +131,64 @@ const ChancellorMarker = styled(Marker)`
   background-color: ${(props) => props.theme.orange_light};
 `
 
+const Voted = styled(HowToVote)`
+  @media only screen and (min-width: 768px) {
+    height: 30%;
+    width: 30%;
+  }
+
+  background-color: blue;
+  color: white;
+`
+
+const VotedYes = styled(Voted).attrs({ as: DoneOutline })`
+  background-color: green;
+  color: white;
+`
+
+const VotedNo = styled(Voted).attrs({ as: CloseOutline })`
+  background-color: red;
+  color: white;
+`
+
 export const Player = ({
-  roleToDisplay,
+  currentPlayerRole = "liberal",
+  role,
+  vote,
   scale = 1,
   isPresident = false,
   isChancellor = false,
   displayName = "<no display name>",
   isCurrentPlayer = false,
-  selectable = false
+  selectable = false,
+  onClick
 }) => {
+  const { state } = useContext(StateContext)
+
   const srcs = {
-    "liberal": liberal,
-    "fascist": fascist,
-    "hitler": hitler
+    "L": liberal,
+    "F": fascist,
+    "H": hitler
   }
+  const roleToDisplay = !role
+    ? ""
+    : currentPlayerRole === "F"
+    ? role
+    : currentPlayerRole === "H" && isCurrentPlayer
+    ? "H"
+    : "L"
   return (
-    <PlayerWrapper selectable={selectable}>
+    <PlayerWrapper tabIndex="0" selectable={selectable} onClick={onClick}>
       {roleToDisplay && (
         <PlayerImage scale={scale} src={srcs[roleToDisplay]}>
           {isPresident && <PresidentMarker scale={scale}>Pr</PresidentMarker>}
-          {isChancellor && (
+          {state !== "election" && isChancellor && (
             <ChancellorMarker scale={scale}>Ch</ChancellorMarker>
           )}
+          {state === "election" && typeof vote === "boolean" && <Voted />}
+          {state !== "election" &&
+            typeof vote === "boolean" &&
+            (vote ? <VotedYes /> : <VotedNo />)}
         </PlayerImage>
       )}
       <PlayerLabel highlight={isCurrentPlayer} scale={scale}>

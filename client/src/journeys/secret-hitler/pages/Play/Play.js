@@ -1,44 +1,30 @@
-import React, { useState, useLayoutEffect } from "react"
+import React, { useState, useLayoutEffect, createContext } from "react"
 import styled from "styled-components"
 import { Redirect } from "react-router-dom"
+import _ from "lodash"
 
 import { PlayWrapper } from "./components/PlayWrapper"
 import { LibralBoard, FascistBoard } from "./components/Board"
-import { Player } from "./components/Player"
+import { HalfThePlayers } from "./components/HalfThePlayers"
 import { FullScreenButton } from "./components/FullScreenButton"
 import { PolicySelection } from "./components/PolicySelection"
 import { VoteSelection } from "./components/VoteSelection"
-import { StartButton } from "./components/StartButton"
+import { StartScreen } from "./components/StartScreen"
+
+export const StateContext = createContext()
+export const ActionContext = createContext()
 
 export default function Game({ room, setRoom, client }) {
-  const [youId, setYouId] = useState("1234")
-  const [roomState, setState] = useState({
-    state: "waiting",
-    context: {
-      players: [
-        { id: "1234", displayName: "David" },
-        { displayName: "Sumia" },
-        { displayName: "Jonathan" },
-        { displayName: "Joyce" }
-      ],
-      board: [],
-      drawPile: [],
-      policiesInHand: [],
-      prevPresidentIndex: null,
-      prevChancellorIndex: null,
-      presidentIndex: null,
-      chancellorIndex: null,
-      enactedLiberalPolicies: 0,
-      enactedFascistPolicies: 0
-    }
-  })
+  const [youId, setYouId] = useState(1)
+  const [roomState, setState] = useState()
 
   useLayoutEffect(() => {
     if (room) {
       setYouId(room.sessionId)
       room.onMessage(function (message) {
+        console.log(message)
         console.log(message.type === "state")
-        setState(message.payload)
+        setState({ ...message.payload })
       })
       return () => {
         console.log("leaving room")
@@ -51,22 +37,22 @@ export default function Game({ room, setRoom, client }) {
     return <Redirect to="/secret-hitler" />
   }
 
+  if (!roomState) {
+    return <span>Loading</span>
+  }
+
+  console.log(roomState)
+
   const {
     state,
-    context: {
-      players,
-      board,
-      drawPile,
-      policies,
-      prevPresidentIndex,
-      prevChancellorIndex,
-      presidentIndex,
-      chancellorIndex,
-      enactedLiberalPolicies,
-      enactedFascistPolicies
-    }
+    context: { players, presidentIndex, chancellorIndex }
   } = roomState
 
+  const isYouPresident = _.get(players[presidentIndex], "id") === youId
+  const isYouChancellor = _.get(players[chancellorIndex], "id") === youId
+  const youInfo = players.find((p) => p.id === youId)
+
+  /******** Actions that can be triggered **********/
   function trigger(name, payload = {}) {
     room.send({ "type": name, ...payload })
   }
@@ -80,86 +66,58 @@ export default function Game({ room, setRoom, client }) {
     trigger("selectChancellor", { index: i })
   }
 
-  const HalfThePlayers = ({ allPlayers, secondHalf }) => {
-    const halfWay = Math.ceil(allPlayers.length / 2)
-    const start = !secondHalf ? 0 : halfWay
-    const end = !secondHalf ? halfWay : allPlayers.length
-    return (
-      <>
-        {allPlayers.slice(start, end).map((p, i) => {
-          const realIndex = secondHalf ? i + halfWay : i
-
-          return (
-            <Player
-              roleToDisplay={"liberal"}
-              isPresident={realIndex === presidentIndex}
-              selectable={players[presidentIndex].id === youId}
-              isChancellor={realIndex === chancellorIndex}
-              displayName={p.displayName}
-              isCurrentPlayer={p.id === youId}
-              scale={state === "waiting" ? 1.5 : 1}
-            ></Player>
-          )
-        })}
-      </>
-    )
+  function vote(input) {
+    trigger("vote", { id: youId, value: input })
   }
 
-  const StartScreenWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  `
-
-  const WaitingPlayerListWrapper = styled.div`
-    display: flex;
-    width: 60%;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    > * {
-      padding-bottom: 10px;
-      padding-right: 10px;
-    }
-  `
+  function revealVote() {
+    trigger("revealVote")
+  }
+  /***************************************************/
 
   return (
     <PlayWrapper>
       <FullScreenButton />
-
-      {state === "waiting" ? (
-        <StartScreenWrapper>
-          <StartButton onClick={start} playerCount={players.length}>
-            Start
-          </StartButton>
-          <WaitingPlayerListWrapper>
-            {players.map((p) => {
-              return (
-                <Player
-                  displayName={p.displayName}
-                  isCurrentPlayer={p.id === youId}
-                  scale={1.51}
-                ></Player>
-              )
-            })}
-          </WaitingPlayerListWrapper>
-        </StartScreenWrapper>
-      ) : (
-        <>
-          <PlayerWrapper>
-            <HalfThePlayers allPlayers={players} />
-          </PlayerWrapper>
-          <LibralBoard></LibralBoard>
-          <FascistBoard></FascistBoard>
-          <PlayerWrapper>
-            <HalfThePlayers allPlayers={players} secondHalf />
-          </PlayerWrapper>
-          {/* <VoteSelection /> */}
-          {/* <PolicySelection /> */}
-        </>
-      )}
+      <ActionContext.Provider
+        value={{ start, selectChancellor, vote, revealVote }}
+      >
+        <StateContext.Provider
+          value={{
+            ...roomState.context,
+            youId,
+            youInfo,
+            isYouPresident,
+            isYouChancellor,
+            state
+          }}
+        >
+          {state === "waiting" ? (
+            <StartScreen></StartScreen>
+          ) : (
+            <>
+              <PlayerWrapper>
+                <HalfThePlayers allPlayers={players} />
+              </PlayerWrapper>
+              <LibralBoard></LibralBoard>
+              <FascistBoard></FascistBoard>
+              <PlayerWrapper>
+                <HalfThePlayers allPlayers={players} secondHalf />
+              </PlayerWrapper>
+              {state === "election" && youInfo.vote === null && (
+                <VoteSelection />
+              )}
+              {state === "filterCards" && isYouPresident && <PolicySelection />}
+              {state === "enactPolicy" && isYouChancellor && (
+                <PolicySelection />
+              )}
+              {isYouPresident &&
+                state === "election" &&
+                players.filter((p) => typeof p.vote !== "boolean").length ===
+                  0 && <button onClick={revealVote}>Reveal Vote</button>}
+            </>
+          )}
+        </StateContext.Provider>
+      </ActionContext.Provider>
     </PlayWrapper>
   )
 }

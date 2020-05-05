@@ -32,7 +32,7 @@ const Board = styled.div`
     width: 900px;
     border-width: 8px;
   }
-  @media only screen and (min-width: 1400px) {
+  @media only screen and (min-width: 1450px) {
     width: 1100px;
     border-width: 10px;
   }
@@ -60,7 +60,7 @@ const CardSlot = styled.div`
   }
   @media only screen and (min-width: 1200px) {
   }
-  @media only screen and (min-width: 1400px) {
+  @media only screen and (min-width: 1450px) {
     width: 150px;
     border-width: 5px;
   }
