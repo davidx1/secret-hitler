@@ -74,13 +74,28 @@ export default function Game({ room, setRoom, client }) {
   function revealVote() {
     trigger("revealVote")
   }
+
+  function selectACardToRemove(i) {
+    trigger("cardSelect", { index: i })
+  }
+
+  function enactAPolicy(i) {
+    trigger("enact", { index: i })
+  }
   /***************************************************/
 
   return (
     <PlayWrapper>
       <FullScreenButton />
       <ActionContext.Provider
-        value={{ start, selectChancellor, vote, revealVote }}
+        value={{
+          start,
+          selectChancellor,
+          vote,
+          revealVote,
+          selectACardToRemove,
+          enactAPolicy
+        }}
       >
         <StateContext.Provider
           value={{

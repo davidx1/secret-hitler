@@ -5,7 +5,6 @@ import nein from "../../../../../img/nein.png"
 import { Player } from "./Player"
 import { Overlay } from "./Overlay"
 import { StateContext, ActionContext } from "../Play"
-import { State } from "xstate"
 
 const Wrapper = styled(Overlay)`
   display: flex;
