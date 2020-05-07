@@ -3,6 +3,8 @@ import styled, { css } from "styled-components"
 import { DoneOutline } from "@styled-icons/material-sharp/DoneOutline"
 import { CloseOutline } from "@styled-icons/evaicons-outline/CloseOutline"
 import { HowToVote } from "@styled-icons/material/HowToVote"
+import { Trophy } from "@styled-icons/fa-solid/Trophy"
+import { SadCry } from "@styled-icons/fa-regular/SadCry"
 import fascist from "../../../../../img/fascist.png"
 import liberal from "../../../../../img/liberal.png"
 import hitler from "../../../../../img/hitler.png"
@@ -132,11 +134,8 @@ const ChancellorMarker = styled(Marker)`
 `
 
 const Voted = styled(HowToVote)`
-  @media only screen and (min-width: 768px) {
-    height: 30%;
-    width: 30%;
-  }
-
+  height: 30%;
+  width: 30%;
   background-color: blue;
   color: white;
 `
@@ -149,6 +148,15 @@ const VotedYes = styled(Voted).attrs({ as: DoneOutline })`
 const VotedNo = styled(Voted).attrs({ as: CloseOutline })`
   background-color: red;
   color: white;
+`
+const Win = styled(Voted).attrs({ as: Trophy })`
+  color: gold;
+  background-color: transparent;
+`
+
+const Lose = styled(Voted).attrs({ as: SadCry })`
+  color: white;
+  background-color: indianred;
 `
 
 export const Player = ({
@@ -189,6 +197,10 @@ export const Player = ({
           {state !== "election" &&
             typeof vote === "boolean" &&
             (vote ? <VotedYes /> : <VotedNo />)}
+          {state === "fascistWin" && (role === "H" || role === "F") && <Win />}
+          {state === "liberalWin" && role === "L" && <Win />}
+          {state === "fascistWin" && role === "L" && <Lose />}
+          {state === "liberalWin" && (role === "H" || role === "F") && <Lose />}
         </PlayerImage>
       )}
       <PlayerLabel highlight={isCurrentPlayer} scale={scale}>

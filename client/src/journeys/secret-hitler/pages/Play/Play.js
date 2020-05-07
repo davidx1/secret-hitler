@@ -10,6 +10,7 @@ import { FullScreenButton } from "./components/FullScreenButton"
 import { PolicySelection } from "./components/PolicySelection"
 import { VoteSelection } from "./components/VoteSelection"
 import { StartScreen } from "./components/StartScreen"
+import { GameOver } from "./components/GameOver"
 
 export const StateContext = createContext()
 export const ActionContext = createContext()
@@ -103,6 +104,9 @@ export default function Game({ room, setRoom, client }) {
               <PlayerWrapper>
                 <HalfThePlayers allPlayers={players} secondHalf />
               </PlayerWrapper>
+              {(state === "fascistWin" || state === "liberalWin") && (
+                <GameOver />
+              )}
               {state === "election" && youInfo.vote === null && (
                 <VoteSelection />
               )}

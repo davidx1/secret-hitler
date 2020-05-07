@@ -2,7 +2,7 @@ import styled from "styled-components"
 export const Overlay = styled.div`
   position: absolute;
   height: 100%;
-  background-color: #00000080;
+  background-color: #00000090;
   width: 100%;
   bottom: 0;
   left: 0;
