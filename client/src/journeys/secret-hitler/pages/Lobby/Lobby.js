@@ -1,50 +1,46 @@
-import React, { useEffect, useState } from "react"
-import { useHistory } from "react-router-dom"
-import Chance from "chance"
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import Chance from "chance";
 
-const chance = new Chance()
+const chance = new Chance();
 
 export default function Lobby({ client, playUrl, setRoom }) {
-  const [rooms, setAvaliableRooms] = useState([])
-  const [displayName, setDisplayName] = useState(chance.first())
-  const history = useHistory()
+  const [rooms, setAvaliableRooms] = useState([]);
+  const [displayName, setDisplayName] = useState(chance.first());
+  const history = useHistory();
 
   const makeNewName = () => {
-    setDisplayName(chance.first())
-  }
+    setDisplayName(chance.first());
+  };
 
   const getAvailableRooms = () => {
     client
       .getAvailableRooms("my_room")
       .then((rooms) => {
-        setAvaliableRooms(rooms)
+        setAvaliableRooms(rooms);
       })
       .catch((e) => {
-        console.error(e)
-      })
-  }
+        console.error(e);
+      });
+  };
 
   const postJoiningCallback = (newRoom) => {
-    console.log(newRoom)
-    sessionStorage.setItem("secret-h-session-id", newRoom.sessionId)
-    sessionStorage.setItem("secret-h-room-id", newRoom.id)
-
-    setRoom(newRoom)
-  }
+    console.log(newRoom);
+    setRoom(newRoom);
+    history.push(`${playUrl}/${newRoom.id}`);
+  };
 
   const createRoom = async (displayName) => {
-    await client.create("my_room", { displayName }).then(postJoiningCallback)
-    history.push(playUrl)
-  }
+    await client.create("my_room", { displayName }).then(postJoiningCallback);
+  };
 
   const joinRoom = async (id, displayName) => {
-    await client.joinById(id, { displayName }).then(postJoiningCallback)
-    history.push(playUrl)
-  }
+    await client.joinById(id, { displayName }).then(postJoiningCallback);
+  };
 
   useEffect(() => {
-    getAvailableRooms()
-  }, [])
+    getAvailableRooms();
+  }, [getAvailableRooms]);
 
   return (
     <div>
@@ -69,5 +65,5 @@ export default function Lobby({ client, playUrl, setRoom }) {
         ))}
       </ul>
     </div>
-  )
+  );
 }

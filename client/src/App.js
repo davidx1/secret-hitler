@@ -1,10 +1,10 @@
-import React from "react"
-import SecretHitler from "./journeys/secret-hitler"
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
-import { theme } from "./constants/theme"
-import styled, { ThemeProvider, css } from "styled-components"
-import Div100vh from "react-div-100vh"
-import useFullscreen from "use-fullscreen"
+import React from "react";
+import SecretHitler from "./journeys/secret-hitler";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { theme } from "./constants/theme";
+import styled, { ThemeProvider, css } from "styled-components";
+import Div100vh from "react-div-100vh";
+import useFullscreen from "use-fullscreen";
 
 const GlobalWrapper = styled(Div100vh)`
   width: 100vw;
@@ -30,7 +30,7 @@ const GlobalWrapper = styled(Div100vh)`
         padding-top: 48px;
       }
     `}
-`
+`;
 
 const NavigationBar = styled.nav`
   position: fixed;
@@ -41,9 +41,9 @@ const NavigationBar = styled.nav`
   @media only screen and (min-width: 992px) {
     height: 40px;
   }
-`
+`;
 export default function App() {
-  const [isFullscreen, toggleFullscreen] = useFullscreen()
+  const [isFullscreen] = useFullscreen();
 
   return (
     <ThemeProvider theme={theme}>
@@ -74,5 +74,5 @@ export default function App() {
         </GlobalWrapper>
       </div>
     </ThemeProvider>
-  )
+  );
 }

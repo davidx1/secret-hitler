@@ -1,7 +1,7 @@
-import React, { useContext } from "react"
+import React, { useContext } from "react";
 
-import { Player } from "./Player"
-import { StateContext, ActionContext } from "../Play"
+import { Player } from "./Player";
+import { StateContext, ActionContext } from "../Play";
 
 export const HalfThePlayers = ({ secondHalf }) => {
   const {
@@ -13,22 +13,22 @@ export const HalfThePlayers = ({ secondHalf }) => {
     prevPresidentIndex,
     presidentIndex,
     isYouPresident
-  } = useContext(StateContext)
-  const { selectChancellor } = useContext(ActionContext)
+  } = useContext(StateContext);
+  const { selectChancellor } = useContext(ActionContext);
 
-  const halfWay = Math.ceil(players.length / 2)
-  const start = !secondHalf ? 0 : halfWay
-  const end = !secondHalf ? halfWay : players.length
+  const halfWay = Math.ceil(players.length / 2);
+  const start = !secondHalf ? 0 : halfWay;
+  const end = !secondHalf ? halfWay : players.length;
 
   return (
     <>
       {players.slice(start, end).map((p, i) => {
-        const realIndex = secondHalf ? i + halfWay : i
+        const realIndex = secondHalf ? i + halfWay : i;
 
         return (
           <Player
             onClick={() => selectChancellor(realIndex)}
-            isPresident={realIndex == presidentIndex}
+            isPresident={realIndex === presidentIndex}
             role={p.role}
             selectable={
               isYouPresident &&
@@ -43,8 +43,8 @@ export const HalfThePlayers = ({ secondHalf }) => {
             currentPlayerRole={youInfo.role}
             scale={1}
           ></Player>
-        )
+        );
       })}
     </>
-  )
-}
+  );
+};

@@ -3,6 +3,7 @@ import * as Colyseus from "colyseus.js"
 import { Switch, Route, useRouteMatch } from "react-router-dom"
 import Play from "./pages/Play"
 import Lobby from "./pages/Lobby"
+import AdminConsole from "./pages/AdminConsole"
 
 const host = window.document.location.host.replace(/:.*/, "")
 const location = window.location
@@ -15,13 +16,17 @@ const client = new Colyseus.Client(
 
 function SecretHitler() {
   const [room, setRoom] = useState()
+  const [joined, setJoined] = useState(false)
 
   let match = useRouteMatch()
 
   return (
     <Switch>
-      <Route path={`${match.url}/player`}>
+      <Route path={`${match.url}/player/:roomId`}>
         <Play room={room} setRoom={setRoom} client={client} />
+      </Route>
+      <Route path={`${match.url}/secret-headquarter/`}>
+        <AdminConsole client={client} />
       </Route>
       <Route path={"/"}>
         <Lobby
