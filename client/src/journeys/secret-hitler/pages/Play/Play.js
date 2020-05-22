@@ -1,5 +1,4 @@
 import React, { useState, useLayoutEffect, createContext } from "react";
-import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import Chance from "chance";
 

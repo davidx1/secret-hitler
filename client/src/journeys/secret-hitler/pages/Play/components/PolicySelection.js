@@ -1,8 +1,8 @@
-import React, { useContext } from "react"
-import styled from "styled-components"
-import { PolicyFascist, PolicyLiberal } from "./Policy"
-import { Overlay } from "./Overlay"
-import { StateContext, ActionContext } from "../Play"
+import React, { useContext } from "react";
+import styled from "styled-components";
+import { PolicyFascist, PolicyLiberal } from "./Policy";
+import { Overlay } from "./Overlay";
+import { StateContext, ActionContext } from "../Play";
 
 const Wrapper = styled(Overlay)`
   display: flex;
@@ -11,7 +11,7 @@ const Wrapper = styled(Overlay)`
   width: 100%;
   align-items: center;
   justify-content: center;
-`
+`;
 
 const PolicyWrapper = styled.div`
   display: flex;
@@ -24,7 +24,7 @@ const PolicyWrapper = styled.div`
       margin: 0;
     }
   }
-`
+`;
 
 const InstructionText = styled.h1`
   color: ${(props) => props.theme.neutral};
@@ -34,30 +34,38 @@ const InstructionText = styled.h1`
     margin: 0 0 30px 0;
     font-size: 40px;
   }
-`
+`;
 export const PolicySelection = () => {
-  const { state, policiesInHand } = useContext(StateContext)
-  const { selectACardToRemove, enactAPolicy } = useContext(ActionContext)
+  const { state, policiesInHand } = useContext(StateContext);
+  const { selectACardToRemove, enactAPolicy } = useContext(ActionContext);
   const handleClick =
     state === "filterCards"
       ? selectACardToRemove
       : state === "enactPolicy"
       ? enactAPolicy
       : () => {
-          console.log("weird, something went wrong")
-        }
+          console.log("weird, something went wrong");
+        };
   return (
     <Wrapper>
       <InstructionText>Select A Policy To Discard</InstructionText>
       <PolicyWrapper>
         {policiesInHand.map((p, i) =>
           p === "F" ? (
-            <PolicyFascist scale={2} onClick={() => handleClick(i)} />
+            <PolicyFascist
+              selectable
+              scale={2}
+              onClick={() => handleClick(i)}
+            />
           ) : (
-            <PolicyLiberal scale={2} onClick={() => handleClick(i)} />
+            <PolicyLiberal
+              selectable
+              scale={2}
+              onClick={() => handleClick(i)}
+            />
           )
         )}
       </PolicyWrapper>
     </Wrapper>
-  )
-}
+  );
+};

@@ -1,6 +1,6 @@
-import styled from "styled-components"
-import React from "react"
-import { PolicyFascist, PolicyLiberal } from "./Policy"
+import styled from "styled-components";
+import React from "react";
+import { PolicyFascist, PolicyLiberal } from "./Policy";
 
 const Board = styled.div`
   display: flex;
@@ -29,14 +29,14 @@ const Board = styled.div`
     border-width: 5px;
   }
   @media only screen and (min-width: 1200px) {
-    width: 900px;
+    width: 800px;
     border-width: 8px;
   }
   @media only screen and (min-width: 1450px) {
     width: 1100px;
     border-width: 10px;
   }
-`
+`;
 
 const CardSlot = styled.div`
   height: 90%;
@@ -64,23 +64,23 @@ const CardSlot = styled.div`
     width: 150px;
     border-width: 5px;
   }
-`
+`;
 
 const CardSlotLibral = styled(CardSlot)`
   border-color: ${(props) => props.theme.blue_dark};
-`
+`;
 
 const CardSlotFascist = styled(CardSlot)`
   border-color: ${(props) => props.theme.orange_dark};
-`
+`;
 
 const LibralBoardBackground = styled(Board)`
   background-color: ${(props) => props.theme.blue_light};
-`
+`;
 
 const FascistBoardBackground = styled(Board)`
   background-color: ${(props) => props.theme.orange_light};
-`
+`;
 
 export const LibralBoard = () => (
   <LibralBoardBackground>
@@ -92,7 +92,7 @@ export const LibralBoard = () => (
     <CardSlotLibral />
     <CardSlotLibral />
   </LibralBoardBackground>
-)
+);
 
 export const FascistBoard = () => (
   <FascistBoardBackground>
@@ -107,4 +107,4 @@ export const FascistBoard = () => (
     <CardSlotFascist />
     <CardSlotFascist />
   </FascistBoardBackground>
-)
+);

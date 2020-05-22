@@ -1,15 +1,17 @@
-import React from "react"
-import styled from "styled-components"
-import policyf from "../../../../../img/policy-f.png"
-import policyl from "../../../../../img/policy-l.png"
+import React from "react";
+import styled from "styled-components";
+import policyf from "../../../../../img/policy-f.png";
+import policyl from "../../../../../img/policy-l.png";
 
 const PolicyImage = styled.button`
   background-image: url(${(props) => props.src});
   background-size: cover;
   background-position: center;
   border-radius: 10%;
+  cursor: ${({ selectable }) => (selectable ? "pointer" : "auto")};
   height: ${(props) => props.scale * 50}px;
   width: ${(props) => props.scale * 40}px;
+  outline: none;
   @media only screen and (min-width: 768px) {
     height: ${(props) => props.scale * 50}px;
     width: ${(props) => props.scale * 40}px;
@@ -28,12 +30,28 @@ const PolicyImage = styled.button`
     height: ${(props) => props.scale * 15}0px;
     width: ${(props) => props.scale * 12}0px;
   }
-`
+`;
 
-export const PolicyFascist = ({ scale, ...props }) => {
-  return <PolicyImage src={policyf} scale={scale} {...props} />
-}
+export const PolicyFascist = ({ scale = 1, selectable, ...props }) => {
+  return (
+    <PolicyImage
+      src={policyf}
+      scale={scale}
+      disabled={!selectable}
+      selectable={selectable}
+      {...props}
+    />
+  );
+};
 
-export const PolicyLiberal = ({ scale, ...props }) => {
-  return <PolicyImage src={policyl} scale={scale} {...props} />
-}
+export const PolicyLiberal = ({ scale = 1, selectable, ...props }) => {
+  return (
+    <PolicyImage
+      src={policyl}
+      scale={scale}
+      disabled={!selectable}
+      selectable={selectable}
+      {...props}
+    />
+  );
+};

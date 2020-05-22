@@ -40,7 +40,7 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
     if (room) {
       setYouId(room.sessionId);
       room.onMessage(function (message: any) {
-        console.log(message);
+        console.log(JSON.stringify(message));
         console.log(message.type === "state");
         setRoomState({ ...message.payload });
       });
@@ -49,7 +49,7 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
         room.leave();
       };
     }
-  }, [room, attemptedToJoin, setAttemptedToJoin, joinRoom]);
+  }, [room]);
 
   const {
     state,

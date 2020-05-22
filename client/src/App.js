@@ -2,11 +2,23 @@ import React from "react";
 import SecretHitler from "./journeys/secret-hitler";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { theme } from "./constants/theme";
-import styled, { ThemeProvider, css } from "styled-components";
+import styled, {
+  ThemeProvider,
+  css,
+  createGlobalStyle
+} from "styled-components";
 import Div100vh from "react-div-100vh";
 import useFullscreen from "use-fullscreen";
 
-const GlobalWrapper = styled(Div100vh)`
+const GlobalStyle = createGlobalStyle`
+  body{ 
+    * {
+      box-sizing: border-box
+    }
+  }
+`;
+
+export const GlobalWrapper = styled(Div100vh)`
   width: 100vw;
   padding: 10px 5px;
   background-color: ${(props) => props.theme.neutral};
@@ -48,6 +60,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <div>
+        <GlobalStyle />
         {!isFullscreen && <NavigationBar />}
 
         <GlobalWrapper moreTopPadding={!isFullscreen}>

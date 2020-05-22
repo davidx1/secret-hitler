@@ -1,34 +1,34 @@
-import React, { useState, useEffect } from "react"
-import styled from "styled-components"
-import ReactJson from "react-json-view"
-import { useRoomState } from "../../useRoomState"
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import ReactJson from "react-json-view";
+import { useRoomState } from "../../useRoomState";
 
 const AdminConsole = ({ client }) => {
-  const [avaliableRooms, setAvaliableRooms] = useState([])
-  const [joined, setJoined] = useState(false)
-  const [room, setRoom] = useState()
+  const [avaliableRooms, setAvaliableRooms] = useState([]);
+  const [joined, setJoined] = useState(false);
+  const [room, setRoom] = useState();
 
   const joinRoom = async (roomId) => {
-    setJoined(true)
+    setJoined(true);
     client.joinById(roomId, { displayName: "secret-admin" }).then((newRoom) => {
-      setRoom(newRoom)
-    })
-  }
+      setRoom(newRoom);
+    });
+  };
 
   const getAvailableRooms = () => {
     client
       .getAvailableRooms("my_room")
       .then((rooms) => {
-        setAvaliableRooms(rooms)
+        setAvaliableRooms(rooms);
       })
       .catch((e) => {
-        console.error(e)
-      })
-  }
+        console.error(e);
+      });
+  };
 
   useEffect(() => {
-    getAvailableRooms()
-  }, [])
+    getAvailableRooms();
+  }, [getAvailableRooms]);
 
   const {
     state,
@@ -43,11 +43,11 @@ const AdminConsole = ({ client }) => {
     revealVote,
     selectACardToRemove,
     enactAPolicy
-  } = useRoomState(room, joinRoom)
+  } = useRoomState(room, joinRoom);
 
   const Wrapper = styled.div`
     display: flex;
-  `
+  `;
 
   return (
     <div>
@@ -65,6 +65,6 @@ const AdminConsole = ({ client }) => {
         </Wrapper>
       )}
     </div>
-  )
-}
-export default AdminConsole
+  );
+};
+export default AdminConsole;
