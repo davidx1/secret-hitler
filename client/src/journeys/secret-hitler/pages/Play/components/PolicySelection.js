@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { PolicyFascist, PolicyLiberal } from "./Policy";
-import { Overlay } from "./Overlay";
+import { Overlay, InstructionText } from "./Overlay";
 import { StateContext, ActionContext } from "../Play";
 
 const Wrapper = styled(Overlay)`
@@ -26,15 +26,6 @@ const PolicyWrapper = styled.div`
   }
 `;
 
-const InstructionText = styled.h1`
-  color: ${(props) => props.theme.neutral};
-  margin: 0 0 15px 0;
-  font-size: 25px;
-  @media only screen and (min-width: 768px) {
-    margin: 0 0 30px 0;
-    font-size: 40px;
-  }
-`;
 export const PolicySelection = () => {
   const { state, policiesInHand } = useContext(StateContext);
   const { selectACardToRemove, enactAPolicy } = useContext(ActionContext);

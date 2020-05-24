@@ -8,6 +8,7 @@ import { InprogressScreen } from "../components/InprogressScreen";
 import { PlayWrapper } from "../components/PlayWrapper";
 import { GlobalWrapper } from "../../../../../App";
 import { theme } from "../../../../../constants/theme";
+import * as states from "./constants";
 
 export default {
   title: "InProgress",
@@ -15,148 +16,90 @@ export default {
   decorators: [withKnobs]
 };
 
-const roomState = {
-  "state": "chancellorSelection",
-  "context": {
-    "players": [
-      {
-        "id": "vjWoiRsvO",
-        "displayName": "Laura",
-        "vote": null,
-        "role": "L",
-        "isActive": true
-      },
-      {
-        "id": "T2nLfSQvi",
-        "displayName": "Tony",
-        "vote": null,
-        "role": "L",
-        "isActive": true
-      },
-      {
-        "id": "Bf01Rv505",
-        "displayName": "Raymond",
-        "vote": null,
-        "role": "F",
-        "isActive": true
-      },
-      {
-        "id": "brfGFh8h0",
-        "displayName": "Terry",
-        "vote": null,
-        "role": "H",
-        "isActive": true
-      },
-      {
-        "id": "1WRSZanld",
-        "displayName": "Mason",
-        "vote": null,
-        "role": "L",
-        "isActive": true
-      },
-      {
-        "id": "TmSswLUch",
-        "displayName": "Jeffery",
-        "vote": null,
-        "role": "L",
-        "isActive": true
-      }
-    ],
-    "board": ["NONE", "NONE", "TOP_THREE_CARD", "KILL_PLAYER", "KILL_PLAYER"],
-    "drawPile": [
-      "F",
-      "L",
-      "F",
-      "L",
-      "F",
-      "F",
-      "F",
-      "F",
-      "F",
-      "F",
-      "L",
-      "L",
-      "L",
-      "F",
-      "L",
-      "F",
-      "F"
-    ],
-    "policiesInHand": ["F", "L", "F"],
-    "prevPresidentIndex": null,
-    "prevChancellorIndex": null,
-    "presidentIndex": 0,
-    "chancellorIndex": null,
-    "enactedLiberalPolicies": 0,
-    "enactedFascistPolicies": 0
-  }
+const youId = "zytBL148W";
+
+const genContet = (state, context) => {
+  const playersToDisplay = context.players.filter(
+    (p) => p.displayName !== "secret-admin"
+  );
+  const isYouPresident =
+    _.get(playersToDisplay[context.presidentIndex], "id") === youId;
+  const isYouChancellor =
+    _.get(playersToDisplay[context.chancellorIndex], "id") === youId;
+  const youInfo = playersToDisplay.find((p) => p.id === youId);
+
+  return object("", {
+    ...context,
+    youId: youInfo.id,
+    youInfo,
+    isYouPresident,
+    isYouChancellor,
+    state,
+    players: playersToDisplay
+  });
 };
 
-const { state, context } = roomState;
+const render = (state, context) => {
+  return (
+    <ThemeProvider theme={theme}>
+      <GlobalWrapper>
+        <PlayWrapper>
+          <ActionContext.Provider
+            value={{
+              start: action("start"),
+              selectChancellor: action("selectChancellor"),
+              vote: action("vote"),
+              revealVote: action("revealVote"),
+              selectACardToRemove: action("selectACardToRemove"),
+              enactAPolicy: action("enactAPolicy")
+            }}
+          >
+            <StateContext.Provider value={genContet(state, context)}>
+              <InprogressScreen />
+            </StateContext.Provider>
+          </ActionContext.Provider>
+        </PlayWrapper>
+      </GlobalWrapper>
+    </ThemeProvider>
+  );
+};
 
-const youId = "vjWoiRsvO";
+export const ChancellorSelection = () => {
+  const { state, context } = states.chancellorSelection;
+  return render(state, context);
+};
 
-const playersToDisplay = context.players.filter(
-  (p) => p.displayName !== "secret-admin"
-);
-const isYouPresident =
-  _.get(playersToDisplay[context.presidentIndex], "id") === youId;
-const isYouChancellor =
-  _.get(playersToDisplay[context.chancellorIndex], "id") === youId;
-const youInfo = playersToDisplay.find((p) => p.id === youId);
+export const Election = () => {
+  const { state, context } = states.election;
+  return render(state, context);
+};
 
-const content = object("", {
-  ...context,
-  youId: youInfo.id,
-  youInfo,
-  isYouPresident,
-  isYouChancellor,
-  state,
-  players: playersToDisplay
-});
+export const voted = () => {
+  const { state, context } = states.voted;
+  return render(state, context);
+};
 
-export const Overall = () => (
-  <ThemeProvider theme={theme}>
-    <GlobalWrapper>
-      <PlayWrapper>
-        <ActionContext.Provider
-          value={{
-            start: action("start"),
-            selectChancellor: action("selectChancellor"),
-            vote: action("vote"),
-            revealVote: action("revealVote"),
-            selectACardToRemove: action("selectACardToRemove"),
-            enactAPolicy: action("enactAPolicy")
-          }}
-        >
-          <StateContext.Provider value={content}>
-            <InprogressScreen />
-          </StateContext.Provider>
-        </ActionContext.Provider>
-      </PlayWrapper>
-    </GlobalWrapper>
-  </ThemeProvider>
-);
+export const revealVote = () => {
+  const { state, context } = states.revealVote;
+  return render(state, context);
+};
 
-export const CardSelection = () => (
-  <ThemeProvider theme={theme}>
-    <GlobalWrapper>
-      <PlayWrapper>
-        <ActionContext.Provider
-          value={{
-            start: action("start"),
-            selectChancellor: action("selectChancellor"),
-            vote: action("vote"),
-            revealVote: action("revealVote"),
-            selectACardToRemove: action("selectACardToRemove"),
-            enactAPolicy: action("enactAPolicy")
-          }}
-        >
-          <StateContext.Provider value={{ ...content, state: "filterCards" }}>
-            <InprogressScreen />
-          </StateContext.Provider>
-        </ActionContext.Provider>
-      </PlayWrapper>
-    </GlobalWrapper>
-  </ThemeProvider>
-);
+export const filterCards = () => {
+  const { state, context } = states.filterCards;
+  return render(state, context);
+};
+
+export const viewThreeCards = () => {
+  const { state, context } = states.viewThreeCards;
+  return render(state, context);
+};
+
+export const investigatePlayer = () => {
+  const { state, context } = states.investigatePlayer;
+  return render(state, context);
+};
+
+export const killPlayer = () => {
+  const { state, context } = states.killPlayer;
+  return render(state, context);
+};

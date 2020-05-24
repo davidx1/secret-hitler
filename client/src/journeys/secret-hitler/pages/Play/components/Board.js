@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useContext } from "react";
 import { PolicyFascist, PolicyLiberal } from "./Policy";
+import { StateContext } from "../Play";
 
 const Board = styled.div`
   display: flex;
@@ -82,29 +83,31 @@ const FascistBoardBackground = styled(Board)`
   background-color: ${(props) => props.theme.orange_light};
 `;
 
-export const LibralBoard = () => (
-  <LibralBoardBackground>
-    <CardSlotLibral>
-      <PolicyLiberal />
-    </CardSlotLibral>
-    <CardSlotLibral />
-    <CardSlotLibral />
-    <CardSlotLibral />
-    <CardSlotLibral />
-  </LibralBoardBackground>
-);
+export const LibralBoard = () => {
+  const { enactedLiberalPolicies } = useContext(StateContext);
 
-export const FascistBoard = () => (
-  <FascistBoardBackground>
-    <CardSlotFascist>
-      <PolicyFascist />
-    </CardSlotFascist>
-    <CardSlotFascist>
-      <PolicyFascist />
-    </CardSlotFascist>
-    <CardSlotFascist />
-    <CardSlotFascist />
-    <CardSlotFascist />
-    <CardSlotFascist />
-  </FascistBoardBackground>
-);
+  const liberalSlots = [];
+  for (var i = 0; i < 5; i++) {
+    liberalSlots.push(
+      <CardSlotLibral>
+        {i < enactedLiberalPolicies && <PolicyLiberal />}
+      </CardSlotLibral>
+    );
+  }
+
+  return <LibralBoardBackground>{liberalSlots}</LibralBoardBackground>;
+};
+
+export const FascistBoard = () => {
+  const { board, enactedFascistPolicies } = useContext(StateContext);
+
+  return (
+    <FascistBoardBackground>
+      {board.map((b, i) => (
+        <CardSlotFascist>
+          {i < enactedFascistPolicies ? <PolicyFascist /> : <p>{b}</p>}
+        </CardSlotFascist>
+      ))}
+    </FascistBoardBackground>
+  );
+};

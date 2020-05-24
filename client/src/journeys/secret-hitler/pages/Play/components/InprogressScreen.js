@@ -4,6 +4,9 @@ import { LibralBoard, FascistBoard } from "./Board";
 import { HalfThePlayers } from "./HalfThePlayers";
 import { PolicySelection } from "./PolicySelection";
 import { VoteSelection } from "./VoteSelection";
+import { ViewThreeCards } from "./ViewThreeCards";
+import { InvestigatePlayer } from "./InvestigatePlayer";
+import { KillPlayer } from "./KillPlayer";
 import { GameOver } from "./GameOver";
 import { StateContext, ActionContext } from "../Play";
 
@@ -27,19 +30,19 @@ export const InprogressScreen = () => {
     youInfo,
     isYouPresident,
     isYouChancellor,
-    playersToDisplay
+    players
   } = useContext(StateContext);
 
   const { revealVote } = useContext(ActionContext);
   return (
     <>
       <PlayerWrapper>
-        <HalfThePlayers allPlayers={playersToDisplay} />
+        <HalfThePlayers allPlayers={players} />
       </PlayerWrapper>
       <LibralBoard></LibralBoard>
       <FascistBoard></FascistBoard>
       <PlayerWrapper>
-        <HalfThePlayers allPlayers={playersToDisplay} secondHalf />
+        <HalfThePlayers allPlayers={players} secondHalf />
       </PlayerWrapper>
       {(state === "fascistWin" || state === "liberalWin") && <GameOver />}
       {state === "election" && youInfo.vote === null && <VoteSelection />}
@@ -47,8 +50,12 @@ export const InprogressScreen = () => {
       {state === "enactPolicy" && isYouChancellor && <PolicySelection />}
       {isYouPresident &&
         state === "election" &&
-        playersToDisplay.filter((p) => typeof p.vote !== "boolean").length ===
-          0 && <button onClick={revealVote}>Reveal Vote</button>}
+        players.filter((p) => typeof p.vote !== "boolean").length === 0 && (
+          <button onClick={revealVote}>Reveal Vote</button>
+        )}
+      {isYouPresident && state === "viewThreeCards" && <ViewThreeCards />}
+      {isYouPresident && state === "investigatePlayer" && <InvestigatePlayer />}
+      {isYouPresident && state === "killPlayer" && <KillPlayer />}
     </>
   );
 };

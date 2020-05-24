@@ -1,10 +1,10 @@
-import React, { useContext } from "react"
-import styled from "styled-components"
-import ja from "../../../../../img/ja.png"
-import nein from "../../../../../img/nein.png"
-import { Player } from "./Player"
-import { Overlay } from "./Overlay"
-import { StateContext, ActionContext } from "../Play"
+import React, { useContext } from "react";
+import styled from "styled-components";
+import ja from "../../../../../img/ja.png";
+import nein from "../../../../../img/nein.png";
+import { Player } from "./Player";
+import { Overlay, InstructionText } from "./Overlay";
+import { StateContext, ActionContext } from "../Play";
 
 const Wrapper = styled(Overlay)`
   display: flex;
@@ -15,7 +15,7 @@ const Wrapper = styled(Overlay)`
   & > * {
     margin-bottom: 2%;
   }
-`
+`;
 
 const VotesWrapper = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ const VotesWrapper = styled.div`
   @media only screen and (min-width: 1200px) {
     width: 45%;
   }
-`
+`;
 
 const Vote = styled.div`
   background-image: url(${(props) => props.src});
@@ -52,21 +52,17 @@ const Vote = styled.div`
     height: 250px;
     width: 370px;
   }
-`
-
-const Title = styled.h1`
-  color: white;
-`
+`;
 
 export const VoteSelection = ({ displayName }) => {
-  const { players, chancellorIndex, youId, youInfo } = useContext(StateContext)
-  const { vote } = useContext(ActionContext)
+  const { players, chancellorIndex, youId, youInfo } = useContext(StateContext);
+  const { vote } = useContext(ActionContext);
 
-  const p = players[chancellorIndex]
+  const p = players[chancellorIndex];
 
   return (
     <Wrapper>
-      <Title>Vote For:</Title>
+      <InstructionText>Vote For:</InstructionText>
       <Player
         displayName={p.displayName}
         scale={2}
@@ -79,5 +75,5 @@ export const VoteSelection = ({ displayName }) => {
         <Vote onClick={() => vote(false)} src={nein} />
       </VotesWrapper>
     </Wrapper>
-  )
-}
+  );
+};
