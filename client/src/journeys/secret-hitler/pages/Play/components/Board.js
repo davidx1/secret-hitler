@@ -12,6 +12,7 @@ const Board = styled.div`
   margin: 0 auto;
   width: 300px;
   height: 25%;
+  min-height: fit-content;
   border-width: 1px;
   border-style: solid;
 
@@ -31,17 +32,17 @@ const Board = styled.div`
   }
   @media only screen and (min-width: 1200px) {
     width: 800px;
-    border-width: 8px;
   }
   @media only screen and (min-width: 1450px) {
     width: 1100px;
-    border-width: 10px;
+    border-width: 8px;
   }
 `;
 
 const CardSlot = styled.div`
   height: 90%;
   width: 40px;
+  min-height: 60px;
   border-width: 2px;
   border-style: dotted;
   display: flex;
@@ -50,20 +51,26 @@ const CardSlot = styled.div`
 
   @media only screen and (min-width: 512px) {
     width: 50px;
+    min-height: 60px;
   }
 
   @media only screen and (min-width: 768px) {
     width: 50px;
+    min-height: 60px;
   }
   @media only screen and (min-width: 992px) {
     width: 120px;
+    min-height: 120px;
+
     border-width: 3px;
   }
   @media only screen and (min-width: 1200px) {
   }
   @media only screen and (min-width: 1450px) {
-    width: 150px;
-    border-width: 5px;
+    width: 130px;
+    min-height: 150px;
+
+    border-width: px;
   }
 `;
 

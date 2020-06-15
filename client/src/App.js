@@ -1,6 +1,6 @@
 import React from "react";
 import SecretHitler from "./journeys/secret-hitler";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { theme } from "./constants/theme";
 import styled, {
   ThemeProvider,
@@ -65,24 +65,7 @@ export default function App() {
 
         <GlobalWrapper moreTopPadding={!isFullscreen}>
           <Router>
-            {/* A <Switch> looks through its children <Route>s and
-          renders the first one that matches the current URL. */}
-            <Switch>
-              <Route path="/secret-hitler">
-                <SecretHitler />
-              </Route>
-              <Route path="/">
-                <h1>Home</h1>
-                <nav>
-                  <ul>
-                    <li>
-                      <Link to="/secret-hitler">Secret Hitler</Link>
-                    </li>
-                  </ul>
-                </nav>
-                <hr />
-              </Route>
-            </Switch>
+            <SecretHitler />
           </Router>
         </GlobalWrapper>
       </div>

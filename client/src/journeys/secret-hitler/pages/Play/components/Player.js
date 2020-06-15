@@ -1,14 +1,14 @@
-import React, { useContext } from "react"
-import styled, { css } from "styled-components"
-import { DoneOutline } from "@styled-icons/material-sharp/DoneOutline"
-import { CloseOutline } from "@styled-icons/evaicons-outline/CloseOutline"
-import { HowToVote } from "@styled-icons/material/HowToVote"
-import { Trophy } from "@styled-icons/fa-solid/Trophy"
-import { SadCry } from "@styled-icons/fa-regular/SadCry"
-import fascist from "../../../../../img/fascist.png"
-import liberal from "../../../../../img/liberal.png"
-import hitler from "../../../../../img/hitler.png"
-import { StateContext, ActionContext } from "../Play"
+import React, { useContext } from "react";
+import styled, { css } from "styled-components";
+import { DoneOutline } from "@styled-icons/material-sharp/DoneOutline";
+import { CloseOutline } from "@styled-icons/evaicons-outline/CloseOutline";
+import { HowToVote } from "@styled-icons/material/HowToVote";
+import { Trophy } from "@styled-icons/fa-solid/Trophy";
+import { SadCry } from "@styled-icons/fa-regular/SadCry";
+import fascist from "../../../../../img/fascist.png";
+import liberal from "../../../../../img/liberal.png";
+import hitler from "../../../../../img/hitler.png";
+import { StateContext, ActionContext } from "../Play";
 
 const PlayerImage = styled.div`
   display: flex;
@@ -26,8 +26,8 @@ const PlayerImage = styled.div`
     width: ${(props) => 50 * props.scale}px;
   }
   @media only screen and (min-width: 992px) {
-    height: ${(props) => 100 * props.scale}px;
-    width: ${(props) => 100 * props.scale}px;
+    height: ${(props) => 60 * props.scale}px;
+    width: ${(props) => 60 * props.scale}px;
   }
   @media only screen and (min-width: 1200px) {
     padding: 0;
@@ -36,10 +36,10 @@ const PlayerImage = styled.div`
   }
   @media only screen and (min-width: 1450px) {
     padding: 0;
-    height: ${(props) => 150 * props.scale}px;
-    width: ${(props) => 150 * props.scale}px;
+    height: ${(props) => 100 * props.scale}px;
+    width: ${(props) => 100 * props.scale}px;
   }
-`
+`;
 
 const PlayerLabel = styled.p`
   box-sizing: border-box;
@@ -77,7 +77,7 @@ const PlayerLabel = styled.p`
     min-width: ${(props) => 120 * props.scale}px;
     max-width: ${(props) => 240 * props.scale}px;
   }
-`
+`;
 
 const PlayerWrapper = styled.div`
   display: flex;
@@ -92,7 +92,7 @@ const PlayerWrapper = styled.div`
         filter: brightness(1.2);
       }
     `}
-`
+`;
 
 const Marker = styled.div`
   display: flex;
@@ -121,43 +121,43 @@ const Marker = styled.div`
   @media only screen and (min-width: 1450px) {
     font-size: ${(props) => 20 * props.scale}px;
   }
-`
+`;
 
 const PresidentMarker = styled(Marker)`
   border-color: ${(props) => props.theme.blue_dark};
   background-color: ${(props) => props.theme.blue_light};
-`
+`;
 
 const ChancellorMarker = styled(Marker)`
   border-color: ${(props) => props.theme.orange_dark};
   background-color: ${(props) => props.theme.orange_light};
-`
+`;
 
 const Voted = styled(HowToVote)`
   height: 30%;
   width: 30%;
   background-color: blue;
   color: white;
-`
+`;
 
 const VotedYes = styled(Voted).attrs({ as: DoneOutline })`
   background-color: green;
   color: white;
-`
+`;
 
 const VotedNo = styled(Voted).attrs({ as: CloseOutline })`
   background-color: red;
   color: white;
-`
+`;
 const Win = styled(Voted).attrs({ as: Trophy })`
   color: gold;
   background-color: transparent;
-`
+`;
 
 const Lose = styled(Voted).attrs({ as: SadCry })`
   color: white;
   background-color: indianred;
-`
+`;
 
 export const Player = ({
   currentPlayerRole = "liberal",
@@ -171,20 +171,20 @@ export const Player = ({
   selectable = false,
   onClick
 }) => {
-  const { state } = useContext(StateContext)
+  const { state } = useContext(StateContext);
 
   const srcs = {
     "L": liberal,
     "F": fascist,
     "H": hitler
-  }
+  };
   const roleToDisplay = !role
     ? ""
     : currentPlayerRole === "F"
     ? role
     : currentPlayerRole === "H" && isCurrentPlayer
     ? "H"
-    : "L"
+    : "L";
   return (
     <PlayerWrapper tabIndex="0" selectable={selectable} onClick={onClick}>
       {roleToDisplay && (
@@ -207,5 +207,5 @@ export const Player = ({
         {displayName}
       </PlayerLabel>
     </PlayerWrapper>
-  )
-}
+  );
+};
