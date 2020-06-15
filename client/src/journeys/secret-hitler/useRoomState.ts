@@ -74,6 +74,10 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
     trigger("start");
   }
 
+  function doneViewingCards() {
+    trigger("doneViewingCards");
+  }
+
   function selectChancellor(i: number) {
     trigger("selectChancellor", { index: i });
   }
@@ -106,6 +110,7 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
     vote,
     revealVote,
     selectACardToRemove,
-    enactAPolicy
+    enactAPolicy,
+    doneViewingCards
   };
 };

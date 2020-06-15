@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { PolicyFascist, PolicyLiberal } from "./Policy";
+import { Policy } from "./Policy";
 import { Overlay, InstructionText } from "./Overlay";
 import { StateContext, ActionContext } from "../Play";
 
@@ -30,32 +30,25 @@ export const PolicySelection = () => {
   const { state, policiesInHand } = useContext(StateContext);
   const { selectACardToRemove, enactAPolicy } = useContext(ActionContext);
   const handleClick =
+    state === "filterCards" ? selectACardToRemove : enactAPolicy;
+
+  const instructionalText =
     state === "filterCards"
-      ? selectACardToRemove
-      : state === "enactPolicy"
-      ? enactAPolicy
-      : () => {
-          console.log("weird, something went wrong");
-        };
+      ? "Select A Policy To Discard"
+      : "Select A Policy To Enact";
+
   return (
     <Wrapper>
-      <InstructionText>Select A Policy To Discard</InstructionText>
+      <InstructionText>{instructionalText}</InstructionText>
       <PolicyWrapper>
-        {policiesInHand.map((p, i) =>
-          p === "F" ? (
-            <PolicyFascist
-              selectable
-              scale={2}
-              onClick={() => handleClick(i)}
-            />
-          ) : (
-            <PolicyLiberal
-              selectable
-              scale={2}
-              onClick={() => handleClick(i)}
-            />
-          )
-        )}
+        {policiesInHand.map((p, i) => (
+          <Policy
+            variation={p}
+            onClick={() => handleClick(i)}
+            selectable
+            scale={2}
+          />
+        ))}
       </PolicyWrapper>
     </Wrapper>
   );

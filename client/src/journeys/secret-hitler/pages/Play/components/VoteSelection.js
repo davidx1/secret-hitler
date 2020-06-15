@@ -27,7 +27,7 @@ const VotesWrapper = styled.div`
   }
 `;
 
-const Vote = styled.div`
+const Vote = styled.button`
   background-image: url(${(props) => props.src});
   background-size: cover;
   background-position: center;

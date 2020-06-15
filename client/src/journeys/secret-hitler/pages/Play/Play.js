@@ -36,7 +36,8 @@ export default function Game({ room, setRoom, client }) {
     vote,
     revealVote,
     selectACardToRemove,
-    enactAPolicy
+    enactAPolicy,
+    doneViewingCards
   } = useRoomState(room, joinRoom);
 
   if (!state) {
@@ -53,7 +54,8 @@ export default function Game({ room, setRoom, client }) {
           vote,
           revealVote,
           selectACardToRemove,
-          enactAPolicy
+          enactAPolicy,
+          doneViewingCards
         }}
       >
         <StateContext.Provider

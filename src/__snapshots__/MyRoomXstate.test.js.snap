@@ -242,7 +242,7 @@ Object {
     "prevChancellorIndex": 4,
     "prevPresidentIndex": 2,
   },
-  "value": "viewThreeCard",
+  "value": "viewThreeCards",
 }
 `;
 

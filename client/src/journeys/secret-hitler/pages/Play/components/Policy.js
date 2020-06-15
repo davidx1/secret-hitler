@@ -55,3 +55,11 @@ export const PolicyLiberal = ({ scale = 1, selectable, ...props }) => {
     />
   );
 };
+
+export const Policy = ({ variation, scale = 1, ...props }) => {
+  return variation === "F" ? (
+    <PolicyFascist scale={scale} {...props} />
+  ) : (
+    <PolicyLiberal scale={scale} {...props} />
+  );
+};
