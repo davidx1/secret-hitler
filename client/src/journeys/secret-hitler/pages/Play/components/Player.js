@@ -169,7 +169,8 @@ export const Player = ({
   displayName = "<no display name>",
   isCurrentPlayer = false,
   selectable = false,
-  onClick
+  onClick,
+  isActive
 }) => {
   const { state } = useContext(StateContext);
 
@@ -205,6 +206,7 @@ export const Player = ({
       )}
       <PlayerLabel highlight={isCurrentPlayer} scale={scale}>
         {displayName}
+        {!isActive ? "(Killed)" : ""}
       </PlayerLabel>
     </PlayerWrapper>
   );

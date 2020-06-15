@@ -56,6 +56,7 @@ export const GameOver = ({ winner }) => {
             isCurrentPlayer={w.id === youId}
             currentPlayerRole="F"
             role={w.role}
+            isActive={w.isActive}
           />
         ))}
       </FascistWrapper>
@@ -67,6 +68,7 @@ export const GameOver = ({ winner }) => {
             isCurrentPlayer={l.id === youId}
             currentPlayerRole="F"
             role={l.role}
+            isActive={l.isActive}
           />
         ))}
       </FascistWrapper>

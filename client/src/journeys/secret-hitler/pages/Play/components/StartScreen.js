@@ -45,6 +45,7 @@ export const StartScreen = () => {
               displayName={p.displayName}
               isCurrentPlayer={p.id === youId}
               scale={1.51}
+              isActive={p.isActive}
             ></Player>
           );
         })}

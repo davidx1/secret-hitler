@@ -44,18 +44,24 @@ export const InprogressScreen = () => {
       <PlayerWrapper>
         <HalfThePlayers allPlayers={players} secondHalf />
       </PlayerWrapper>
-      {(state === "fascistWin" || state === "liberalWin") && <GameOver />}
-      {state === "election" && youInfo.vote === null && <VoteSelection />}
-      {state === "filterCards" && isYouPresident && <PolicySelection />}
-      {state === "enactPolicy" && isYouChancellor && <PolicySelection />}
-      {isYouPresident &&
-        state === "election" &&
-        players.filter((p) => typeof p.vote !== "boolean").length === 0 && (
-          <button onClick={revealVote}>Reveal Vote</button>
-        )}
-      {isYouPresident && state === "viewThreeCards" && <ViewThreeCards />}
-      {isYouPresident && state === "investigatePlayer" && <InvestigatePlayer />}
-      {isYouPresident && state === "killPlayer" && <KillPlayer />}
+      {youInfo.isActive && (
+        <>
+          {(state === "fascistWin" || state === "liberalWin") && <GameOver />}
+          {state === "election" && youInfo.vote === null && <VoteSelection />}
+          {state === "filterCards" && isYouPresident && <PolicySelection />}
+          {state === "enactPolicy" && isYouChancellor && <PolicySelection />}
+          {isYouPresident &&
+            state === "election" &&
+            players.filter((p) => typeof p.vote !== "boolean").length === 0 && (
+              <button onClick={revealVote}>Reveal Vote</button>
+            )}
+          {isYouPresident && state === "viewThreeCards" && <ViewThreeCards />}
+          {isYouPresident && state === "investigatePlayer" && (
+            <InvestigatePlayer />
+          )}
+          {isYouPresident && state === "killPlayer" && <KillPlayer />}
+        </>
+      )}
     </>
   );
 };

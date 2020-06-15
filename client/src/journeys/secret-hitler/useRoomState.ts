@@ -98,6 +98,10 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
     trigger("enact", { index: i });
   }
 
+  function killPlayer(i: number) {
+    trigger("killPlayer", { index: i });
+  }
+
   return {
     state,
     context: roomState.context,
@@ -111,6 +115,7 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
     revealVote,
     selectACardToRemove,
     enactAPolicy,
-    doneViewingCards
+    doneViewingCards,
+    killPlayer
   };
 };

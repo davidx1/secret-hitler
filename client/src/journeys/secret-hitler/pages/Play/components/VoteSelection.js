@@ -69,6 +69,7 @@ export const VoteSelection = ({ displayName }) => {
         isCurrentPlayer={p.id === youId}
         currentPlayerRole={youInfo.role}
         role={p.role}
+        isActive={p.isActive}
       />
       <VotesWrapper>
         <Vote onClick={() => vote(true)} src={ja} />

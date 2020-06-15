@@ -42,6 +42,7 @@ export const HalfThePlayers = ({ secondHalf }) => {
             isCurrentPlayer={p.id === youId}
             currentPlayerRole={youInfo.role}
             scale={1}
+            isActive={p.isActive}
           ></Player>
         );
       })}

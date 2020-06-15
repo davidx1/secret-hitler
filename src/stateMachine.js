@@ -50,8 +50,8 @@ const ability = {
 
 const boardFor = {
   6: [
-    ability.NONE,
-    ability.NONE,
+    ability.KILL_PLAYER,
+    ability.TOP_THREE_CARD,
     ability.TOP_THREE_CARD,
     ability.KILL_PLAYER,
     ability.KILL_PLAYER
@@ -187,15 +187,21 @@ const setNewChancellor = assign({
 });
 
 const setNewPresident = assign((context, event) => {
+  let presidentIndex =
+    context.presidentIndex === null
+      ? 0
+      : (context.presidentIndex + 1) % context.players.length;
+
+  while (!context.players[presidentIndex].isActive) {
+    presidentIndex = (presidentIndex + 1) % context.players.length;
+  }
+
   return {
     prevChancellorIndex: context.chancellorIndex,
     prevPresidentIndex: context.presidentIndex,
     chancellorIndex: null,
     policiesInHand: [],
-    presidentIndex:
-      context.presidentIndex === null
-        ? 0
-        : (context.presidentIndex + 1) % context.players.length
+    presidentIndex
   };
 });
 
