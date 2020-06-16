@@ -52,9 +52,9 @@ const ability = {
 const boardFor = {
   6: [
     ability.INVESTIGATE,
-    ability.TOP_THREE_CARD,
-    ability.TOP_THREE_CARD,
     ability.KILL_PLAYER,
+    ability.TOP_THREE_CARD,
+    ability.INVESTIGATE,
     ability.KILL_PLAYER,
     ability.FASCIST_VICTORY
   ],

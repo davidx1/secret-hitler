@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Overlay, InstructionText } from "./Overlay";
 import { StateContext, ActionContext } from "../Play";
 import { Policy } from "./Policy";
+import Button from "./Button";
 
 const Wrapper = styled(Overlay)`
   display: flex;
@@ -18,6 +19,7 @@ const PolicyWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 16px;
   > * {
     margin-right: 20px;
     &:last-child {
@@ -40,7 +42,7 @@ export const ViewThreeCards = () => {
             <Policy scale={2} variation={variation} />
           ))}
       </PolicyWrapper>
-      <button onClick={doneViewingCards}>Okay</button>
+      <Button onClick={doneViewingCards}>Okay</Button>
     </Wrapper>
   );
 };

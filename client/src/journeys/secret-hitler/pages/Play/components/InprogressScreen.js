@@ -9,6 +9,7 @@ import { InvestigatePlayer } from "./InvestigatePlayer";
 import { KillPlayer } from "./KillPlayer";
 import { GameOver } from "./GameOver";
 import { StateContext, ActionContext } from "../Play";
+import Button from "./Button";
 
 const PlayerWrapper = styled.div`
   display: flex;
@@ -40,6 +41,10 @@ export const InprogressScreen = () => {
         <HalfThePlayers allPlayers={players} />
       </PlayerWrapper>
       <LibralBoard></LibralBoard>
+      {isYouPresident &&
+        state === "election" &&
+        players.filter((p) => typeof p.vote !== "boolean" && p.isActive)
+          .length === 0 && <Button onClick={revealVote}>Reveal Vote</Button>}
       <FascistBoard></FascistBoard>
       <PlayerWrapper>
         <HalfThePlayers allPlayers={players} secondHalf />
@@ -50,12 +55,7 @@ export const InprogressScreen = () => {
           {state === "election" && youInfo.vote === null && <VoteSelection />}
           {state === "filterCards" && isYouPresident && <PolicySelection />}
           {state === "enactPolicy" && isYouChancellor && <PolicySelection />}
-          {isYouPresident &&
-            state === "election" &&
-            players.filter((p) => typeof p.vote !== "boolean" && p.isActive)
-              .length === 0 && (
-              <button onClick={revealVote}>Reveal Vote</button>
-            )}
+
           {isYouPresident && state === "viewThreeCards" && <ViewThreeCards />}
           {isYouPresident && state === "investigatePlayer" && (
             <InvestigatePlayer />

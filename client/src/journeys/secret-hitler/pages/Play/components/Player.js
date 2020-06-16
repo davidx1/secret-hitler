@@ -85,6 +85,7 @@ const PlayerWrapper = styled.div`
   justify-content: center;
   align-items: center;
   cursor: ${(props) => (props.selectable ? "pointer" : "auto")};
+  outline: ${(props) => (props.selectable ? "default" : "none")};
   ${(props) =>
     props.selectable &&
     css`
