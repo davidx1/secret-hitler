@@ -23,26 +23,25 @@ const Board = styled.div`
   @media only screen and (min-width: 768px) {
     height: 25%;
     width: 400px;
-    border-width: 2px;
+    border-width: 1px;
   }
   @media only screen and (min-width: 992px) {
     height: 25%;
     width: 800px;
-    border-width: 5px;
+    border-width: 3px;
   }
   @media only screen and (min-width: 1200px) {
     width: 800px;
   }
   @media only screen and (min-width: 1450px) {
     width: 1100px;
-    border-width: 8px;
+    border-width: 4px;
   }
 `;
 
 const CardSlot = styled.div`
   height: 90%;
   width: 40px;
-  min-height: 60px;
   border-width: 2px;
   border-style: dotted;
   display: flex;
@@ -70,7 +69,7 @@ const CardSlot = styled.div`
     width: 130px;
     min-height: 150px;
 
-    border-width: px;
+    border-width: 5px;
   }
 `;
 

@@ -6,6 +6,7 @@ import { HowToVote } from "@styled-icons/material/HowToVote";
 import { Trophy } from "@styled-icons/fa-solid/Trophy";
 import { SadCry } from "@styled-icons/fa-regular/SadCry";
 import { Skull } from "@styled-icons/fa-solid/Skull";
+import { QuestionCircle } from "@styled-icons/fa-solid/QuestionCircle";
 import fascist from "../../../../../img/fascist.png";
 import liberal from "../../../../../img/liberal.png";
 import hitler from "../../../../../img/hitler.png";
@@ -45,8 +46,8 @@ const PlayerImage = styled.div`
 const PlayerLabel = styled.p`
   box-sizing: border-box;
   border-radius: 10%;
-  padding: 5px 10px;
-  line-height: 1.25;
+  padding: 2px 2px;
+  line-height: 1;
   text-align: center;
   background-color: ${(props) => (props.highlight ? "#7ffa99" : "#ffffff")};
   font-size: ${(props) => 10 * props.scale}px;
@@ -62,6 +63,7 @@ const PlayerLabel = styled.p`
   @media only screen and (min-width: 768px) {
     font-size: ${(props) => 14 * props.scale}px;
     min-width: ${(props) => 40 * props.scale}px;
+    padding: 5px 10px;
   }
   @media only screen and (min-width: 992px) {
     font-size: ${(props) => 16 * props.scale}px;
@@ -148,12 +150,19 @@ const DeathOverlay = styled(PlayerImage)`
   align-items: center;
   justify-content: center;
   background-color: #33333380;
+  box-shadow: none;
 `;
 
 const DeadIcon = styled(Skull)`
   height: 50%;
   width: 50%;
   color: white;
+`;
+
+const UnknownRole = styled(QuestionCircle)`
+  height: 80%;
+  color: white;
+  background-color: gray;
 `;
 
 const VotedYes = styled(Voted).attrs({ as: DoneOutline })`
@@ -208,7 +217,7 @@ export const Player = ({
       selectable={selectable && isActive}
       onClick={isActive && onClick}
     >
-      {roleToDisplay && (
+      {roleToDisplay ? (
         <>
           <PlayerImage scale={scale} src={srcs[roleToDisplay]}>
             {isPresident && <PresidentMarker scale={scale}>Pr</PresidentMarker>}
@@ -234,6 +243,8 @@ export const Player = ({
             </DeathOverlay>
           )}
         </>
+      ) : (
+        <UnknownRole />
       )}
       <PlayerLabel highlight={isCurrentPlayer} scale={scale}>
         {displayName}

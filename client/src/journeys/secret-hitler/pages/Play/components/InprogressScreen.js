@@ -7,6 +7,7 @@ import { VoteSelection } from "./VoteSelection";
 import { ViewThreeCards } from "./ViewThreeCards";
 import { InvestigatePlayer } from "./InvestigatePlayer";
 import { KillPlayer } from "./KillPlayer";
+import { PresidentSelection } from "./PresidentSelection";
 import { GameOver } from "./GameOver";
 import { StateContext, ActionContext } from "../Play";
 import Button from "./Button";
@@ -55,12 +56,14 @@ export const InprogressScreen = () => {
           {state === "election" && youInfo.vote === null && <VoteSelection />}
           {state === "filterCards" && isYouPresident && <PolicySelection />}
           {state === "enactPolicy" && isYouChancellor && <PolicySelection />}
-
           {isYouPresident && state === "viewThreeCards" && <ViewThreeCards />}
           {isYouPresident && state === "investigatePlayer" && (
             <InvestigatePlayer />
           )}
           {isYouPresident && state === "killPlayer" && <KillPlayer />}
+          {isYouPresident && state === "presidentSelection" && (
+            <PresidentSelection />
+          )}
         </>
       )}
     </>

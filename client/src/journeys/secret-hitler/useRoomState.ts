@@ -106,6 +106,10 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
     trigger("killPlayer", { index: i });
   }
 
+  function setNewPresident(i: number) {
+    trigger("selectPresident", { index: i });
+  }
+
   return {
     state,
     context: roomState.context,
@@ -121,6 +125,7 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
     enactAPolicy,
     doneViewingCards,
     killPlayer,
-    doneInvestigating
+    doneInvestigating,
+    setNewPresident
   };
 };

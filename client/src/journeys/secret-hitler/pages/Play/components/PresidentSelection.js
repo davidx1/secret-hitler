@@ -21,36 +21,28 @@ const PlayerWrapper = styled.div`
   margin-bottom: 16px;
 `;
 
-export const InvestigatePlayer = () => {
+export const PresidentSelection = () => {
   const { players, youInfo } = useContext(StateContext);
-  const { doneInvestigating } = useContext(ActionContext);
+  const { setNewPresident } = useContext(ActionContext);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const handlePlayerClick = (i) => {
-    if (!selectedIndex) {
-      setSelectedIndex(i);
-    }
-  };
   return (
     <Wrapper>
-      <InstructionText>Investigate Player</InstructionText>
+      <InstructionText>Select Next President</InstructionText>
       <PlayerWrapper>
-        {players
-          .filter((p) => p.id !== youInfo.id)
-          .map((p, i) => (
+        {players.map((p, i) =>
+          p.id === youInfo.id ? null : (
             <Player
               displayName={p.displayName}
               isActive={true}
               isCurrentPlayer={i === selectedIndex}
-              role={i === selectedIndex && p.role}
-              scale={1.5}
+              role={p.role}
+              scale={1}
               selectable={selectedIndex === null}
-              onClick={() => handlePlayerClick(i)}
+              onClick={() => setNewPresident(i)}
             />
-          ))}
+          )
+        )}
       </PlayerWrapper>
-      {selectedIndex !== null && (
-        <Button onClick={doneInvestigating}>Okay</Button>
-      )}
     </Wrapper>
   );
 };
