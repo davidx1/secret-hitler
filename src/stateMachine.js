@@ -45,30 +45,34 @@ const ability = {
   TOP_THREE_CARD: "TOP_THREE_CARD",
   KILL_PLAYER: "KILL_PLAYER",
   INVESTIGATE: "INVESTIGATE",
-  PICK_NEXT_PRESIDENT: "PICK_NEXT_PRESIDENT"
+  PICK_NEXT_PRESIDENT: "PICK_NEXT_PRESIDENT",
+  FASCIST_VICTORY: "FASCIST_VICTORY"
 };
 
 const boardFor = {
   6: [
-    ability.KILL_PLAYER,
+    ability.INVESTIGATE,
     ability.TOP_THREE_CARD,
     ability.TOP_THREE_CARD,
     ability.KILL_PLAYER,
-    ability.KILL_PLAYER
+    ability.KILL_PLAYER,
+    ability.FASCIST_VICTORY
   ],
   8: [
     ability.NONE,
     ability.INVESTIGATE,
     ability.PICK_NEXT_PRESIDENT,
     ability.KILL_PLAYER,
-    ability.KILL_PLAYER
+    ability.KILL_PLAYER,
+    ability.FASCIST_VICTORY
   ],
   10: [
     ability.INVESTIGATE,
     ability.INVESTIGATE,
     ability.PICK_NEXT_PRESIDENT,
     ability.KILL_PLAYER,
-    ability.KILL_PLAYER
+    ability.KILL_PLAYER,
+    ability.FASCIST_VICTORY
   ]
 };
 
@@ -327,7 +331,8 @@ function isValidKillingCandidate(context, event) {
 
 function isAllVotesIn(context) {
   return (
-    context.players.filter((p) => typeof p.vote !== "boolean").length === 0
+    context.players.filter((p) => typeof p.vote !== "boolean" && p.isActive)
+      .length === 0
   );
 }
 

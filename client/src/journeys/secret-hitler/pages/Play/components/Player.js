@@ -202,7 +202,11 @@ export const Player = ({
     ? "H"
     : "L";
   return (
-    <PlayerWrapper tabIndex="0" selectable={selectable} onClick={onClick}>
+    <PlayerWrapper
+      tabIndex="0"
+      selectable={selectable && isActive}
+      onClick={isActive && onClick}
+    >
       {roleToDisplay && (
         <>
           <PlayerImage scale={scale} src={srcs[roleToDisplay]}>

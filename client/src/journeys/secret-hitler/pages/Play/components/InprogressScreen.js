@@ -52,7 +52,8 @@ export const InprogressScreen = () => {
           {state === "enactPolicy" && isYouChancellor && <PolicySelection />}
           {isYouPresident &&
             state === "election" &&
-            players.filter((p) => typeof p.vote !== "boolean").length === 0 && (
+            players.filter((p) => typeof p.vote !== "boolean" && p.isActive)
+              .length === 0 && (
               <button onClick={revealVote}>Reveal Vote</button>
             )}
           {isYouPresident && state === "viewThreeCards" && <ViewThreeCards />}

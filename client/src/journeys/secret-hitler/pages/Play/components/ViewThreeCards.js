@@ -34,9 +34,11 @@ export const ViewThreeCards = () => {
     <Wrapper>
       <InstructionText>Next 3 Policy</InstructionText>
       <PolicyWrapper>
-        {drawPile.slice(0, 3).map((variation) => (
-          <Policy scale={2} variation={variation} />
-        ))}
+        {drawPile
+          .slice(drawPile.length - 3, drawPile.length)
+          .map((variation) => (
+            <Policy scale={2} variation={variation} />
+          ))}
       </PolicyWrapper>
       <button onClick={doneViewingCards}>Okay</button>
     </Wrapper>

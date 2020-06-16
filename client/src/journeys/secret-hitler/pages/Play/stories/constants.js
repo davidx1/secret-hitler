@@ -45,7 +45,14 @@ export const chancellorSelection = {
         "isActive": true
       }
     ],
-    "board": ["NONE", "NONE", "TOP_THREE_CARD", "KILL_PLAYER", "KILL_PLAYER"],
+    "board": [
+      "NONE",
+      "NONE",
+      "TOP_THREE_CARD",
+      "KILL_PLAYER",
+      "KILL_PLAYER",
+      "FASCIST_VICTORY"
+    ],
     "drawPile": [
       "F",
       "L",
@@ -115,7 +122,14 @@ export const election = {
         "isActive": true
       }
     ],
-    "board": ["NONE", "NONE", "TOP_THREE_CARD", "KILL_PLAYER", "KILL_PLAYER"],
+    "board": [
+      "NONE",
+      "NONE",
+      "TOP_THREE_CARD",
+      "KILL_PLAYER",
+      "KILL_PLAYER",
+      "FASCIST_VICTORY"
+    ],
     "drawPile": [
       "F",
       "F",
@@ -185,7 +199,14 @@ export const voted = {
         "isActive": true
       }
     ],
-    "board": ["NONE", "NONE", "TOP_THREE_CARD", "KILL_PLAYER", "KILL_PLAYER"],
+    "board": [
+      "NONE",
+      "NONE",
+      "TOP_THREE_CARD",
+      "KILL_PLAYER",
+      "KILL_PLAYER",
+      "FASCIST_VICTORY"
+    ],
     "drawPile": [
       "F",
       "F",
@@ -255,7 +276,90 @@ export const revealVote = {
         "isActive": true
       }
     ],
-    "board": ["NONE", "NONE", "TOP_THREE_CARD", "KILL_PLAYER", "KILL_PLAYER"],
+    "board": [
+      "NONE",
+      "NONE",
+      "TOP_THREE_CARD",
+      "KILL_PLAYER",
+      "KILL_PLAYER",
+      "KILL_PLAYER"
+    ],
+    "drawPile": [
+      "F",
+      "F",
+      "F",
+      "L",
+      "F",
+      "F",
+      "F",
+      "L",
+      "F",
+      "L",
+      "L",
+      "F",
+      "F",
+      "F",
+      "L",
+      "F",
+      "L"
+    ],
+    "policiesInHand": [],
+    "prevPresidentIndex": null,
+    "prevChancellorIndex": null,
+    "presidentIndex": 0,
+    "chancellorIndex": 1,
+    "enactedLiberalPolicies": 0,
+    "enactedFascistPolicies": 0
+  }
+};
+
+export const revealVoteWithDead = {
+  "state": "election",
+  "context": {
+    "players": [
+      {
+        "id": "zytBL148W",
+        "displayName": "Terry",
+        "vote": false,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "8JQgNO6t4",
+        "displayName": "Julia",
+        "role": "L",
+        "isActive": false
+      },
+      {
+        "id": "lnj51cDFo",
+        "displayName": "Betty",
+        "vote": false,
+        "role": "F",
+        "isActive": true
+      },
+      {
+        "id": "36mlGqu0a",
+        "displayName": "Eddie",
+        "vote": true,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "qmtd7nTJx",
+        "displayName": "Seth",
+        "vote": true,
+        "role": "H",
+        "isActive": true
+      }
+    ],
+    "board": [
+      "NONE",
+      "NONE",
+      "TOP_THREE_CARD",
+      "KILL_PLAYER",
+      "KILL_PLAYER",
+      "KILL_PLAYER"
+    ],
     "drawPile": [
       "F",
       "F",
@@ -325,7 +429,14 @@ export const filterCards = {
         "isActive": true
       }
     ],
-    "board": ["NONE", "NONE", "TOP_THREE_CARD", "KILL_PLAYER", "KILL_PLAYER"],
+    "board": [
+      "NONE",
+      "NONE",
+      "TOP_THREE_CARD",
+      "KILL_PLAYER",
+      "KILL_PLAYER",
+      "FASCIST_VICTORY"
+    ],
     "drawPile": [
       "F",
       "F",
@@ -392,7 +503,14 @@ export const viewThreeCards = {
         "isActive": true
       }
     ],
-    "board": ["NONE", "NONE", "TOP_THREE_CARD", "KILL_PLAYER", "KILL_PLAYER"],
+    "board": [
+      "NONE",
+      "NONE",
+      "TOP_THREE_CARD",
+      "KILL_PLAYER",
+      "KILL_PLAYER",
+      "FASCIST_VICTORY"
+    ],
     "drawPile": ["F", "F", "F", "L", "L", "L", "F", "F"],
     "policiesInHand": ["F", "F"],
     "prevPresidentIndex": 3,
@@ -444,7 +562,14 @@ export const investigatePlayer = {
         "isActive": true
       }
     ],
-    "board": ["NONE", "NONE", "TOP_THREE_CARD", "KILL_PLAYER", "KILL_PLAYER"],
+    "board": [
+      "NONE",
+      "NONE",
+      "TOP_THREE_CARD",
+      "KILL_PLAYER",
+      "KILL_PLAYER",
+      "FASCIST_VICTORY"
+    ],
     "drawPile": ["F", "F", "F", "L", "L", "L", "F", "F"],
     "policiesInHand": ["F", "F"],
     "prevPresidentIndex": 3,
@@ -496,7 +621,14 @@ export const killPlayer = {
         "isActive": true
       }
     ],
-    "board": ["NONE", "NONE", "TOP_THREE_CARD", "KILL_PLAYER", "KILL_PLAYER"],
+    "board": [
+      "NONE",
+      "NONE",
+      "TOP_THREE_CARD",
+      "KILL_PLAYER",
+      "KILL_PLAYER",
+      "FASCIST_VICTORY"
+    ],
     "drawPile": ["F", "F", "F", "L", "L", "L", "F", "F"],
     "policiesInHand": ["F", "F"],
     "prevPresidentIndex": 3,

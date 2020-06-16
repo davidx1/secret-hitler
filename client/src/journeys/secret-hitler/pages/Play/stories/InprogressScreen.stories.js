@@ -84,6 +84,11 @@ export const revealVote = () => {
   return render(state, context);
 };
 
+export const revealVoteWithDead = () => {
+  const { state, context } = states.revealVoteWithDead;
+  return render(state, context);
+};
+
 export const filterCards = () => {
   const { state, context } = states.filterCards;
   return render(state, context);
