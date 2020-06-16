@@ -22,7 +22,6 @@ export const GlobalWrapper = styled(Div100vh)`
   width: 100vw;
   padding: 10px 5px;
   background-color: ${(props) => props.theme.neutral};
-  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
   box-sizing: border-box;
   overflow: scroll;
   @media only screen and (min-width: 512px) {
