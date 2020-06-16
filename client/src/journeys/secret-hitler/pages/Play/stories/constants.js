@@ -463,6 +463,384 @@ export const filterCards = {
   }
 };
 
+export const enactPolicy = {
+  "state": "enactPolicy",
+  "context": {
+    "players": [
+      {
+        "id": "zytBL148W",
+        "displayName": "Terry",
+        "vote": false,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "8JQgNO6t4",
+        "displayName": "Julia",
+        "vote": true,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "lnj51cDFo",
+        "displayName": "Betty",
+        "vote": false,
+        "role": "F",
+        "isActive": true
+      },
+      {
+        "id": "36mlGqu0a",
+        "displayName": "Eddie",
+        "vote": true,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "qmtd7nTJx",
+        "displayName": "Seth",
+        "vote": true,
+        "role": "H",
+        "isActive": true
+      }
+    ],
+    "board": [
+      "NONE",
+      "NONE",
+      "TOP_THREE_CARD",
+      "KILL_PLAYER",
+      "KILL_PLAYER",
+      "FASCIST_VICTORY"
+    ],
+    "drawPile": [
+      "F",
+      "F",
+      "F",
+      "L",
+      "F",
+      "F",
+      "F",
+      "L",
+      "F",
+      "L",
+      "L",
+      "F",
+      "F",
+      "F"
+    ],
+    "policiesInHand": ["L", "F"],
+    "prevPresidentIndex": null,
+    "prevChancellorIndex": null,
+    "presidentIndex": 1,
+    "chancellorIndex": 0,
+    "enactedLiberalPolicies": 0,
+    "enactedFascistPolicies": 0
+  }
+};
+
+export const enactPolicyWithVeto = {
+  "state": "enactPolicy",
+  "context": {
+    "players": [
+      {
+        "id": "zytBL148W",
+        "displayName": "Terry",
+        "vote": false,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "8JQgNO6t4",
+        "displayName": "Julia",
+        "vote": true,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "lnj51cDFo",
+        "displayName": "Betty",
+        "vote": false,
+        "role": "F",
+        "isActive": true
+      },
+      {
+        "id": "36mlGqu0a",
+        "displayName": "Eddie",
+        "vote": true,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "qmtd7nTJx",
+        "displayName": "Seth",
+        "vote": true,
+        "role": "H",
+        "isActive": true
+      }
+    ],
+    "board": [
+      "NONE",
+      "NONE",
+      "TOP_THREE_CARD",
+      "KILL_PLAYER",
+      "KILL_PLAYER",
+      "FASCIST_VICTORY"
+    ],
+    "drawPile": [
+      "F",
+      "F",
+      "F",
+      "L",
+      "F",
+      "F",
+      "F",
+      "L",
+      "F",
+      "L",
+      "L",
+      "F",
+      "F",
+      "F"
+    ],
+    "policiesInHand": ["L", "F"],
+    "prevPresidentIndex": null,
+    "prevChancellorIndex": null,
+    "presidentIndex": 1,
+    "chancellorIndex": 0,
+    "enactedLiberalPolicies": 0,
+    "enactedFascistPolicies": 5,
+    "vetoRequested": null,
+    "vetoApproved": null
+  }
+};
+
+export const vetoRequested = {
+  "state": "enactPolicy",
+  "context": {
+    "players": [
+      {
+        "id": "zytBL148W",
+        "displayName": "Terry",
+        "vote": false,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "8JQgNO6t4",
+        "displayName": "Julia",
+        "vote": true,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "lnj51cDFo",
+        "displayName": "Betty",
+        "vote": false,
+        "role": "F",
+        "isActive": true
+      },
+      {
+        "id": "36mlGqu0a",
+        "displayName": "Eddie",
+        "vote": true,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "qmtd7nTJx",
+        "displayName": "Seth",
+        "vote": true,
+        "role": "H",
+        "isActive": true
+      }
+    ],
+    "board": [
+      "NONE",
+      "NONE",
+      "TOP_THREE_CARD",
+      "KILL_PLAYER",
+      "KILL_PLAYER",
+      "FASCIST_VICTORY"
+    ],
+    "drawPile": [
+      "F",
+      "F",
+      "F",
+      "L",
+      "F",
+      "F",
+      "F",
+      "L",
+      "F",
+      "L",
+      "L",
+      "F",
+      "F",
+      "F"
+    ],
+    "policiesInHand": ["L", "F"],
+    "prevPresidentIndex": null,
+    "prevChancellorIndex": null,
+    "presidentIndex": 0,
+    "chancellorIndex": 1,
+    "enactedLiberalPolicies": 0,
+    "enactedFascistPolicies": 5,
+    "vetoRequested": true,
+    "vetoApproved": null
+  }
+};
+
+export const awaitingVetoApproval = {
+  "state": "enactPolicy",
+  "context": {
+    "players": [
+      {
+        "id": "zytBL148W",
+        "displayName": "Terry",
+        "vote": false,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "8JQgNO6t4",
+        "displayName": "Julia",
+        "vote": true,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "lnj51cDFo",
+        "displayName": "Betty",
+        "vote": false,
+        "role": "F",
+        "isActive": true
+      },
+      {
+        "id": "36mlGqu0a",
+        "displayName": "Eddie",
+        "vote": true,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "qmtd7nTJx",
+        "displayName": "Seth",
+        "vote": true,
+        "role": "H",
+        "isActive": true
+      }
+    ],
+    "board": [
+      "NONE",
+      "NONE",
+      "TOP_THREE_CARD",
+      "KILL_PLAYER",
+      "KILL_PLAYER",
+      "FASCIST_VICTORY"
+    ],
+    "drawPile": [
+      "F",
+      "F",
+      "F",
+      "L",
+      "F",
+      "F",
+      "F",
+      "L",
+      "F",
+      "L",
+      "L",
+      "F",
+      "F",
+      "F"
+    ],
+    "policiesInHand": ["L", "F"],
+    "prevPresidentIndex": null,
+    "prevChancellorIndex": null,
+    "presidentIndex": 1,
+    "chancellorIndex": 0,
+    "enactedLiberalPolicies": 0,
+    "enactedFascistPolicies": 5,
+    "vetoRequested": true,
+    "vetoApproved": null
+  }
+};
+
+export const vetoRequestRejected = {
+  "state": "enactPolicy",
+  "context": {
+    "players": [
+      {
+        "id": "zytBL148W",
+        "displayName": "Terry",
+        "vote": false,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "8JQgNO6t4",
+        "displayName": "Julia",
+        "vote": true,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "lnj51cDFo",
+        "displayName": "Betty",
+        "vote": false,
+        "role": "F",
+        "isActive": true
+      },
+      {
+        "id": "36mlGqu0a",
+        "displayName": "Eddie",
+        "vote": true,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "qmtd7nTJx",
+        "displayName": "Seth",
+        "vote": true,
+        "role": "H",
+        "isActive": true
+      }
+    ],
+    "board": [
+      "NONE",
+      "NONE",
+      "TOP_THREE_CARD",
+      "KILL_PLAYER",
+      "KILL_PLAYER",
+      "FASCIST_VICTORY"
+    ],
+    "drawPile": [
+      "F",
+      "F",
+      "F",
+      "L",
+      "F",
+      "F",
+      "F",
+      "L",
+      "F",
+      "L",
+      "L",
+      "F",
+      "F",
+      "F"
+    ],
+    "policiesInHand": ["L", "F"],
+    "prevPresidentIndex": null,
+    "prevChancellorIndex": null,
+    "presidentIndex": 1,
+    "chancellorIndex": 0,
+    "enactedLiberalPolicies": 0,
+    "enactedFascistPolicies": 5,
+    "vetoRequested": true,
+    "vetoApproved": false
+  }
+};
+
 export const viewThreeCards = {
   "state": "viewThreeCards",
   "context": {

@@ -51,11 +51,11 @@ const ability = {
 
 const boardFor = {
   6: [
-    ability.PICK_NEXT_PRESIDENT,
-    ability.INVESTIGATE,
-    ability.KILL_PLAYER,
-    ability.INVESTIGATE,
-    ability.KILL_PLAYER,
+    ability.NONE,
+    ability.NONE,
+    ability.NONE,
+    ability.NONE,
+    ability.NONE,
     ability.FASCIST_VICTORY
   ],
   8: [
@@ -88,7 +88,9 @@ export const prodInitialState = {
     presidentIndex: null,
     chancellorIndex: null,
     enactedLiberalPolicies: 0,
-    enactedFascistPolicies: 0
+    enactedFascistPolicies: 0,
+    vetoRequested: null,
+    vetoApproved: null
   }
 };
 
@@ -159,9 +161,11 @@ const filterCardsInitialState = {
       }
     ],
     "policiesInHand": ["F", "F", "F"],
-    "presidentIndex": 0,
+    "presπidentIndex": 0,
     "prevChancellorIndex": null,
-    "prevPresidentIndex": null
+    "prevPresidentIndex": null,
+    "vetoRequested": null,
+    "vetoApproved": null
   },
   "value": "filterCards"
 };
@@ -259,7 +263,9 @@ const setPolicyInHand = assign((context) => {
 
   return {
     drawPile: newDrawPile,
-    policiesInHand: newPoliciesInHand
+    policiesInHand: newPoliciesInHand,
+    vetoRequested: null,
+    vetoApproved: null
   };
 });
 
@@ -303,10 +309,24 @@ const killPlayer = assign((context, event) => ({
   )
 }));
 
+const requestVeto = assign((context, event) => ({
+  vetoRequested: true
+}));
+
+const approveVeto = assign((context, event) => ({
+  vetoApproved: true
+}));
+
+const rejectVeto = assign((context, event) => ({
+  vetoApproved: false
+}));
+
 function isElectionSuccess(context) {
   const result =
     isAllVotesIn(context) &&
-    context.players.reduce((acc, cur) => (cur.vote ? acc + 1 : acc - 1), 0) > 0;
+    context.players
+      .filter((p) => p.isActive)
+      .reduce((acc, cur) => (cur.vote ? acc + 1 : acc - 1), 0) > 0;
   return result;
 }
 
@@ -389,6 +409,14 @@ function isInvestigate(context, event) {
   return context.board[context.enactedFascistPolicies] === ability.INVESTIGATE;
 }
 
+function isVetoAvailable(context) {
+  return context.enactedFascistPolicies === 5 && context.vetoApproved === null;
+}
+
+function isVetoRequested(context) {
+  return context.vetoRequested;
+}
+
 const stateMachine = Machine(
   {
     id: "secret-hitler",
@@ -457,6 +485,21 @@ const stateMachine = Machine(
       },
       enactPolicy: {
         on: {
+          requestVeto: {
+            target: "enactPolicy",
+            actions: "requestVeto",
+            cond: "isVetoAvailable"
+          },
+          rejectVeto: {
+            target: "enactPolicy",
+            actions: "rejectVeto",
+            cond: "isVetoRequested"
+          },
+          approveVeto: {
+            target: "chancellorSelection",
+            actions: ["setNewPolicy", "setNewPresident"],
+            cond: "isVetoRequested"
+          },
           enact: [
             {
               target: "liberalWin",
@@ -546,7 +589,10 @@ const stateMachine = Machine(
       setPolicyInHand,
       setNewPolicy,
       killPlayer,
-      removePolicyFromHand
+      removePolicyFromHand,
+      requestVeto,
+      rejectVeto,
+      approveVeto
     },
     guards: {
       isElectionSuccess,
@@ -560,7 +606,9 @@ const stateMachine = Machine(
       isPickNextPresident,
       isKillPlayer,
       isInvestigate,
-      isValidKillingCandidate
+      isValidKillingCandidate,
+      isVetoAvailable,
+      isVetoRequested
     }
   }
 );

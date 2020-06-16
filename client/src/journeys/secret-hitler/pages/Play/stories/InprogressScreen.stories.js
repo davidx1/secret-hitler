@@ -94,6 +94,31 @@ export const filterCards = () => {
   return render(state, context);
 };
 
+export const enactPolicy = () => {
+  const { state, context } = states.enactPolicy;
+  return render(state, context);
+};
+
+export const enactPolicyWithVeto = () => {
+  const { state, context } = states.enactPolicyWithVeto;
+  return render(state, context);
+};
+
+export const vetoRequested = () => {
+  const { state, context } = states.vetoRequested;
+  return render(state, context);
+};
+
+export const awaitingVetoApproval = () => {
+  const { state, context } = states.awaitingVetoApproval;
+  return render(state, context);
+};
+
+export const vetoRequestRejected = () => {
+  const { state, context } = states.vetoRequestRejected;
+  return render(state, context);
+};
+
 export const viewThreeCards = () => {
   const { state, context } = states.viewThreeCards;
   return render(state, context);

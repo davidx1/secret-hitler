@@ -110,6 +110,18 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
     trigger("selectPresident", { index: i });
   }
 
+  function requestVeto() {
+    trigger("requestVeto");
+  }
+
+  function rejectVeto() {
+    trigger("rejectVeto");
+  }
+
+  function approveVeto() {
+    trigger("approveVeto");
+  }
+
   return {
     state,
     context: roomState.context,
@@ -126,6 +138,9 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
     doneViewingCards,
     killPlayer,
     doneInvestigating,
-    setNewPresident
+    setNewPresident,
+    requestVeto,
+    rejectVeto,
+    approveVeto
   };
 };

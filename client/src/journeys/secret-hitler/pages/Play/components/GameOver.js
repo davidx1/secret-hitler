@@ -1,8 +1,11 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
+
 import { Player } from "./Player";
 import { Overlay } from "./Overlay";
 import { StateContext } from "../Play";
+import Button from "./Button";
 
 const Wrapper = styled(Overlay)`
   display: flex;
@@ -37,6 +40,7 @@ export const GameOver = ({ winner }) => {
     enactedLiberalPolicies,
     chancellorIndex
   } = useContext(StateContext);
+  const history = useHistory();
 
   const winners = players.filter((p) => {
     if (state === "fascistWin") {
@@ -92,7 +96,7 @@ export const GameOver = ({ winner }) => {
         {winners.map((w) => (
           <Player
             displayName={w.displayName}
-            scale={1.5}
+            scale={1.25}
             isCurrentPlayer={w.id === youId}
             currentPlayerRole="F"
             role={w.role}
@@ -104,7 +108,7 @@ export const GameOver = ({ winner }) => {
         {losers.map((l) => (
           <Player
             displayName={l.displayName}
-            scale={1.5}
+            scale={1.25}
             isCurrentPlayer={l.id === youId}
             currentPlayerRole="F"
             role={l.role}
@@ -112,6 +116,7 @@ export const GameOver = ({ winner }) => {
           />
         ))}
       </FascistWrapper>
+      <Button onClick={() => history.push("/")}>Home</Button>
     </Wrapper>
   );
 };

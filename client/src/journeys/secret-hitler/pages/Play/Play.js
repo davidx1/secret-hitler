@@ -40,7 +40,10 @@ export default function Game({ room, setRoom, client }) {
     doneViewingCards,
     killPlayer,
     doneInvestigating,
-    setNewPresident
+    setNewPresident,
+    requestVeto,
+    approveVeto,
+    rejectVeto
   } = useRoomState(room, joinRoom);
 
   if (!state) {
@@ -61,7 +64,10 @@ export default function Game({ room, setRoom, client }) {
           doneViewingCards,
           killPlayer,
           doneInvestigating,
-          setNewPresident
+          setNewPresident,
+          requestVeto,
+          approveVeto,
+          rejectVeto
         }}
       >
         <StateContext.Provider

@@ -32,10 +32,11 @@ export const InprogressScreen = () => {
     youInfo,
     isYouPresident,
     isYouChancellor,
-    players
+    players,
+    vetoRequested
   } = useContext(StateContext);
 
-  const { revealVote } = useContext(ActionContext);
+  const { revealVote, approveVeto, rejectVeto } = useContext(ActionContext);
   return (
     <>
       <PlayerWrapper>
@@ -46,6 +47,12 @@ export const InprogressScreen = () => {
         state === "election" &&
         players.filter((p) => typeof p.vote !== "boolean" && p.isActive)
           .length === 0 && <Button onClick={revealVote}>Reveal Vote</Button>}
+      {isYouPresident && state === "enactPolicy" && vetoRequested && (
+        <>
+          <Button onClick={approveVeto}>Approve Veto</Button>
+          <Button onClick={rejectVeto}>Reject Veto</Button>
+        </>
+      )}
       <FascistBoard></FascistBoard>
       <PlayerWrapper>
         <HalfThePlayers allPlayers={players} secondHalf />
