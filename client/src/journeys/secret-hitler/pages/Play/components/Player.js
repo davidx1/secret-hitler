@@ -5,6 +5,7 @@ import { CloseOutline } from "@styled-icons/evaicons-outline/CloseOutline";
 import { HowToVote } from "@styled-icons/material/HowToVote";
 import { Trophy } from "@styled-icons/fa-solid/Trophy";
 import { SadCry } from "@styled-icons/fa-regular/SadCry";
+import { Skull } from "@styled-icons/fa-solid/Skull";
 import fascist from "../../../../../img/fascist.png";
 import liberal from "../../../../../img/liberal.png";
 import hitler from "../../../../../img/hitler.png";
@@ -44,14 +45,12 @@ const PlayerImage = styled.div`
 const PlayerLabel = styled.p`
   box-sizing: border-box;
   border-radius: 10%;
-  padding: 0 5px;
+  padding: 5px 10px;
   line-height: 1.25;
-  left: 2px;
   text-align: center;
   background-color: ${(props) => (props.highlight ? "#7ffa99" : "#ffffff")};
   font-size: ${(props) => 10 * props.scale}px;
   margin: 0;
-  padding: 5%;
   box-shadow: 0px 3px 5px #444444;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -81,6 +80,7 @@ const PlayerLabel = styled.p`
 
 const PlayerWrapper = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -140,6 +140,21 @@ const Voted = styled(HowToVote)`
   color: white;
 `;
 
+const DeathOverlay = styled(PlayerImage)`
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #33333380;
+`;
+
+const DeadIcon = styled(Skull)`
+  height: 50%;
+  width: 50%;
+  color: white;
+`;
+
 const VotedYes = styled(Voted).attrs({ as: DoneOutline })`
   background-color: green;
   color: white;
@@ -181,7 +196,7 @@ export const Player = ({
   };
   const roleToDisplay = !role
     ? ""
-    : currentPlayerRole === "F"
+    : currentPlayerRole === "F" || isCurrentPlayer
     ? role
     : currentPlayerRole === "H" && isCurrentPlayer
     ? "H"
@@ -189,20 +204,31 @@ export const Player = ({
   return (
     <PlayerWrapper tabIndex="0" selectable={selectable} onClick={onClick}>
       {roleToDisplay && (
-        <PlayerImage scale={scale} src={srcs[roleToDisplay]}>
-          {isPresident && <PresidentMarker scale={scale}>Pr</PresidentMarker>}
-          {state !== "election" && isChancellor && (
-            <ChancellorMarker scale={scale}>Ch</ChancellorMarker>
+        <>
+          <PlayerImage scale={scale} src={srcs[roleToDisplay]}>
+            {isPresident && <PresidentMarker scale={scale}>Pr</PresidentMarker>}
+            {state !== "election" && isChancellor && (
+              <ChancellorMarker scale={scale}>Ch</ChancellorMarker>
+            )}
+            {state === "election" && typeof vote === "boolean" && <Voted />}
+            {state !== "election" &&
+              typeof vote === "boolean" &&
+              (vote ? <VotedYes /> : <VotedNo />)}
+            {state === "fascistWin" && (role === "H" || role === "F") && (
+              <Win />
+            )}
+            {state === "liberalWin" && role === "L" && <Win />}
+            {state === "fascistWin" && role === "L" && <Lose />}
+            {state === "liberalWin" && (role === "H" || role === "F") && (
+              <Lose />
+            )}
+          </PlayerImage>
+          {!isActive && (
+            <DeathOverlay scale={scale}>
+              <DeadIcon />
+            </DeathOverlay>
           )}
-          {state === "election" && typeof vote === "boolean" && <Voted />}
-          {state !== "election" &&
-            typeof vote === "boolean" &&
-            (vote ? <VotedYes /> : <VotedNo />)}
-          {state === "fascistWin" && (role === "H" || role === "F") && <Win />}
-          {state === "liberalWin" && role === "L" && <Win />}
-          {state === "fascistWin" && role === "L" && <Lose />}
-          {state === "liberalWin" && (role === "H" || role === "F") && <Lose />}
-        </PlayerImage>
+        </>
       )}
       <PlayerLabel highlight={isCurrentPlayer} scale={scale}>
         {displayName}
