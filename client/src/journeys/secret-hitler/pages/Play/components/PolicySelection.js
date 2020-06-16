@@ -17,7 +17,6 @@ const PolicyWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
   > * {
     margin-right: 20px;
     &:last-child {

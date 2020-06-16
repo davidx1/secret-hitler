@@ -24,7 +24,6 @@ const PlayerWrapper = styled.div`
 export const PresidentSelection = () => {
   const { players, youInfo } = useContext(StateContext);
   const { setNewPresident } = useContext(ActionContext);
-  const [selectedIndex, setSelectedIndex] = useState(null);
   return (
     <Wrapper>
       <InstructionText>Select Next President</InstructionText>
@@ -34,10 +33,11 @@ export const PresidentSelection = () => {
             <Player
               displayName={p.displayName}
               isActive={true}
-              isCurrentPlayer={i === selectedIndex}
+              currentPlayerRole={youInfo.role}
+              isCurrentPlayer={false}
               role={p.role}
               scale={1}
-              selectable={selectedIndex === null}
+              selectable={true}
               onClick={() => setNewPresident(i)}
             />
           )

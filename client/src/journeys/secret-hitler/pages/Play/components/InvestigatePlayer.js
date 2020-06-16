@@ -32,7 +32,9 @@ export const InvestigatePlayer = () => {
   };
   return (
     <Wrapper>
-      <InstructionText>Investigate Player</InstructionText>
+      <InstructionText>
+        Select a player to see his/her true identity
+      </InstructionText>
       <PlayerWrapper>
         {players
           .filter((p) => p.id !== youInfo.id)

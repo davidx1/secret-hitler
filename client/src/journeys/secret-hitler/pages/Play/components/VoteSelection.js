@@ -9,21 +9,20 @@ import { StateContext, ActionContext } from "../Play";
 const Wrapper = styled(Overlay)`
   display: flex;
   flex-direction: column;
+  height: 100%;
+  width: 100%;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  & > * {
-    margin-bottom: 2%;
-  }
 `;
 
 const VotesWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 50%;
+  justify-content: space-around;
+  width: 100%;
+  align-items: center;
 
   @media only screen and (min-width: 1200px) {
-    width: 45%;
+    width: 80%;
   }
 `;
 
@@ -34,6 +33,10 @@ const Vote = styled.button`
   border-radius: 5%;
   height: 80px;
   width: 120px;
+  cursor: pointer;
+  &:hover {
+    filter: brightness(1.8);
+  }
   @media only screen and (min-width: 768px) {
     height: 100px;
     width: 150px;
@@ -62,17 +65,18 @@ export const VoteSelection = ({ displayName }) => {
 
   return (
     <Wrapper>
-      <InstructionText>Vote For:</InstructionText>
-      <Player
-        displayName={p.displayName}
-        scale={2}
-        isCurrentPlayer={p.id === youId}
-        currentPlayerRole={youInfo.role}
-        role={p.role}
-        isActive={p.isActive}
-      />
+      <InstructionText>{`Vote ${p.displayName} as Chancellor`}</InstructionText>
+
       <VotesWrapper>
         <Vote onClick={() => vote(true)} src={ja} />
+        <Player
+          displayName={p.displayName}
+          scale={2}
+          isCurrentPlayer={p.id === youId}
+          currentPlayerRole={youInfo.role}
+          role={p.role}
+          isActive={p.isActive}
+        />
         <Vote onClick={() => vote(false)} src={nein} />
       </VotesWrapper>
     </Wrapper>

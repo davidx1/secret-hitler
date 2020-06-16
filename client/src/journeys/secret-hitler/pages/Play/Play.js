@@ -39,7 +39,8 @@ export default function Game({ room, setRoom, client }) {
     enactAPolicy,
     doneViewingCards,
     killPlayer,
-    doneInvestigating
+    doneInvestigating,
+    setNewPresident
   } = useRoomState(room, joinRoom);
 
   if (!state) {
@@ -59,7 +60,8 @@ export default function Game({ room, setRoom, client }) {
           enactAPolicy,
           doneViewingCards,
           killPlayer,
-          doneInvestigating
+          doneInvestigating,
+          setNewPresident
         }}
       >
         <StateContext.Provider

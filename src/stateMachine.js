@@ -51,9 +51,9 @@ const ability = {
 
 const boardFor = {
   6: [
+    ability.PICK_NEXT_PRESIDENT,
     ability.INVESTIGATE,
     ability.KILL_PLAYER,
-    ability.TOP_THREE_CARD,
     ability.INVESTIGATE,
     ability.KILL_PLAYER,
     ability.FASCIST_VICTORY
@@ -190,7 +190,7 @@ const setNewChancellor = assign({
   players: (context) => context.players.map((p) => ({ ...p, vote: null }))
 });
 
-const setNewPresident = assign((context, event) => {
+const setNewPresident = assign((context, action) => {
   let presidentIndex =
     context.presidentIndex === null
       ? 0
@@ -198,6 +198,10 @@ const setNewPresident = assign((context, event) => {
 
   while (!context.players[presidentIndex].isActive) {
     presidentIndex = (presidentIndex + 1) % context.players.length;
+  }
+
+  if (action.index) {
+    presidentIndex = action.index;
   }
 
   return {
