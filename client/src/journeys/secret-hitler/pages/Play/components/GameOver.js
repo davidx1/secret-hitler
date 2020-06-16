@@ -7,9 +7,10 @@ import { StateContext } from "../Play";
 const Wrapper = styled(Overlay)`
   display: flex;
   flex-direction: column;
+  height: 100%;
+  width: 100%;
   align-items: center;
   justify-content: center;
-  height: 100%;
   & > * {
     margin-bottom: 2%;
   }
@@ -18,13 +19,24 @@ const Wrapper = styled(Overlay)`
 const Title = styled.h1`
   color: white;
 `;
+
+const Description = styled.p`
+  color: white;
+`;
 const FascistWrapper = styled.div`
   display: flex;
   width: 80%;
   justify-content: space-around;
 `;
 export const GameOver = ({ winner }) => {
-  const { players, state, youId } = useContext(StateContext);
+  const {
+    players,
+    state,
+    youId,
+    enactedFascistPolicies,
+    enactedLiberalPolicies,
+    chancellorIndex
+  } = useContext(StateContext);
 
   const winners = players.filter((p) => {
     if (state === "fascistWin") {
@@ -45,9 +57,37 @@ export const GameOver = ({ winner }) => {
     }
   });
 
+  const title = state === "fascistWin" ? "Fascist Wins" : "Liberal Wins";
+
+  let reason;
+
+  if (state === "liberalWin") {
+    if (enactedLiberalPolicies === 5) {
+      reason = "Five liberal policies was enacted";
+    } else if (!players.find((p) => p.role === "H").isActive) {
+      reason = "Hitler was killed";
+    } else {
+      reason =
+        "There may be a bug, liberal somehow won for no reason, contact developer";
+    }
+  } else if (state === "fascistWin") {
+    if (enactedFascistPolicies === 6) {
+      reason = "Six fascist policies was enacted";
+    } else if (
+      enactedFascistPolicies > 3 &&
+      players[chancellorIndex].role === "H"
+    ) {
+      reason = "Hitler was elected chancellor";
+    } else {
+      reason =
+        "There may be a bug, fascist somehow won for no reason, contact developer";
+    }
+  }
+
   return (
     <Wrapper>
-      <Title>Fascist Win</Title>
+      <Title>{title}</Title>
+      <Description>{reason}</Description>
       <FascistWrapper>
         {winners.map((w) => (
           <Player
@@ -56,7 +96,7 @@ export const GameOver = ({ winner }) => {
             isCurrentPlayer={w.id === youId}
             currentPlayerRole="F"
             role={w.role}
-            isActive={w.isActive}
+            isActive={true}
           />
         ))}
       </FascistWrapper>
@@ -68,7 +108,7 @@ export const GameOver = ({ winner }) => {
             isCurrentPlayer={l.id === youId}
             currentPlayerRole="F"
             role={l.role}
-            isActive={l.isActive}
+            isActive={true}
           />
         ))}
       </FascistWrapper>

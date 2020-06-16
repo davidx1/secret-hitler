@@ -12,14 +12,8 @@ import liberal from "../../../../../img/liberal.png";
 import hitler from "../../../../../img/hitler.png";
 import { StateContext, ActionContext } from "../Play";
 
-const PlayerImage = styled.div`
-  display: flex;
-  align-items: flex-end;
-  background-image: url(${(props) => props.src});
-  background-size: cover;
-  background-position: center;
+const playerImageSize = css`
   border-radius: 20%;
-  box-shadow: 0px 5px 10px #444444;
 
   height: ${(props) => 40 * props.scale}px;
   width: ${(props) => 40 * props.scale}px;
@@ -41,6 +35,16 @@ const PlayerImage = styled.div`
     height: ${(props) => 100 * props.scale}px;
     width: ${(props) => 100 * props.scale}px;
   }
+`;
+
+const PlayerImage = styled.div`
+  display: flex;
+  align-items: flex-end;
+  background-image: url(${(props) => props.src});
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0px 5px 10px #444444;
+  ${playerImageSize}
 `;
 
 const PlayerLabel = styled.p`
@@ -143,7 +147,7 @@ const Voted = styled(HowToVote)`
   color: white;
 `;
 
-const DeathOverlay = styled(PlayerImage)`
+const DeathOverlay = styled.div`
   position: absolute;
   top: 0;
   display: flex;
@@ -151,6 +155,7 @@ const DeathOverlay = styled(PlayerImage)`
   justify-content: center;
   background-color: #33333380;
   box-shadow: none;
+  ${playerImageSize}
 `;
 
 const DeadIcon = styled(Skull)`
@@ -163,6 +168,7 @@ const UnknownRole = styled(QuestionCircle)`
   height: 80%;
   color: white;
   background-color: gray;
+  ${playerImageSize}
 `;
 
 const VotedYes = styled(Voted).attrs({ as: DoneOutline })`
@@ -176,7 +182,7 @@ const VotedNo = styled(Voted).attrs({ as: CloseOutline })`
 `;
 const Win = styled(Voted).attrs({ as: Trophy })`
   color: gold;
-  background-color: transparent;
+  background-color: black;
 `;
 
 const Lose = styled(Voted).attrs({ as: SadCry })`
@@ -244,7 +250,7 @@ export const Player = ({
           )}
         </>
       ) : (
-        <UnknownRole />
+        <UnknownRole scale={scale} />
       )}
       <PlayerLabel highlight={isCurrentPlayer} scale={scale}>
         {displayName}

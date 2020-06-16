@@ -44,7 +44,7 @@ export const InvestigatePlayer = () => {
               isActive={true}
               isCurrentPlayer={i === selectedIndex}
               role={i === selectedIndex && p.role}
-              scale={1.5}
+              scale={1.25}
               selectable={selectedIndex === null}
               onClick={() => handlePlayerClick(i)}
             />

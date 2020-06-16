@@ -200,7 +200,7 @@ const setNewPresident = assign((context, action) => {
     presidentIndex = (presidentIndex + 1) % context.players.length;
   }
 
-  if (action.index) {
+  if (action.type !== "killPlayer" && action.index) {
     presidentIndex = action.index;
   }
 
@@ -321,11 +321,14 @@ function isHitlerElected(context) {
 }
 
 function isValidGovernmentCandidate(context, event) {
+  const alivePlayerCount = context.players.filter((p) => p.isActive).length;
+  const canPrevPresidentBeNominated = alivePlayerCount <= 5;
+
   return (
     context.players[event.index].isActive &&
     event.index !== context.prevChancellorIndex &&
-    event.index !== context.prevPresidentIndex &&
-    event.index !== context.presidentIndex
+    event.index !== context.presidentIndex &&
+    (canPrevPresidentBeNominated || event.index !== context.prevPresidentIndex)
   );
 }
 

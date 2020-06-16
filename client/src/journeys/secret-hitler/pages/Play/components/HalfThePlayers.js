@@ -16,6 +16,8 @@ export const HalfThePlayers = ({ secondHalf }) => {
   } = useContext(StateContext);
   const { selectChancellor } = useContext(ActionContext);
 
+  const alivePlayerCount = players.filter((p) => p.isActive).length;
+  const canPrevPresidentBeNominated = alivePlayerCount <= 5;
   const halfWay = Math.ceil(players.length / 2);
   const start = !secondHalf ? 0 : halfWay;
   const end = !secondHalf ? halfWay : players.length;
@@ -32,9 +34,9 @@ export const HalfThePlayers = ({ secondHalf }) => {
             role={p.role}
             selectable={
               isYouPresident &&
+              p.id !== youId &&
               realIndex !== prevChancellorIndex &&
-              realIndex !== prevPresidentIndex &&
-              p.id !== youId
+              (canPrevPresidentBeNominated || realIndex !== prevPresidentIndex)
             }
             vote={p.vote}
             isChancellor={realIndex === chancellorIndex}

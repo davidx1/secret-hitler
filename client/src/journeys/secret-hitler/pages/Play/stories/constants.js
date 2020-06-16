@@ -639,3 +639,77 @@ export const killPlayer = {
     "enactedFascistPolicies": 3
   }
 };
+
+export const fascistWin = {
+  "state": "fascistWin",
+  "context": {
+    "players": [
+      {
+        "id": "zytBL148W",
+        "displayName": "Louise",
+        "vote": true,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "Pi6zCcwUZ",
+        "displayName": "Lucas",
+        "vote": true,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "2tarmYOKq",
+        "displayName": "Larry",
+        "vote": true,
+        "role": "H",
+        "isActive": true
+      },
+      {
+        "id": "aHD60VjLD",
+        "displayName": "Lawrence",
+        "vote": null,
+        "role": "L",
+        "isActive": false
+      },
+      {
+        "id": "JbjaH1Iyc",
+        "displayName": "Christine",
+        "vote": true,
+        "role": "F",
+        "isActive": true
+      }
+    ],
+    "board": [
+      "PICK_NEXT_PRESIDENT",
+      "INVESTIGATE",
+      "KILL_PLAYER",
+      "INVESTIGATE",
+      "KILL_PLAYER",
+      "FASCIST_VICTORY"
+    ],
+    "drawPile": [
+      "F",
+      "F",
+      "F",
+      "F",
+      "L",
+      "F",
+      "F",
+      "L",
+      "L",
+      "F",
+      "L",
+      "L",
+      "F",
+      "L"
+    ],
+    "policiesInHand": [],
+    "prevPresidentIndex": 0,
+    "prevChancellorIndex": 4,
+    "presidentIndex": 1,
+    "chancellorIndex": 2,
+    "enactedLiberalPolicies": 2,
+    "enactedFascistPolicies": 4
+  }
+};

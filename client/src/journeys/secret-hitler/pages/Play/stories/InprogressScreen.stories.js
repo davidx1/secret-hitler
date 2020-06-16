@@ -108,3 +108,8 @@ export const killPlayer = () => {
   const { state, context } = states.killPlayer;
   return render(state, context);
 };
+
+export const fascistWin = () => {
+  const { state, context } = states.fascistWin;
+  return render(state, context);
+};
