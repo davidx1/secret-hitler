@@ -1,7 +1,11 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import React, { useContext } from "react";
 import { PolicyFascist, PolicyLiberal } from "./Policy";
 import { StateContext } from "../Play";
+import { Skull } from "@styled-icons/fa-solid/Skull";
+import { Menu } from "@styled-icons/evaicons-solid/Menu";
+import { UserSolidSquare } from "@styled-icons/zondicons/UserSolidSquare";
+import { MagnifyingGlass } from "@styled-icons/entypo/MagnifyingGlass";
 
 const Board = styled.div`
   display: flex;
@@ -11,18 +15,18 @@ const Board = styled.div`
   box-sizing: border-box;
   margin: 0 auto;
   width: 300px;
-  height: 25%;
+  height: 20%;
   min-height: fit-content;
   border-width: 1px;
   border-style: solid;
 
   @media only screen and (min-width: 512px) {
-    width: 400px;
+    width: 450px;
   }
 
   @media only screen and (min-width: 768px) {
     height: 25%;
-    width: 400px;
+    width: 500px;
     border-width: 1px;
   }
   @media only screen and (min-width: 992px) {
@@ -49,12 +53,12 @@ const CardSlot = styled.div`
   justify-content: center;
 
   @media only screen and (min-width: 512px) {
-    width: 50px;
-    min-height: 60px;
+    width: 60px;
+    min-height: 50px;
   }
 
   @media only screen and (min-width: 768px) {
-    width: 50px;
+    width: 60px;
     min-height: 60px;
   }
   @media only screen and (min-width: 992px) {
@@ -104,6 +108,89 @@ export const LibralBoard = () => {
   return <LibralBoardBackground>{liberalSlots}</LibralBoardBackground>;
 };
 
+const iconStyle = css`
+  width: 50%;
+  color: white;
+  margin-bottom: 8px;
+`;
+
+const KillPlayerIcon = styled(Skull)`
+  ${iconStyle}
+`;
+
+const InvestigatePlayerIcon = styled(MagnifyingGlass)`
+  ${iconStyle}
+`;
+
+const PickNextPresidentIcon = styled(UserSolidSquare)`
+  ${iconStyle}
+`;
+
+const TopThreeCardIcon = styled(Menu)`
+  ${iconStyle}
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Description = styled.p`
+  color: white;
+  font-size: 12px;
+  margin: 0;
+
+  @media only screen and (min-width: 768px) {
+    font-size: 12px;
+  }
+  @media only screen and (min-width: 992px) {
+    font-size: 14px;
+  }
+  @media only screen and (min-width: 1200px) {
+    font-size: 16px;
+  }
+  @media only screen and (min-width: 1450px) {
+    font-size: 18px;
+  }
+`;
+
+const IconText = ({ abilityType }) => {
+  switch (abilityType) {
+    case "KILL_PLAYER":
+      return (
+        <Wrapper>
+          <KillPlayerIcon />
+          <Description>Kill player</Description>
+        </Wrapper>
+      );
+    case "TOP_THREE_CARD":
+      return (
+        <Wrapper>
+          <TopThreeCardIcon />
+          <Description>See 3 cards</Description>
+        </Wrapper>
+      );
+    case "INVESTIGATE":
+      return (
+        <Wrapper>
+          <InvestigatePlayerIcon />
+          <Description>Investigate</Description>
+        </Wrapper>
+      );
+    case "PICK_NEXT_PRESIDENT":
+      return (
+        <Wrapper>
+          <PickNextPresidentIcon />
+          <Description>Pick president</Description>
+        </Wrapper>
+      );
+    default:
+      return false;
+  }
+};
+
 export const FascistBoard = () => {
   const { board, enactedFascistPolicies } = useContext(StateContext);
 
@@ -111,7 +198,11 @@ export const FascistBoard = () => {
     <FascistBoardBackground>
       {board.map((b, i) => (
         <CardSlotFascist>
-          {i < enactedFascistPolicies ? <PolicyFascist /> : <p>{b}</p>}
+          {i < enactedFascistPolicies ? (
+            <PolicyFascist />
+          ) : (
+            <IconText abilityType={b} />
+          )}
         </CardSlotFascist>
       ))}
     </FascistBoardBackground>

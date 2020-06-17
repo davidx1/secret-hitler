@@ -201,9 +201,9 @@ export const voted = {
     ],
     "board": [
       "NONE",
-      "NONE",
+      "PICK_NEXT_PRESIDENT",
       "TOP_THREE_CARD",
-      "KILL_PLAYER",
+      "INVESTIGATE",
       "KILL_PLAYER",
       "FASCIST_VICTORY"
     ],

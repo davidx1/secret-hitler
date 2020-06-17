@@ -369,11 +369,11 @@ function isEnoughPlayers(context) {
 }
 
 function isLiberalWin(context) {
-  return context.enactedLiberalPolicies === 5;
+  return context.enactedLiberalPolicies === 4;
 }
 
 function isFascistWin(context) {
-  return context.enactedFascistPolicies === 6;
+  return context.enactedFascistPolicies === 5;
 }
 
 function isViewThreeCards(context, event) {

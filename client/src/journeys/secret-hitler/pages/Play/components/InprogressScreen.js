@@ -26,6 +26,12 @@ const PlayerWrapper = styled.div`
   }
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`;
+
 export const InprogressScreen = () => {
   const {
     state,
@@ -33,7 +39,8 @@ export const InprogressScreen = () => {
     isYouPresident,
     isYouChancellor,
     players,
-    vetoRequested
+    vetoRequested,
+    vetoApproved
   } = useContext(StateContext);
 
   const { revealVote, approveVeto, rejectVeto } = useContext(ActionContext);
@@ -47,12 +54,15 @@ export const InprogressScreen = () => {
         state === "election" &&
         players.filter((p) => typeof p.vote !== "boolean" && p.isActive)
           .length === 0 && <Button onClick={revealVote}>Reveal Vote</Button>}
-      {isYouPresident && state === "enactPolicy" && vetoRequested && (
-        <>
-          <Button onClick={approveVeto}>Approve Veto</Button>
-          <Button onClick={rejectVeto}>Reject Veto</Button>
-        </>
-      )}
+      {isYouPresident &&
+        state === "enactPolicy" &&
+        vetoRequested &&
+        vetoApproved === null && (
+          <ButtonWrapper>
+            <Button onClick={approveVeto}>Approve Veto</Button>
+            <Button onClick={rejectVeto}>Reject Veto</Button>
+          </ButtonWrapper>
+        )}
       <FascistBoard></FascistBoard>
       <PlayerWrapper>
         <HalfThePlayers allPlayers={players} secondHalf />
