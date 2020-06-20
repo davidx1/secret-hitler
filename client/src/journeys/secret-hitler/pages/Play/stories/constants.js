@@ -1091,3 +1091,88 @@ export const fascistWin = {
     "enactedFascistPolicies": 4
   }
 };
+
+export const chat = {
+  "state": "chancellorSelection",
+  "context": {
+    chatState: ["John: Hello world", "Jacob: Bob the builder"],
+    "players": [
+      {
+        "id": "zytBL148W",
+        "displayName": "Laura",
+        "vote": null,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "T2nLfSQvi",
+        "displayName": "Tony",
+        "vote": null,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "Bf01Rv505",
+        "displayName": "Raymond",
+        "vote": null,
+        "role": "F",
+        "isActive": true
+      },
+      {
+        "id": "brfGFh8h0",
+        "displayName": "Terry",
+        "vote": null,
+        "role": "H",
+        "isActive": true
+      },
+      {
+        "id": "1WRSZanld",
+        "displayName": "Mason",
+        "vote": null,
+        "role": "L",
+        "isActive": true
+      },
+      {
+        "id": "TmSswLUch",
+        "displayName": "Jeffery",
+        "vote": null,
+        "role": "L",
+        "isActive": true
+      }
+    ],
+    "board": [
+      "NONE",
+      "NONE",
+      "TOP_THREE_CARD",
+      "KILL_PLAYER",
+      "KILL_PLAYER",
+      "FASCIST_VICTORY"
+    ],
+    "drawPile": [
+      "F",
+      "L",
+      "F",
+      "L",
+      "F",
+      "F",
+      "F",
+      "F",
+      "F",
+      "F",
+      "L",
+      "L",
+      "L",
+      "F",
+      "L",
+      "F",
+      "F"
+    ],
+    "policiesInHand": ["F", "L", "F"],
+    "prevPresidentIndex": null,
+    "prevChancellorIndex": null,
+    "presidentIndex": 0,
+    "chancellorIndex": null,
+    "enactedLiberalPolicies": 0,
+    "enactedFascistPolicies": 0
+  }
+};

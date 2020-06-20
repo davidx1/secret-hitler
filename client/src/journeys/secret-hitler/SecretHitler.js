@@ -16,7 +16,6 @@ const client = new Colyseus.Client(
 
 function SecretHitler() {
   const [room, setRoom] = useState();
-  const [joined, setJoined] = useState(false);
 
   return (
     <Switch>

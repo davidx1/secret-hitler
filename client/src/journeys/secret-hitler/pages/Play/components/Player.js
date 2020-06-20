@@ -11,6 +11,7 @@ import fascist from "../../../../../img/fascist.png";
 import liberal from "../../../../../img/liberal.png";
 import hitler from "../../../../../img/hitler.png";
 import { StateContext, ActionContext } from "../Play";
+import { motion } from "framer-motion";
 
 const playerImageSize = css`
   border-radius: 20%;
@@ -101,7 +102,7 @@ const PlayerWrapper = styled.div`
     `}
 `;
 
-const Marker = styled.div`
+const Marker = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -201,6 +202,7 @@ export const Player = ({
   isCurrentPlayer = false,
   selectable = false,
   onClick,
+  chancellorIndex,
   isActive
 }) => {
   const { state } = useContext(StateContext);
@@ -222,14 +224,22 @@ export const Player = ({
       tabIndex="0"
       selectable={selectable && isActive}
       onClick={isActive && onClick}
+      scale={scale}
     >
       {roleToDisplay ? (
         <>
           <PlayerImage scale={scale} src={srcs[roleToDisplay]}>
-            {isPresident && <PresidentMarker scale={scale}>Pr</PresidentMarker>}
-            {state !== "election" && isChancellor && (
-              <ChancellorMarker scale={scale}>Ch</ChancellorMarker>
+            {isPresident && (
+              <PresidentMarker scale={scale} layoutId="presidentMarker">
+                P
+              </PresidentMarker>
             )}
+            {state !== "election" &&
+              (isChancellor || (isPresident && !chancellorIndex)) && (
+                <ChancellorMarker scale={scale} layoutId="chancellorMarker">
+                  C
+                </ChancellorMarker>
+              )}
             {state === "election" && typeof vote === "boolean" && <Voted />}
             {state !== "election" &&
               typeof vote === "boolean" &&

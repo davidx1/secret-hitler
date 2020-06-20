@@ -10,8 +10,11 @@ import styled, {
 import Div100vh from "react-div-100vh";
 import useFullscreen from "use-fullscreen";
 
-const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
   body{ 
+    font-family: Tahoma, Geneva, sans-serif;
+    padding: 0;
+    margin: 0;
     * {
       box-sizing: border-box
     }
@@ -57,17 +60,20 @@ export default function App() {
   const [isFullscreen] = useFullscreen();
 
   return (
-    <ThemeProvider theme={theme}>
-      <div>
-        <GlobalStyle />
-        {!isFullscreen && <NavigationBar />}
+    <>
+      <GlobalStyle />
 
-        <GlobalWrapper moreTopPadding={!isFullscreen}>
-          <Router>
-            <SecretHitler />
-          </Router>
-        </GlobalWrapper>
-      </div>
-    </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <div>
+          {!isFullscreen && <NavigationBar />}
+
+          <GlobalWrapper moreTopPadding={!isFullscreen}>
+            <Router>
+              <SecretHitler />
+            </Router>
+          </GlobalWrapper>
+        </div>
+      </ThemeProvider>
+    </>
   );
 }

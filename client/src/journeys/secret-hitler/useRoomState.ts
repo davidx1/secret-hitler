@@ -28,21 +28,28 @@ export interface RootObject {
 
 export const useRoomState = (room: any, joinRoom: () => void) => {
   const [roomState, setRoomState] = useState({} as RootObject);
+  const [chatState, setChatState] = useState([] as string[]);
   const [youId, setYouId] = useState(1);
   const [attemptedToJoin, setAttemptedToJoin] = useState(false);
 
+  const newMsg = (message: string) => {
+    setChatState((prevChatState) => [...prevChatState, message]);
+  };
+
   useLayoutEffect(() => {
     if (!room && !attemptedToJoin) {
-      console.log();
       setAttemptedToJoin(true);
       joinRoom();
     }
     if (room) {
       setYouId(room.sessionId);
       room.onMessage(function (message: any) {
-        console.log(JSON.stringify(message));
-        console.log(message.type === "state");
-        setRoomState({ ...message.payload });
+        if (message.type === "state") {
+          setRoomState({ ...message.payload });
+        }
+        if (message.type === "chat") {
+          newMsg(message.payload.content);
+        }
       });
       return () => {
         console.log("leaving room");
@@ -70,7 +77,6 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
   }
 
   function start() {
-    console.log("starting");
     trigger("start");
   }
 
@@ -122,8 +128,14 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
     trigger("approveVeto");
   }
 
+  function sendChat(s: string) {
+    trigger("chat", { content: s });
+  }
+  console.log("chatState initially is:", chatState);
+
   return {
     state,
+    chatState,
     context: roomState.context,
     playersToDisplay,
     isYouPresident,
@@ -141,6 +153,7 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
     setNewPresident,
     requestVeto,
     rejectVeto,
-    approveVeto
+    approveVeto,
+    sendChat
   };
 };

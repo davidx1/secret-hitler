@@ -6,7 +6,7 @@ import { withKnobs, object } from "@storybook/addon-knobs";
 import { StateContext, ActionContext } from "../Play";
 import { InprogressScreen } from "../components/InprogressScreen";
 import { PlayWrapper } from "../components/PlayWrapper";
-import { GlobalWrapper } from "../../../../../App";
+import { GlobalWrapper, GlobalStyle } from "../../../../../App";
 import { theme } from "../../../../../constants/theme";
 import * as states from "./constants";
 
@@ -42,6 +42,7 @@ const genContet = (state, context) => {
 const render = (state, context) => {
   return (
     <ThemeProvider theme={theme}>
+      <GlobalStyle />
       <GlobalWrapper>
         <PlayWrapper>
           <ActionContext.Provider
