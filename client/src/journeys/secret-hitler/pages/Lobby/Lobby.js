@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Chance from "chance";
 
+import Button from "../Play/components/Button";
+
 const chance = new Chance();
 
 export default function Lobby({ client, playUrl, setRoom }) {
@@ -49,18 +51,18 @@ export default function Lobby({ client, playUrl, setRoom }) {
         value={displayName}
         onChange={(e) => setDisplayName(e.target.value)}
       ></input>
-      <button onClick={makeNewName}>new</button>
+      <Button onClick={makeNewName}>new</Button>
       <hr></hr>
-      <button onClick={() => createRoom(displayName)}>Create Room</button>
+      <Button onClick={() => createRoom(displayName)}>Create Room</Button>
       <h2>Avaliable Rooms</h2>
-      <button onClick={getAvailableRooms}>Refresh</button>
+      <Button onClick={getAvailableRooms}>Refresh</Button>
       <ul>
         {rooms.map((room) => (
           <li>
             {room.roomId}
-            <button onClick={() => joinRoom(room.roomId, displayName)}>
+            <Button onClick={() => joinRoom(room.roomId, displayName)}>
               Join
-            </button>
+            </Button>
           </li>
         ))}
       </ul>

@@ -16,8 +16,8 @@ import { motion } from "framer-motion";
 const playerImageSize = css`
   border-radius: 20%;
 
-  height: ${(props) => 40 * props.scale}px;
-  width: ${(props) => 40 * props.scale}px;
+  height: ${(props) => 25 * props.scale}px;
+  width: ${(props) => 25 * props.scale}px;
   @media only screen and (min-width: 768px) {
     height: ${(props) => 50 * props.scale}px;
     width: ${(props) => 50 * props.scale}px;
@@ -234,12 +234,11 @@ export const Player = ({
                 P
               </PresidentMarker>
             )}
-            {state !== "election" &&
-              (isChancellor || (isPresident && !chancellorIndex)) && (
-                <ChancellorMarker scale={scale} layoutId="chancellorMarker">
-                  C
-                </ChancellorMarker>
-              )}
+            {state !== "election" && isChancellor && (
+              <ChancellorMarker scale={scale} layoutId="chancellorMarker">
+                C
+              </ChancellorMarker>
+            )}
             {state === "election" && typeof vote === "boolean" && <Voted />}
             {state !== "election" &&
               typeof vote === "boolean" &&
