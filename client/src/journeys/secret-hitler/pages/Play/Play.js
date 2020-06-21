@@ -1,8 +1,7 @@
-import React, { useState, useLayoutEffect, createContext } from "react";
+import React, { createContext } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import Chance from "chance";
-import { AnimateSharedLayout } from "framer-motion";
 
 import { PlayWrapper } from "./components/PlayWrapper";
 import { FullScreenButton } from "./components/FullScreenButton";

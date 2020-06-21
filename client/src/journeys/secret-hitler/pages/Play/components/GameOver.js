@@ -55,8 +55,7 @@ export const GameOver = ({ winner }) => {
   const losers = players.filter((p) => {
     if (state === "liberalWin") {
       return p.role === "H" || p.role === "F";
-    }
-    if (state === "fascistWin") {
+    } else {
       return p.role === "L";
     }
   });

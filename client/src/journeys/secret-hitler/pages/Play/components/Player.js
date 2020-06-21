@@ -10,7 +10,7 @@ import { QuestionCircle } from "@styled-icons/fa-solid/QuestionCircle";
 import fascist from "../../../../../img/fascist.png";
 import liberal from "../../../../../img/liberal.png";
 import hitler from "../../../../../img/hitler.png";
-import { StateContext, ActionContext } from "../Play";
+import { StateContext } from "../Play";
 import { motion } from "framer-motion";
 
 const playerImageSize = css`
