@@ -9,7 +9,6 @@ const Wrapper = styled.div`
   height: 100%;
   width: 100%;
   background-color: #162447;
-  color: #f4f4f4;
 `;
 
 const ChatWindow = styled.div`
@@ -20,16 +19,16 @@ const ChatWindow = styled.div`
   justify-content: flex-end;
 `;
 
-const Form = styled.form`
-  height: 20px;
-`;
+const Form = styled.form``;
 
 const Message = styled.p`
+  font-size: 18px;
   margin: 0 4px 8px;
-  color: ${(props) => (props.isSystem ? "red" : "#333333")};
+  color: ${(props) => (props.isSystem ? "red" : "#f4f4f4")};
 `;
 
 const ChatInput = styled.input`
+  font-size: 18px;
   width: 100%;
 `;
 
@@ -51,6 +50,7 @@ export const Chat = () => {
       </ChatWindow>
       <Form onSubmit={handleSubmit}>
         <ChatInput
+          placeholder="Enter a message..."
           onChange={(e) => setChat(e.target.value)}
           value={chat}
         ></ChatInput>
