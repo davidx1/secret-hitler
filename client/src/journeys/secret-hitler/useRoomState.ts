@@ -28,12 +28,20 @@ export interface RootObject {
 
 export const useRoomState = (room: any, joinRoom: () => void) => {
   const [roomState, setRoomState] = useState({} as RootObject);
-  const [chatState, setChatState] = useState([] as string[]);
+  const [chatState, setChatState] = useState(
+    [] as { isSystem: boolean; message: string }[]
+  );
   const [youId, setYouId] = useState(1);
   const [attemptedToJoin, setAttemptedToJoin] = useState(false);
 
-  const newMsg = (message: string) => {
-    setChatState((prevChatState) => [...prevChatState, message]);
+  const newMsg = (message: string, isSystem = false) => {
+    setChatState((prevChatState) => [
+      ...prevChatState,
+      {
+        isSystem,
+        message
+      }
+    ]);
   };
 
   useLayoutEffect(() => {
@@ -49,6 +57,9 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
         }
         if (message.type === "chat") {
           newMsg(message.payload.content);
+        }
+        if (message.type === "systemChat") {
+          newMsg(message.payload.content, true);
         }
       });
       return () => {

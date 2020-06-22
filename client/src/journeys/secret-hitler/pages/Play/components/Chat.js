@@ -26,6 +26,7 @@ const Form = styled.form`
 
 const Message = styled.p`
   margin: 0 4px 8px;
+  color: ${(props) => (props.isSystem ? "red" : "#333333")};
 `;
 
 const ChatInput = styled.input`
@@ -45,7 +46,7 @@ export const Chat = () => {
     <Wrapper>
       <ChatWindow>
         {chatState.map((c) => (
-          <Message>{c}</Message>
+          <Message isSystem={c.isSystem}>{c.message}</Message>
         ))}
       </ChatWindow>
       <Form onSubmit={handleSubmit}>

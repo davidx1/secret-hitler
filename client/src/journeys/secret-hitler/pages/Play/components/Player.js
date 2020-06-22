@@ -234,12 +234,11 @@ export const Player = ({
                 P
               </PresidentMarker>
             )}
-            {state !== "election" &&
-              (isChancellor || (isPresident && !chancellorIndex)) && (
-                <ChancellorMarker scale={scale} layoutId="chancellorMarker">
-                  C
-                </ChancellorMarker>
-              )}
+            {state !== "election" && isChancellor && (
+              <ChancellorMarker scale={scale} layoutId="chancellorMarker">
+                C
+              </ChancellorMarker>
+            )}
             {state === "election" && typeof vote === "boolean" && <Voted />}
             {state !== "election" &&
               typeof vote === "boolean" &&
