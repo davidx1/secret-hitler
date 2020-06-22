@@ -10,14 +10,14 @@ import { QuestionCircle } from "@styled-icons/fa-solid/QuestionCircle";
 import fascist from "../../../../../img/fascist.png";
 import liberal from "../../../../../img/liberal.png";
 import hitler from "../../../../../img/hitler.png";
-import { StateContext, ActionContext } from "../Play";
+import { StateContext } from "../Play";
 import { motion } from "framer-motion";
 
 const playerImageSize = css`
   border-radius: 20%;
 
-  height: ${(props) => 40 * props.scale}px;
-  width: ${(props) => 40 * props.scale}px;
+  height: ${(props) => 25 * props.scale}px;
+  width: ${(props) => 25 * props.scale}px;
   @media only screen and (min-width: 768px) {
     height: ${(props) => 50 * props.scale}px;
     width: ${(props) => 50 * props.scale}px;

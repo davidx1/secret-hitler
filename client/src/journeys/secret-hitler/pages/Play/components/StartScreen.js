@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { StateContext, ActionContext } from "../Play";
 import { Player } from "./Player";
+import Button from "./Button";
 
 const Wrapper = styled.div`
   display: flex;
@@ -10,11 +11,6 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   margin-bottom: 20px;
-`;
-const Button = styled.button`
-  background-color: white;
-  line-height: 3;
-  width: 200px;
 `;
 
 export const StartButton = () => {
@@ -64,7 +60,7 @@ const StartScreenWrapper = styled.div`
 
 const WaitingPlayerListWrapper = styled.div`
   display: flex;
-  width: 60%;
+  width: 90%;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;

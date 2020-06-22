@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { Overlay, InstructionText } from "./Overlay";
 import { StateContext, ActionContext } from "../Play";
 import { Player } from "./Player";
-import Button from "./Button";
 
 const Wrapper = styled(Overlay)`
   display: flex;

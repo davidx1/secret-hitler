@@ -1,8 +1,7 @@
-import React, { useState, useLayoutEffect, createContext } from "react";
+import React, { createContext } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import Chance from "chance";
-import { AnimateSharedLayout } from "framer-motion";
 
 import { PlayWrapper } from "./components/PlayWrapper";
 import { FullScreenButton } from "./components/FullScreenButton";
@@ -14,14 +13,23 @@ import { useRoomState } from "../../useRoomState";
 
 export const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
+  @media only screen and (min-width: 992px) {
+    flex-direction: row;
+  }
 `;
 
 export const ChatWrapper = styled.div`
-  height: 100%;
-  width: 20%;
   background-color: purple;
+  width: 100%;
+  height: 50%;
+
+  @media only screen and (min-width: 992px) {
+    width: 20%;
+    height: 100%;
+  }
 `;
 
 export const StateContext = createContext();

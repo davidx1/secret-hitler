@@ -141,9 +141,11 @@ const Description = styled.p`
   color: white;
   font-size: 12px;
   margin: 0;
+  display: none;
 
   @media only screen and (min-width: 768px) {
     font-size: 12px;
+    display: block;
   }
   @media only screen and (min-width: 992px) {
     font-size: 14px;
@@ -162,7 +164,7 @@ const IconText = ({ abilityType }) => {
       return (
         <Wrapper>
           <KillPlayerIcon />
-          <Description>Kill player</Description>
+          <Description>Kill</Description>
         </Wrapper>
       );
     case "TOP_THREE_CARD":
