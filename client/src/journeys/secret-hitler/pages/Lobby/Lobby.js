@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import Chance from "chance";
 
 import Button from "../Play/components/Button";
+import { OptionCard } from "./components/OptionCard";
 
 const chance = new Chance();
 
@@ -46,7 +47,7 @@ export default function Lobby({ client, playUrl, setRoom }) {
 
   return (
     <div>
-      <label>Display Name: </label>
+      {/* <label>Display Name: </label>
       <input
         value={displayName}
         onChange={(e) => setDisplayName(e.target.value)}
@@ -65,7 +66,9 @@ export default function Lobby({ client, playUrl, setRoom }) {
             </Button>
           </li>
         ))}
-      </ul>
+      </ul> */}
+      <OptionCard>Create Game</OptionCard>
+      <OptionCard>Join Game</OptionCard>
     </div>
   );
 }

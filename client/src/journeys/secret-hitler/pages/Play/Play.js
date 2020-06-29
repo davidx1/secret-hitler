@@ -16,7 +16,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  @media only screen and (min-width: 992px) {
+  @media only screen and (min-width: 512px) {
     flex-direction: row;
   }
 `;
@@ -25,6 +25,11 @@ export const ChatWrapper = styled.div`
   background-color: purple;
   width: 100%;
   height: 50%;
+
+  @media only screen and (min-width: 512px) {
+    width: 25%;
+    height: 100%;
+  }
 
   @media only screen and (min-width: 992px) {
     width: 20%;
