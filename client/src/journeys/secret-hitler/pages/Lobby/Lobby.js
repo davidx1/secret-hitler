@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import Chance from "chance";
 
@@ -6,6 +7,20 @@ import Button from "../Play/components/Button";
 import { OptionCard } from "./components/OptionCard";
 
 const chance = new Chance();
+const Wrapper = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  > * {
+    margin-right: 48px;
+  }
+
+  & :last-child {
+    margin: 0;
+  }
+`;
 
 export default function Lobby({ client, playUrl, setRoom }) {
   const [rooms, setAvaliableRooms] = useState([]);
@@ -46,7 +61,7 @@ export default function Lobby({ client, playUrl, setRoom }) {
   }, [getAvailableRooms]);
 
   return (
-    <div>
+    <Wrapper>
       {/* <label>Display Name: </label>
       <input
         value={displayName}
@@ -69,6 +84,6 @@ export default function Lobby({ client, playUrl, setRoom }) {
       </ul> */}
       <OptionCard>Create Game</OptionCard>
       <OptionCard>Join Game</OptionCard>
-    </div>
+    </Wrapper>
   );
 }
