@@ -88,7 +88,7 @@ export default function Lobby({ client, playUrl, setRoom }) {
         </Overlay>
       )}
       {isJoinRoomModalOpen && (
-        <Overlay onClick={() => setIsJoinRoomModalOpen(false)}>
+        <Overlay>
           {/* <h3>Availiable Games</h3>:
           <ul>
             {rooms.map((room) => (
