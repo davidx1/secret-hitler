@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
 import { Player } from "./Player";
-import { Overlay } from "./Overlay";
+import { Overlay } from "../../../lib/Overlay";
 import { StateContext } from "../Play";
-import Button from "./Button";
+import Button from "../../../lib/Button";
 
 const Wrapper = styled(Overlay)`
   display: flex;

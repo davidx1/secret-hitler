@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { StateContext, ActionContext } from "../Play";
 import { Player } from "./Player";
-import Button from "./Button";
+import Button from "../../../lib/Button";
 
 const Wrapper = styled.div`
   display: flex;

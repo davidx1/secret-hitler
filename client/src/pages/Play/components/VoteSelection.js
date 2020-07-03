@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ja from "../../../img/ja.png";
 import nein from "../../../img/nein.png";
 import { Player } from "./Player";
-import { Overlay, InstructionText } from "./Overlay";
+import { Overlay, InstructionText } from "../../../lib/Overlay";
 import { StateContext, ActionContext } from "../Play";
 
 const Wrapper = styled(Overlay)`
