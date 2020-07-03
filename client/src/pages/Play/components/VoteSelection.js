@@ -6,15 +6,6 @@ import { Player } from "./Player";
 import { Overlay, InstructionText } from "../../../lib/Overlay";
 import { StateContext, ActionContext } from "../Play";
 
-const Wrapper = styled(Overlay)`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-`;
-
 const VotesWrapper = styled.div`
   display: flex;
   justify-content: space-around;
@@ -64,7 +55,7 @@ export const VoteSelection = ({ displayName }) => {
   const p = players[chancellorIndex];
 
   return (
-    <Wrapper>
+    <Overlay>
       <InstructionText>{`Vote ${p.displayName} as Chancellor`}</InstructionText>
 
       <VotesWrapper>
@@ -79,6 +70,6 @@ export const VoteSelection = ({ displayName }) => {
         />
         <Vote onClick={() => vote(false)} src={nein} />
       </VotesWrapper>
-    </Wrapper>
+    </Overlay>
   );
 };

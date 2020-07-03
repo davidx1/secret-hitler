@@ -5,15 +5,6 @@ import { Overlay, InstructionText } from "../../../lib/Overlay";
 import { StateContext, ActionContext } from "../Play";
 import Button from "../../../lib/Button";
 
-const Wrapper = styled(Overlay)`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-`;
-
 const Description = styled.p`
   color: white;
 `;
@@ -55,7 +46,7 @@ export const PolicySelection = () => {
   const vetoInReview = vetoApproved === null;
 
   return (
-    <Wrapper>
+    <Overlay>
       <InstructionText>{instructionalText}</InstructionText>
       <PolicyWrapper>
         {policiesInHand.map((p, i) => (
@@ -77,6 +68,6 @@ export const PolicySelection = () => {
         vetoRequested &&
         !vetoInReview &&
         !vetoApproved && <Description>Rejected</Description>}
-    </Wrapper>
+    </Overlay>
   );
 };

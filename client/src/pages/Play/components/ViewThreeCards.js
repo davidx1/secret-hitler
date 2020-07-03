@@ -5,15 +5,6 @@ import { StateContext, ActionContext } from "../Play";
 import { Policy } from "./Policy";
 import Button from "../../../lib/Button";
 
-const Wrapper = styled(Overlay)`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-`;
-
 const PolicyWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -33,7 +24,7 @@ export const ViewThreeCards = () => {
   const { doneViewingCards } = useContext(ActionContext);
 
   return (
-    <Wrapper>
+    <Overlay>
       <InstructionText>Next 3 Policy</InstructionText>
       <PolicyWrapper>
         {drawPile
@@ -43,6 +34,6 @@ export const ViewThreeCards = () => {
           ))}
       </PolicyWrapper>
       <Button onClick={doneViewingCards}>Okay</Button>
-    </Wrapper>
+    </Overlay>
   );
 };

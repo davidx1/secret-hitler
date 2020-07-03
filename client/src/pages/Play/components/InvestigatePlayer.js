@@ -5,15 +5,6 @@ import { StateContext, ActionContext } from "../Play";
 import { Player } from "./Player";
 import Button from "../../../lib/Button";
 
-const Wrapper = styled(Overlay)`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-`;
-
 const PlayerWrapper = styled.div`
   display: flex;
   justify-content: space-around;
@@ -31,7 +22,7 @@ export const InvestigatePlayer = () => {
     }
   };
   return (
-    <Wrapper>
+    <Overlay>
       <InstructionText>
         Select a player to see his/her true identity
       </InstructionText>
@@ -53,6 +44,6 @@ export const InvestigatePlayer = () => {
       {selectedIndex !== null && (
         <Button onClick={doneInvestigating}>Okay</Button>
       )}
-    </Wrapper>
+    </Overlay>
   );
 };

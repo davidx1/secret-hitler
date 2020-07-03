@@ -4,15 +4,6 @@ import { Overlay, InstructionText } from "../../../lib/Overlay";
 import { StateContext, ActionContext } from "../Play";
 import { Player } from "./Player";
 
-const Wrapper = styled(Overlay)`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-`;
-
 const PlayerWrapper = styled.div`
   display: flex;
   justify-content: space-around;
@@ -24,7 +15,7 @@ export const PresidentSelection = () => {
   const { players, youInfo } = useContext(StateContext);
   const { setNewPresident } = useContext(ActionContext);
   return (
-    <Wrapper>
+    <Overlay>
       <InstructionText>Select Next President</InstructionText>
       <PlayerWrapper>
         {players.map((p, i) =>
@@ -42,6 +33,6 @@ export const PresidentSelection = () => {
           )
         )}
       </PlayerWrapper>
-    </Wrapper>
+    </Overlay>
   );
 };

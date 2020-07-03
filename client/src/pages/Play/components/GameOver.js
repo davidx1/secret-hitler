@@ -8,12 +8,6 @@ import { StateContext } from "../Play";
 import Button from "../../../lib/Button";
 
 const Wrapper = styled(Overlay)`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
   & > * {
     margin-bottom: 2%;
   }

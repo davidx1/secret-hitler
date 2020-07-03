@@ -1,12 +1,18 @@
 import styled from "styled-components";
 export const Overlay = styled.div`
   position: absolute;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
+
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   background-color: #000000dd;
-  width: 100vw;
   bottom: 0;
   left: 0;
   right: 0;
+  display: flex;
 `;
 
 export const InstructionText = styled.h1`
