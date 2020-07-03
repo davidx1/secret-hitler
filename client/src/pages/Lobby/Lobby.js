@@ -3,31 +3,20 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import Chance from "chance";
 
-import { OptionCard } from "./components/OptionCard";
-import logo from "../../img/Logo.jpg";
+import { OptionCard, OptionWrapper } from "./components/OptionCard";
+import { LogoImage } from "./components/LogoImage";
 
 const chance = new Chance();
 
-const OptionWrapper = styled.div`
-  height: 100%;
-  width: 100%;
+const Wrapper = styled.div`
+  height: 540px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  > * {
-    margin-right: 48px;
-  }
+  flex-direction: column;
+  justify-content: space-evenly;
 
-  & :last-child {
-    margin: 0;
+  @media only screen and (min-width: 512px) {
+    height: 100%;
   }
-`;
-
-const LogoImg = styled.div`
-  background-image: url(${logo});
-  width: 1000px;
-  height: 700px;
-  margin: 0 auto;
 `;
 
 export default function Lobby({ client, playUrl, setRoom }) {
@@ -69,12 +58,12 @@ export default function Lobby({ client, playUrl, setRoom }) {
   }, [getAvailableRooms]);
 
   return (
-    <div>
-      <LogoImg />
+    <Wrapper>
+      <LogoImage />
       <OptionWrapper>
         <OptionCard>Create Game</OptionCard>
         <OptionCard>Join Game</OptionCard>
       </OptionWrapper>
-    </div>
+    </Wrapper>
   );
 }
