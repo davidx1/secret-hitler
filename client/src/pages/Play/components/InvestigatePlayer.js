@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Overlay, InstructionText } from "../../../lib/Overlay";
 import { StateContext, ActionContext } from "../Play";
 import { Player } from "./Player";
-import Button from "../../../lib/Button";
+import { Button } from "../../../lib/Button";
 
 const PlayerWrapper = styled.div`
   display: flex;

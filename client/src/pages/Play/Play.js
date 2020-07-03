@@ -109,7 +109,8 @@ export default function Game({ room, setRoom, client }) {
           isYouChancellor,
           state,
           players: playersToDisplay,
-          chatState
+          chatState,
+          roomId
         }}
       >
         <Wrapper>

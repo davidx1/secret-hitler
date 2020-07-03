@@ -10,7 +10,7 @@ import { KillPlayer } from "./KillPlayer";
 import { PresidentSelection } from "./PresidentSelection";
 import { GameOver } from "./GameOver";
 import { StateContext, ActionContext } from "../Play";
-import Button from "../../../lib/Button";
+import { Button } from "../../../lib/Button";
 
 const PlayerWrapper = styled.div`
   display: flex;

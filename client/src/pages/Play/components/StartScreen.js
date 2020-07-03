@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { StateContext, ActionContext } from "../Play";
 import { Player } from "./Player";
-import Button from "../../../lib/Button";
+import { Button } from "../../../lib/Button";
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,16 +14,20 @@ const Wrapper = styled.div`
 `;
 
 export const StartButton = () => {
-  const { players } = useContext(StateContext);
+  const { players, roomId } = useContext(StateContext);
   const { start } = useContext(ActionContext);
 
   const playerCount = players.length;
   return (
     <Wrapper>
-      <Button onClick={start} disabled={playerCount < 5}>
-        Start!
-      </Button>
-      {playerCount < 5 && <h3>Waiting for at least 5 players</h3>}
+      {playerCount < 5 ? (
+        <h3>Waiting for at least 5 players</h3>
+      ) : (
+        <Button onClick={start} disabled={playerCount < 5}>
+          Start!
+        </Button>
+      )}
+      <h2>Invite others to join via Room ID: {roomId}</h2>
     </Wrapper>
   );
 };

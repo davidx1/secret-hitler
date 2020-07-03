@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Policy } from "./Policy";
 import { Overlay, InstructionText } from "../../../lib/Overlay";
 import { StateContext, ActionContext } from "../Play";
-import Button from "../../../lib/Button";
+import { Button } from "../../../lib/Button";
 
 const Description = styled.p`
   color: white;

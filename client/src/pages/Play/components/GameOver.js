@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { Player } from "./Player";
 import { Overlay } from "../../../lib/Overlay";
 import { StateContext } from "../Play";
-import Button from "../../../lib/Button";
+import { Button } from "../../../lib/Button";
 
 const Wrapper = styled(Overlay)`
   & > * {

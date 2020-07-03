@@ -5,6 +5,9 @@ import Chance from "chance";
 
 import { OptionCard, OptionWrapper } from "./components/OptionCard";
 import { LogoImage } from "./components/LogoImage";
+import { Overlay, OverlayCross } from "../../lib/Overlay";
+import { Button } from "../../lib/Button";
+import { Input } from "../../lib/Input";
 
 const chance = new Chance();
 
@@ -21,7 +24,11 @@ const Wrapper = styled.div`
 
 export default function Lobby({ client, playUrl, setRoom }) {
   const [rooms, setAvaliableRooms] = useState([]);
-  const [displayName, setDisplayName] = useState(chance.first());
+  const [displayName, setDisplayName] = useState("");
+  const [isNewRoomModalOpen, setIsNewRoomModalOpen] = useState(false);
+  const [isJoinRoomModalOpen, setIsJoinRoomModalOpen] = useState(false);
+  const [roomId, setRoomId] = useState("");
+
   const history = useHistory();
 
   const makeNewName = () => {
@@ -61,9 +68,54 @@ export default function Lobby({ client, playUrl, setRoom }) {
     <Wrapper>
       <LogoImage />
       <OptionWrapper>
-        <OptionCard>Create Game</OptionCard>
-        <OptionCard>Join Game</OptionCard>
+        <OptionCard onClick={() => setIsNewRoomModalOpen(true)}>
+          Create Game
+        </OptionCard>
+        <OptionCard onClick={() => setIsJoinRoomModalOpen(true)}>
+          Join Game
+        </OptionCard>
       </OptionWrapper>
+      {isNewRoomModalOpen && (
+        <Overlay>
+          <OverlayCross onClick={() => setIsNewRoomModalOpen(false)} />
+
+          <Input
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+            placeholder="Your Display Name"
+          />
+          <Button onClick={() => createRoom(displayName)}>Create Room</Button>
+        </Overlay>
+      )}
+      {isJoinRoomModalOpen && (
+        <Overlay onClick={() => setIsJoinRoomModalOpen(false)}>
+          {/* <h3>Availiable Games</h3>:
+          <ul>
+            {rooms.map((room) => (
+              <li>
+                {room.roomId}
+                <Button onClick={() => joinRoom(room.roomId, displayName)}>
+                  Join
+                </Button>
+              </li>
+            ))}
+          </ul> */}
+          <OverlayCross onClick={() => setIsJoinRoomModalOpen(false)} />
+          <Input
+            value={roomId}
+            onChange={(e) => setRoomId(e.target.value)}
+            placeholder="Room ID"
+          />
+          <Input
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+            placeholder="Your Display Name"
+          />
+          <Button onClick={() => joinRoom(roomId, displayName)}>
+            Join Room
+          </Button>
+        </Overlay>
+      )}
     </Wrapper>
   );
 }
