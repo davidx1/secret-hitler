@@ -5,7 +5,7 @@ import { action } from "@storybook/addon-actions";
 import { withKnobs, object } from "@storybook/addon-knobs";
 import { StateContext, ActionContext } from "../Play";
 import { Player } from "../components/Player";
-import { theme } from "../../../../../constants/theme";
+import { theme } from "../../../constants/theme";
 import * as states from "./constants";
 
 export default {

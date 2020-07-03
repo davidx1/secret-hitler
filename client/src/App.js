@@ -1,14 +1,17 @@
-import React from "react";
-import SecretHitler from "./journeys/secret-hitler";
-import { BrowserRouter as Router } from "react-router-dom";
-import { theme } from "./constants/theme";
+import React, { useState } from "react";
+import * as Colyseus from "colyseus.js";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Div100vh from "react-div-100vh";
+import useFullscreen from "use-fullscreen";
 import styled, {
   ThemeProvider,
   css,
   createGlobalStyle
 } from "styled-components";
-import Div100vh from "react-div-100vh";
-import useFullscreen from "use-fullscreen";
+
+import { theme } from "./constants/theme";
+import Play from "./pages/Play";
+import Lobby from "./pages/Lobby";
 
 export const GlobalStyle = createGlobalStyle`
   body{ 
@@ -24,7 +27,7 @@ export const GlobalStyle = createGlobalStyle`
 export const GlobalWrapper = styled(Div100vh)`
   width: 100vw;
   padding: 10px 5px;
-  background-color: ${(props) => props.theme.neutral};
+  background-color: ${(props) => props.theme.orange_light};
   box-sizing: border-box;
   overflow: scroll;
   @media only screen and (min-width: 512px) {
@@ -56,20 +59,36 @@ const NavigationBar = styled.nav`
     height: 40px;
   }
 `;
+
+const host = window.document.location.host.replace(/:.*/, "");
+const location = window.location;
+const client = new Colyseus.Client(
+  location.protocol.replace("http", "ws") +
+    "//" +
+    host +
+    (location.port ? ":" + 3001 : "")
+);
+
 export default function App() {
   const [isFullscreen] = useFullscreen();
+  const [room, setRoom] = useState();
 
   return (
     <>
       <GlobalStyle />
-
       <ThemeProvider theme={theme}>
         <div>
           {!isFullscreen && <NavigationBar />}
-
           <GlobalWrapper moreTopPadding={!isFullscreen}>
             <Router>
-              <SecretHitler />
+              <Switch>
+                <Route path={`/player/:roomId`}>
+                  <Play room={room} setRoom={setRoom} client={client} />
+                </Route>
+                <Route path={"/"}>
+                  <Lobby client={client} playUrl={`player`} setRoom={setRoom} />
+                </Route>
+              </Switch>
             </Router>
           </GlobalWrapper>
         </div>

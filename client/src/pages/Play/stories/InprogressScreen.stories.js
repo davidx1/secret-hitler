@@ -6,8 +6,8 @@ import { withKnobs, object } from "@storybook/addon-knobs";
 import { StateContext, ActionContext } from "../Play";
 import { InprogressScreen } from "../components/InprogressScreen";
 import { PlayWrapper } from "../components/PlayWrapper";
-import { GlobalWrapper, GlobalStyle } from "../../../../../App";
-import { theme } from "../../../../../constants/theme";
+import { GlobalWrapper, GlobalStyle } from "../../../App";
+import { theme } from "../../../constants/theme";
 import * as states from "./constants";
 
 export default {

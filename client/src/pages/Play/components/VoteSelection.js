@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import ja from "../../../../../img/ja.png";
-import nein from "../../../../../img/nein.png";
+import ja from "../../../img/ja.png";
+import nein from "../../../img/nein.png";
 import { Player } from "./Player";
 import { Overlay, InstructionText } from "./Overlay";
 import { StateContext, ActionContext } from "../Play";

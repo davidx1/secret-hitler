@@ -3,11 +3,12 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import Chance from "chance";
 
-import Button from "../Play/components/Button";
 import { OptionCard } from "./components/OptionCard";
+import logo from "../../img/Logo.jpg";
 
 const chance = new Chance();
-const Wrapper = styled.div`
+
+const OptionWrapper = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
@@ -20,6 +21,13 @@ const Wrapper = styled.div`
   & :last-child {
     margin: 0;
   }
+`;
+
+const LogoImg = styled.div`
+  background-image: url(${logo});
+  width: 1000px;
+  height: 700px;
+  margin: 0 auto;
 `;
 
 export default function Lobby({ client, playUrl, setRoom }) {
@@ -61,29 +69,12 @@ export default function Lobby({ client, playUrl, setRoom }) {
   }, [getAvailableRooms]);
 
   return (
-    <Wrapper>
-      {/* <label>Display Name: </label>
-      <input
-        value={displayName}
-        onChange={(e) => setDisplayName(e.target.value)}
-      ></input>
-      <Button onClick={makeNewName}>new</Button>
-      <hr></hr>
-      <Button onClick={() => createRoom(displayName)}>Create Room</Button>
-      <h2>Avaliable Rooms</h2>
-      <Button onClick={getAvailableRooms}>Refresh</Button>
-      <ul>
-        {rooms.map((room) => (
-          <li>
-            {room.roomId}
-            <Button onClick={() => joinRoom(room.roomId, displayName)}>
-              Join
-            </Button>
-          </li>
-        ))}
-      </ul> */}
-      <OptionCard>Create Game</OptionCard>
-      <OptionCard>Join Game</OptionCard>
-    </Wrapper>
+    <div>
+      <LogoImg />
+      <OptionWrapper>
+        <OptionCard>Create Game</OptionCard>
+        <OptionCard>Join Game</OptionCard>
+      </OptionWrapper>
+    </div>
   );
 }

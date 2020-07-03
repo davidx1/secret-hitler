@@ -7,9 +7,9 @@ import { Trophy } from "@styled-icons/fa-solid/Trophy";
 import { SadCry } from "@styled-icons/fa-regular/SadCry";
 import { Skull } from "@styled-icons/fa-solid/Skull";
 import { QuestionCircle } from "@styled-icons/fa-solid/QuestionCircle";
-import fascist from "../../../../../img/fascist.png";
-import liberal from "../../../../../img/liberal.png";
-import hitler from "../../../../../img/hitler.png";
+import fascist from "../../../img/fascist.png";
+import liberal from "../../../img/liberal.png";
+import hitler from "../../../img/hitler.png";
 import { StateContext } from "../Play";
 import { motion } from "framer-motion";
 

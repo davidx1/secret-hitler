@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import policyf from "../../../../../img/policy-f.png";
-import policyl from "../../../../../img/policy-l.png";
+import policyf from "../../../img/policy-f.png";
+import policyl from "../../../img/policy-l.png";
 
 const PolicyImage = styled.button`
   background-image: url(${(props) => props.src});
