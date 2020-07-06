@@ -27,7 +27,7 @@ export const StartButton = () => {
           Start!
         </Button>
       )}
-      <h2>Invite others to join via Room ID: {roomId}</h2>
+      <h3>Invite others to join via Room ID: {roomId}</h3>
     </Wrapper>
   );
 };

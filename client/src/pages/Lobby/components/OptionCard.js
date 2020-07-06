@@ -32,8 +32,8 @@ export const OptionCard = styled.button`
     border-radius: 28px;
   }
   @media only screen and (min-width: 1200px) {
-    width: 450px;
-    height: 220px;
+    width: 380px;
+    height: 200px;
     font-size: 48px;
     border-radius: 32px;
   }

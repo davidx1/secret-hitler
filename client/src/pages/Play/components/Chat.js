@@ -25,6 +25,7 @@ const Message = styled.p`
   font-size: 18px;
   margin: 0 4px 8px;
   color: ${(props) => (props.isSystem ? "red" : "#f4f4f4")};
+  background-color: ${(props) => (props.isSystem ? "yellow" : "transparent")};
 `;
 
 const ChatInput = styled.input`
