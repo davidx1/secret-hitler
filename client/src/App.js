@@ -8,14 +8,6 @@ import styled, {
   css,
   createGlobalStyle
 } from "styled-components";
-import a from "./img/fascist.png";
-import b from "./img/hitler.png";
-import c from "./img/ja.png";
-import d from "./img/liberal.png";
-import e from "./img/logo.png";
-import f from "./img/nein.png";
-import g from "./img/policy-f.png";
-import h from "./img/policy-l.png";
 
 import { theme } from "./constants/theme";
 import Play from "./pages/Play";
