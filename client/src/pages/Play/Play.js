@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useParams } from "react-router-dom";
 import Chance from "chance";
 
@@ -8,33 +8,45 @@ import { FullScreenButton } from "./components/FullScreenButton";
 import { StartScreen } from "./components/StartScreen";
 import { InprogressScreen } from "./components/InprogressScreen";
 import { Chat } from "./components/Chat";
+import useWindowSize from "react-use-window-size";
 
 import { useRoomState } from "../../useRoomState";
 
 export const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${({ isLandscape }) => (isLandscape ? "row" : "column")};
   width: 100%;
   height: 100%;
-  @media only screen and (min-width: 512px) {
-    flex-direction: row;
-  }
 `;
 
 export const ChatWrapper = styled.div`
   background-color: purple;
-  width: 100%;
-  height: 50%;
+  height: inherit;
+  width: ${({ isLandscape }) => (isLandscape ? "30%" : "100%")};
+  margin: auto;
+  max-width: 1920px;
 
-  @media only screen and (min-width: 512px) {
-    width: 25%;
-    height: 100%;
-  }
+  ${({ isLandscape }) =>
+    isLandscape &&
+    css`
+      min-width: 300px;
 
-  @media only screen and (min-width: 992px) {
-    width: 20%;
-    height: 100%;
-  }
+      @media only screen and (min-width: 512px) {
+        max-height: 350px;
+      }
+      @media only screen and (min-width: 768px) {
+        max-height: 500px;
+      }
+      @media only screen and (min-width: 992px) {
+        max-height: 700px;
+      }
+      @media only screen and (min-width: 1200px) {
+        max-height: 1000px;
+      }
+      @media only screen and (min-width: 1450px) {
+        max-height: 1450px;
+      }
+    `}
 `;
 
 export const StateContext = createContext();
@@ -44,6 +56,9 @@ const chance = new Chance();
 
 export default function Game({ room, setRoom, client }) {
   const { roomId } = useParams();
+
+  const { width, height } = useWindowSize();
+  const isLandscape = width > height;
 
   const joinRoom = async () => {
     client
@@ -113,7 +128,7 @@ export default function Game({ room, setRoom, client }) {
           roomId
         }}
       >
-        <Wrapper>
+        <Wrapper isLandscape={isLandscape}>
           <PlayWrapper>
             <FullScreenButton />
 
@@ -123,7 +138,7 @@ export default function Game({ room, setRoom, client }) {
               <InprogressScreen></InprogressScreen>
             )}
           </PlayWrapper>
-          <ChatWrapper>
+          <ChatWrapper isLandscape={isLandscape}>
             <Chat />
           </ChatWrapper>
         </Wrapper>

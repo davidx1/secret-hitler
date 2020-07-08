@@ -19,7 +19,6 @@ export const PlayWrapper = styled.div`
   }
   @media only screen and (min-width: 992px) {
     max-height: 700px;
-    margin: unset;
     width: 80%;
   }
   @media only screen and (min-width: 1200px) {
