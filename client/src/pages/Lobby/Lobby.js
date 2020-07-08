@@ -62,7 +62,7 @@ export default function Lobby({ client, playUrl, setRoom }) {
 
   useEffect(() => {
     getAvailableRooms();
-  }, []);
+  }, [getAvailableRooms]);
 
   return (
     <Wrapper>
