@@ -31,22 +31,11 @@ export const GlobalWrapper = styled(Div100vh)`
   box-sizing: border-box;
   overflow: scroll;
   @media only screen and (min-width: 512px) {
-    padding: 15px 20px;
+    padding: 30px 20px;
   }
   @media only screen and (min-width: 1200px) {
     padding: 30px;
   }
-  ${(props) =>
-    props.moreTopPadding &&
-    css`
-      padding-top: 32px;
-      @media only screen and (min-width: 512px) {
-        padding-top: 32px;
-      }
-      @media only screen and (min-width: 992px) {
-        padding-top: 48px;
-      }
-    `}
 `;
 
 const NavigationBar = styled.nav`
@@ -78,8 +67,8 @@ export default function App() {
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <div>
-          {!isFullscreen && <NavigationBar />}
-          <GlobalWrapper moreTopPadding={!isFullscreen}>
+          {/* {!isFullscreen && <NavigationBar />} */}
+          <GlobalWrapper>
             <Router>
               <Switch>
                 <Route path={`/player/:roomId`}>
