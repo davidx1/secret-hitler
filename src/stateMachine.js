@@ -53,9 +53,9 @@ const boardFor = {
   6: [
     ability.NONE,
     ability.NONE,
-    ability.NONE,
-    ability.NONE,
-    ability.NONE,
+    ability.TOP_THREE_CARD,
+    ability.KILL_PLAYER,
+    ability.KILL_PLAYER,
     ability.FASCIST_VICTORY
   ],
   8: [
