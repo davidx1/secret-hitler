@@ -47,7 +47,6 @@ export default function Lobby({ client, playUrl, setRoom }) {
   // }, []);
 
   const postJoiningCallback = (newRoom) => {
-    console.log(newRoom);
     setRoom(newRoom);
     history.push(`${playUrl}/${newRoom.id}`);
   };

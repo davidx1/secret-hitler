@@ -63,7 +63,6 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
         }
       });
       return () => {
-        console.log("leaving room");
         room.leave();
       };
     }
@@ -142,7 +141,6 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
   function sendChat(s: string) {
     trigger("chat", { content: s });
   }
-  console.log("chatState initially is:", chatState);
 
   return {
     state,

@@ -94,8 +94,6 @@ export default function Game({ room, setRoom, client }) {
     return <span>Loading</span>;
   }
 
-  console.log("chatState in Play is:", chatState);
-
   return (
     <ActionContext.Provider
       value={{
