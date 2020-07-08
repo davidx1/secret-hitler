@@ -12,13 +12,16 @@
     "lodash": "^4.17.15",
     "react": "^16.13.1",
     "react-app-rewired": "^2.1.6",
+    "react-div-100vh": "^0.3.8",
     "react-dom": "^16.13.1",
     "react-json-view": "^1.19.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "react-toastify": "^5.5.0",
     "react-use-window-size": "^1.0.1",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "styled-icons": "^10.6.0",
+    "use-fullscreen": "^0.0.5"
   },
   "scripts": {
     "dev": "react-app-rewired start",

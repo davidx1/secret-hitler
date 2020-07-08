@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 `;
 
 export default function Lobby({ client, playUrl, setRoom }) {
-  const [rooms, setAvaliableRooms] = useState([]);
+  // const [rooms, setAvaliableRooms] = useState([]);
   const [displayName, setDisplayName] = useState("");
   const [isNewRoomModalOpen, setIsNewRoomModalOpen] = useState(false);
   const [isJoinRoomModalOpen, setIsJoinRoomModalOpen] = useState(false);
@@ -31,20 +31,20 @@ export default function Lobby({ client, playUrl, setRoom }) {
 
   const history = useHistory();
 
-  const makeNewName = () => {
-    setDisplayName(chance.first());
-  };
+  // const getAvailableRooms = () => {
+  //   client
+  //     .getAvailableRooms("my_room")
+  //     .then((rooms) => {
+  //       setAvaliableRooms(rooms);
+  //     })
+  //     .catch((e) => {
+  //       console.error(e);
+  //     });
+  // };
 
-  const getAvailableRooms = () => {
-    client
-      .getAvailableRooms("my_room")
-      .then((rooms) => {
-        setAvaliableRooms(rooms);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  };
+  // useEffect(() => {
+  //   getAvailableRooms();
+  // }, []);
 
   const postJoiningCallback = (newRoom) => {
     console.log(newRoom);
@@ -59,10 +59,6 @@ export default function Lobby({ client, playUrl, setRoom }) {
   const joinRoom = async (id, displayName) => {
     await client.joinById(id, { displayName }).then(postJoiningCallback);
   };
-
-  useEffect(() => {
-    getAvailableRooms();
-  }, []);
 
   return (
     <Wrapper>
