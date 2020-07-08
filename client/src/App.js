@@ -71,7 +71,7 @@ export default function App() {
           <GlobalWrapper>
             <Router>
               <Switch>
-                <Route path={`/player/:roomId`}>
+                <Route path={`/play/:roomId`}>
                   <Play room={room} setRoom={setRoom} client={client} />
                 </Route>
                 <Route path={"/"}>

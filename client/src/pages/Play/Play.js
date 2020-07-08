@@ -21,7 +21,7 @@ export const Wrapper = styled.div`
 
 export const ChatWrapper = styled.div`
   background-color: purple;
-  height: inherit;
+  height: ${({ isLandscape }) => (isLandscape ? "inherit" : "50%")};
   width: ${({ isLandscape }) => (isLandscape ? "30%" : "100%")};
   margin: auto;
   max-width: 1920px;
