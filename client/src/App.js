@@ -75,7 +75,7 @@ export default function App() {
                   <Play room={room} setRoom={setRoom} client={client} />
                 </Route>
                 <Route path={"/"}>
-                  <Lobby client={client} playUrl={`player`} setRoom={setRoom} />
+                  <Lobby client={client} playUrl={`play`} setRoom={setRoom} />
                 </Route>
               </Switch>
             </Router>
