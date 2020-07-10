@@ -191,6 +191,58 @@ const Lose = styled(Voted).attrs({ as: SadCry })`
   background-color: indianred;
 `;
 
+const SpeechBubble = styled.div`
+  position: absolute;
+  padding: 5px;
+  top: -15px;
+  left: -5px;
+  background: #00aabb;
+  border-radius: 0.4em;
+  font-size: 10px;
+  width: max-content;
+  @media only screen and (min-width: 992px) {
+    top: -25px;
+    left: 0px;
+    padding: 7px;
+    font-size: 14px;
+  }
+  @media only screen and (min-width: 1200px) {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-top-color: #00aabb;
+    border-bottom: 0;
+    border-left: 0;
+    margin-left: -7px;
+    margin-bottom: -8px;
+    @media only screen and (min-width: 992px) {
+      border: 20px solid transparent;
+      border-top-color: #00aabb;
+      border-bottom: 0;
+      border-left: 0;
+      margin-left: -10px;
+      margin-bottom: -20px;
+    }
+    @media only screen and (min-width: 1200px) {
+      border: 20px solid transparent;
+      border-top-color: #00aabb;
+      border-bottom: 0;
+      border-left: 0;
+      margin-left: -10px;
+      margin-bottom: -20px;
+    }
+  }
+`;
+
 export const Player = ({
   currentPlayerRole = "liberal",
   role,
@@ -251,6 +303,7 @@ export const Player = ({
             {state === "liberalWin" && (role === "H" || role === "F") && (
               <Lose />
             )}
+            <SpeechBubble>Mike Tamis is hitler!</SpeechBubble>
           </PlayerImage>
           {!isActive && (
             <DeathOverlay scale={scale}>

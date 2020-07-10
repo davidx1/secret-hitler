@@ -28,6 +28,7 @@ export const GlobalWrapper = styled(Div100vh)`
   background-color: ${(props) => props.theme.orange_light};
   box-sizing: border-box;
   overflow: scroll;
+  min-height: 320px;
   @media only screen and (min-width: 512px) {
     padding: 30px 20px;
   }
