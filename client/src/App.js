@@ -3,11 +3,7 @@ import * as Colyseus from "colyseus.js";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Div100vh from "react-div-100vh";
 import useFullscreen from "use-fullscreen";
-import styled, {
-  ThemeProvider,
-  css,
-  createGlobalStyle
-} from "styled-components";
+import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 
 import { theme } from "./constants/theme";
 import Play from "./pages/Play";
@@ -38,16 +34,16 @@ export const GlobalWrapper = styled(Div100vh)`
   }
 `;
 
-const NavigationBar = styled.nav`
-  position: fixed;
-  background: ${(props) => props.theme.dark};
-  backdrop-filter: saturate(180%) blur(20px);
-  height: 25px;
-  width: 100%;
-  @media only screen and (min-width: 992px) {
-    height: 40px;
-  }
-`;
+// const NavigationBar = styled.nav`
+//   position: fixed;
+//   background: ${(props) => props.theme.dark};
+//   backdrop-filter: saturate(180%) blur(20px);
+//   height: 25px;
+//   width: 100%;
+//   @media only screen and (min-width: 992px) {
+//     height: 40px;
+//   }
+// `;
 
 const host = window.document.location.host.replace(/:.*/, "");
 const location = window.location;
@@ -59,7 +55,6 @@ const client = new Colyseus.Client(
 );
 
 export default function App() {
-  const [isFullscreen] = useFullscreen();
   const [room, setRoom] = useState();
 
   return (
