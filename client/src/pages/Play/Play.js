@@ -2,13 +2,14 @@ import React, { createContext } from "react";
 import styled, { css } from "styled-components";
 import { useParams } from "react-router-dom";
 import Chance from "chance";
+import useWindowSize from "react-use-window-size";
 
 import { PlayWrapper } from "./components/PlayWrapper";
 import { FullScreenButton } from "./components/FullScreenButton";
 import { StartScreen } from "./components/StartScreen";
 import { InprogressScreen } from "./components/InprogressScreen";
 import { Chat } from "./components/Chat";
-import useWindowSize from "react-use-window-size";
+import { Loader } from "../../lib/Loader";
 
 import { useRoomState } from "../../useRoomState";
 
@@ -25,7 +26,7 @@ export const Wrapper = styled.div`
 
 export const ChatWrapper = styled.div`
   background-color: purple;
-  height: ${({ isLandscape }) => (isLandscape ? "inherit" : "50%")};
+  height: ${({ isLandscape }) => (isLandscape ? "inherit" : "100%")};
   width: ${({ isLandscape }) => (isLandscape ? "30%" : "100%")};
   margin: 0 auto;
   max-width: 1920px;
@@ -93,7 +94,7 @@ export default function Game({ room, setRoom, client }) {
   } = useRoomState(room, joinRoom);
 
   if (!state) {
-    return <span>Loading</span>;
+    return <Loader />;
   }
 
   return (

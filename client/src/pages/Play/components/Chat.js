@@ -23,15 +23,21 @@ const ChatWindow = styled.div`
 const Form = styled.form``;
 
 const Message = styled.p`
-  font-size: 18px;
+  font-size: 14px;
   margin: 0 4px 8px;
   color: ${(props) => (props.isSystem ? "red" : "#f4f4f4")};
   background-color: ${(props) => (props.isSystem ? "yellow" : "transparent")};
+  @media only screen and (min-width: 992px) {
+    font-size: 18px;
+  }
 `;
 
 const ChatInput = styled.input`
-  font-size: 18px;
+  font-size: 14px;
   width: 100%;
+  @media only screen and (min-width: 992px) {
+    font-size: 18px;
+  }
 `;
 
 export const Chat = () => {
