@@ -38,7 +38,7 @@ export const JoinRoomModal = ({ closeModal, onRoomJoin }) => {
       <Input
         value={roomId}
         onChange={(e) => setRoomId(e.target.value)}
-        placeholder="Room ID"
+        placeholder="Game PIN"
       />
       <Input
         value={displayName}

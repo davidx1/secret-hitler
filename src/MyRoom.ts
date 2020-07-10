@@ -1,6 +1,9 @@
 import { Room, Client } from "colyseus";
 import { Schema } from "@colyseus/schema";
 import stateMachine, { prodInitialState } from "./stateMachine";
+import { customAlphabet } from "nanoid";
+
+const nanoid = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890", 6);
 
 export class MyRoom extends Room {
   roomStateMachine = stateMachine;
@@ -19,6 +22,7 @@ export class MyRoom extends Room {
 
   onCreate(options: any) {
     console.log("BasicRoom created!", options);
+    this.roomId = nanoid();
   }
 
   onJoin(client: { sessionId: any }, data: { displayName: string }) {

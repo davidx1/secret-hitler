@@ -21,13 +21,15 @@ export const StartButton = () => {
   return (
     <Wrapper>
       {playerCount < 5 ? (
-        <h3>Waiting for at least 5 players</h3>
+        <h2>Waiting for at least 5 players</h2>
       ) : (
         <Button onClick={start} disabled={playerCount < 5}>
           Start!
         </Button>
       )}
-      <p>Invite others to join via Room ID: {roomId}</p>
+      <p>
+        Invite others to join via Game PIN: <b>{roomId}</b>
+      </p>
     </Wrapper>
   );
 };
