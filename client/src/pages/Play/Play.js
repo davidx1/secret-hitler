@@ -15,9 +15,12 @@ import { useRoomState } from "../../useRoomState";
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: ${({ isLandscape }) => (isLandscape ? "row" : "column")};
-  padding-top: 40px;
+  padding-top: 30px;
   width: 100%;
   height: 100%;
+  @media only screen and (min-width: 512px) {
+    padding-top: 0px;
+  }
 `;
 
 export const ChatWrapper = styled.div`
