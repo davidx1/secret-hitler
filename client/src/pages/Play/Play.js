@@ -27,14 +27,12 @@ export const ChatWrapper = styled.div`
   background-color: purple;
   height: ${({ isLandscape }) => (isLandscape ? "inherit" : "50%")};
   width: ${({ isLandscape }) => (isLandscape ? "30%" : "100%")};
-  margin: auto;
+  margin: 0 auto;
   max-width: 1920px;
 
   ${({ isLandscape }) =>
     isLandscape &&
     css`
-      min-width: 300px;
-
       @media only screen and (min-width: 512px) {
         max-height: 350px;
       }

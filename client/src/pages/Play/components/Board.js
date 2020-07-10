@@ -111,7 +111,7 @@ export const LibralBoard = () => {
 const iconStyle = css`
   width: 50%;
   color: ${({ theme }) => theme.white};
-  @media only screen and (min-width: 768px) {
+  @media only screen and (min-width: 992px) {
     margin-bottom: 8px;
   }
 `;
@@ -145,10 +145,6 @@ const Description = styled.p`
   margin: 0;
   display: none;
 
-  @media only screen and (min-width: 768px) {
-    font-size: 12px;
-    display: block;
-  }
   @media only screen and (min-width: 992px) {
     font-size: 14px;
   }

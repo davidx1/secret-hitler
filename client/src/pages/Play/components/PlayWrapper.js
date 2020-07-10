@@ -11,6 +11,7 @@ export const PlayWrapper = styled.div`
   justify-content: space-between;
   min-width: 300px;
   max-height: 250px;
+  padding: 10px 0;
   @media only screen and (min-width: 512px) {
     max-height: 350px;
   }
@@ -19,7 +20,6 @@ export const PlayWrapper = styled.div`
   }
   @media only screen and (min-width: 992px) {
     max-height: 700px;
-    width: 80%;
   }
   @media only screen and (min-width: 1200px) {
     max-height: 1000px;
@@ -27,5 +27,6 @@ export const PlayWrapper = styled.div`
   @media only screen and (min-width: 1450px) {
     max-height: 1450px;
     max-width: 1920px;
+    padding: 20px 0;
   }
 `;
