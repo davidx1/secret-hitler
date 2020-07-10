@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import * as Colyseus from "colyseus.js";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Div100vh from "react-div-100vh";
-import useFullscreen from "use-fullscreen";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 
 import { theme } from "./constants/theme";

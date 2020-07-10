@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import Chance from "chance";
 import { Dove } from "@styled-icons/fa-solid/Dove";
 import { Skull } from "@styled-icons/fa-solid/Skull";
 
@@ -10,8 +9,6 @@ import { OptionCard, OptionWrapper } from "./components/OptionCard";
 import { LogoImage } from "./components/LogoImage";
 import { JoinRoomModal } from "./components/JoinRoomModal";
 import { NewRoomModal } from "./components/NewRoomModal";
-
-const chance = new Chance();
 
 const Wrapper = styled.div`
   height: 540px;
