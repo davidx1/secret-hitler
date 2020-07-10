@@ -6,5 +6,6 @@ export const theme = {
   blue_light: "#78C2CF",
   blue_dark: "#417B93",
   dark: "#4f0d00",
-  interactive: "#434343"
+  interactive: "#434343",
+  link: "#beeaff"
 };

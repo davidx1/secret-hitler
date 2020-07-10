@@ -71,6 +71,41 @@ const SkullIcon2 = styled(SkullIcon)`
   }
 `;
 
+const AboutWrapper = styled.ul`
+  position: absolute;
+  color: ${({ theme }) => theme.white};
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  @media only screen and (min-width: 768px) {
+    bottom: 20px;
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 0 0 0;
+  padding: 0;
+
+  > li {
+    list-style: none;
+    font-size: 12px;
+    color: ${({ theme }) => theme.white};
+    text-align: center;
+    margin-bottom: 3px;
+    font-size: 10px;
+    @media only screen and (min-width: 512px) {
+      font-size: 12px;
+    }
+    @media only screen and (min-width: 1450px) {
+      font-size: 18px;
+    }
+    > a {
+      color: ${({ theme }) => theme.link};
+    }
+  }
+`;
+
 export default function Lobby({ client, playUrl, setRoom }) {
   // const [rooms, setAvaliableRooms] = useState([]);
   const [isNewRoomModalOpen, setIsNewRoomModalOpen] = useState(false);
@@ -121,6 +156,19 @@ export default function Lobby({ client, playUrl, setRoom }) {
       <DoveIcon2 />
       <SkullIcon />
       <SkullIcon2 />
+      <AboutWrapper>
+        <li>
+          Licensed by{" "}
+          <a href="https://github.com/davidx1/secret-hitler">David Xu</a> under{" "}
+          <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+            CC BY-NC-SA 4.0{" "}
+          </a>
+        </li>
+        <li>
+          Based on the hit boardgame{" "}
+          <a href="https://www.secrethitler.com/">Secret Hitler</a>
+        </li>
+      </AboutWrapper>
     </Wrapper>
   );
 }
