@@ -10,7 +10,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-bottom: 20px;
+  @media only screen and (min-width: 768px) {
+    margin-bottom: 10px;
+  }
 `;
 
 export const StartButton = () => {
@@ -21,7 +23,7 @@ export const StartButton = () => {
   return (
     <Wrapper>
       {playerCount < 5 ? (
-        <h2>Waiting for at least 5 players</h2>
+        <h3>Waiting for at least 5 players</h3>
       ) : (
         <Button onClick={start} disabled={playerCount < 5}>
           Start!
@@ -66,12 +68,19 @@ const StartScreenWrapper = styled.div`
 
 const WaitingPlayerListWrapper = styled.div`
   display: flex;
-  width: 90%;
+  width: 100%;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   > * {
-    padding-bottom: 20px;
-    padding-right: 20px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    > * {
+      margin-bottom: 20px;
+      margin-right: 20px;
+    }
   }
 `;

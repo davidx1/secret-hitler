@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const OptionCard = styled.button`
-  width: 320px;
+  width: 300px;
   height: 120px;
   cursor: pointer;
   background-color: #fbb969;
@@ -14,7 +14,6 @@ export const OptionCard = styled.button`
     height: 150px;
     font-size: 32px;
     border-radius: 24px;
-    border: 6px solid #4f0d00;
   }
 
   @media only screen and (min-width: 768px) {
@@ -41,6 +40,7 @@ export const OptionCard = styled.button`
     height: 250px;
     font-size: 52px;
     border-radius: 48px;
+    border: 14px solid #4f0d00;
   }
 `;
 

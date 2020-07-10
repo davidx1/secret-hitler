@@ -110,8 +110,10 @@ export const LibralBoard = () => {
 
 const iconStyle = css`
   width: 50%;
-  color: white;
-  margin-bottom: 8px;
+  color: ${({ theme }) => theme.white};
+  @media only screen and (min-width: 768px) {
+    margin-bottom: 8px;
+  }
 `;
 
 const KillPlayerIcon = styled(Skull)`

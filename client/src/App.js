@@ -21,8 +21,11 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export const GlobalWrapper = styled(Div100vh)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100vw;
-  padding: 10px 5px;
+  padding: 15px;
   background-color: ${(props) => props.theme.orange_light};
   box-sizing: border-box;
   overflow: scroll;

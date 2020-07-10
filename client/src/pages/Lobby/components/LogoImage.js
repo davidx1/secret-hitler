@@ -7,9 +7,9 @@ export const LogoImage = styled.div`
   background-position-x: center;
   background-size: contain;
   background-repeat: no-repeat;
-  width: 320px;
-  height: 250px;
-  margin: 10px auto;
+  width: 300px;
+  height: 200px;
+  margin: 0px auto;
 
   @media only screen and (min-width: 512px) {
     width: 400px;

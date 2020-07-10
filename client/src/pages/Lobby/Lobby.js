@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import Chance from "chance";
+import { Dove } from "@styled-icons/fa-solid/Dove";
+import { Skull } from "@styled-icons/fa-solid/Skull";
 
 import { Loader } from "../../lib/Loader";
 import { OptionCard, OptionWrapper } from "./components/OptionCard";
@@ -19,6 +21,56 @@ const Wrapper = styled.div`
 
   @media only screen and (min-width: 512px) {
     height: 100%;
+  }
+`;
+
+const DoveIcon = styled(Dove)`
+  position: absolute;
+  color: ${({ theme }) => theme.white};
+  height: 5%;
+  top: 15px;
+  left: 15px;
+  @media only screen and (min-width: 768px) {
+    top: 30px;
+    left: 30px;
+  }
+`;
+
+const DoveIcon2 = styled(DoveIcon)`
+  top: unset;
+  left: unset;
+  bottom: 15px;
+  right: 15px;
+  @media only screen and (min-width: 768px) {
+    top: unset;
+    left: unset;
+    bottom: 30px;
+    right: 30px;
+  }
+`;
+
+const SkullIcon = styled(Skull)`
+  position: absolute;
+  color: ${({ theme }) => theme.white};
+  height: 5%;
+  bottom: 15px;
+  left: 15px;
+  @media only screen and (min-width: 768px) {
+    bottom: 30px;
+    left: 30px;
+  }
+`;
+
+const SkullIcon2 = styled(SkullIcon)`
+  bottom: unset;
+  left: unset;
+  top: 15px;
+  right: 15px;
+  @media only screen and (min-width: 768px) {
+    bottom: unset;
+    left: unset;
+    top: 30px;
+    right: 30px;
   }
 `;
 
@@ -68,6 +120,10 @@ export default function Lobby({ client, playUrl, setRoom }) {
         />
       )}
       {isLoading && <Loader />}
+      <DoveIcon />
+      <DoveIcon2 />
+      <SkullIcon />
+      <SkullIcon2 />
     </Wrapper>
   );
 }

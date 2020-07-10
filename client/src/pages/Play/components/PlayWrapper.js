@@ -5,7 +5,7 @@ export const PlayWrapper = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   border: 1px solid ${(props) => props.theme.black};
-  margin: auto;
+  margin: 0 auto;
   width: 100%;
   height: 100%;
   justify-content: space-between;

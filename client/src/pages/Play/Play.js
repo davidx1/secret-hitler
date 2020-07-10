@@ -15,6 +15,7 @@ import { useRoomState } from "../../useRoomState";
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: ${({ isLandscape }) => (isLandscape ? "row" : "column")};
+  padding-top: 40px;
   width: 100%;
   height: 100%;
 `;
@@ -127,9 +128,9 @@ export default function Game({ room, setRoom, client }) {
         }}
       >
         <Wrapper isLandscape={isLandscape}>
-          <PlayWrapper>
-            <FullScreenButton />
+          <FullScreenButton />
 
+          <PlayWrapper>
             {state === "waiting" ? (
               <StartScreen></StartScreen>
             ) : (

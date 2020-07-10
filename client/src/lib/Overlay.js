@@ -15,6 +15,7 @@ export const Overlay = styled.div`
   left: 0;
   right: 0;
   display: flex;
+  z-index: 1;
 `;
 
 export const InstructionText = styled.h1`
