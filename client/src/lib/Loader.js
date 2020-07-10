@@ -6,7 +6,12 @@ import { Overlay } from "./Overlay";
 export const Loader = () => {
   return (
     <Overlay>
-      <ReactLoading type={"SpinningBubbles"} color="#fff" />
+      <ReactLoading
+        type={"spinningBubbles"}
+        color="#fff"
+        height={80}
+        width={80}
+      />
     </Overlay>
   );
 };
