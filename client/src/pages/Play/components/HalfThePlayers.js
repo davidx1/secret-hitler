@@ -12,15 +12,17 @@ export const HalfThePlayers = ({ secondHalf }) => {
     prevChancellorIndex,
     prevPresidentIndex,
     presidentIndex,
-    isYouPresident
+    isYouPresident,
+    chatBubble
   } = useContext(StateContext);
-  const { selectChancellor } = useContext(ActionContext);
+  const { setInteractionMenuTarget } = useContext(ActionContext);
 
   const alivePlayerCount = players.filter((p) => p.isActive).length;
   const canPrevPresidentBeNominated = alivePlayerCount <= 5;
   const halfWay = Math.ceil(players.length / 2);
   const start = !secondHalf ? 0 : halfWay;
   const end = !secondHalf ? halfWay : players.length;
+  console.log(chatBubble);
 
   return (
     <>
@@ -29,7 +31,7 @@ export const HalfThePlayers = ({ secondHalf }) => {
 
         return (
           <Player
-            onClick={() => selectChancellor(realIndex)}
+            onClick={() => setInteractionMenuTarget(realIndex)}
             isPresident={realIndex === presidentIndex}
             role={p.role}
             selectable={
@@ -37,6 +39,9 @@ export const HalfThePlayers = ({ secondHalf }) => {
               p.id !== youId &&
               realIndex !== prevChancellorIndex &&
               (canPrevPresidentBeNominated || realIndex !== prevPresidentIndex)
+            }
+            chatBubbleContent={
+              chatBubble?.id === p.id ? chatBubble.content : ""
             }
             vote={p.vote}
             isChancellor={realIndex === chancellorIndex}

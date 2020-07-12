@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useState } from "react";
 import styled, { css } from "styled-components";
 import { useParams } from "react-router-dom";
 import Chance from "chance";
@@ -59,6 +59,7 @@ const chance = new Chance();
 
 export default function Game({ room, setRoom, client }) {
   const { roomId } = useParams();
+  const [interactionMenuTarget, setInteractionMenuTarget] = useState(-1);
 
   const { width, height } = useWindowSize();
   const isLandscape = width > height;
@@ -90,7 +91,8 @@ export default function Game({ room, setRoom, client }) {
     approveVeto,
     rejectVeto,
     sendChat,
-    chatState
+    chatState,
+    sendChatBubble
   } = useRoomState(room, joinRoom);
 
   if (!state) {
@@ -113,7 +115,9 @@ export default function Game({ room, setRoom, client }) {
         requestVeto,
         approveVeto,
         rejectVeto,
-        sendChat
+        sendChat,
+        setInteractionMenuTarget,
+        sendChatBubble
       }}
     >
       <StateContext.Provider
@@ -126,7 +130,8 @@ export default function Game({ room, setRoom, client }) {
           state,
           players: playersToDisplay,
           chatState,
-          roomId
+          roomId,
+          interactionMenuTarget
         }}
       >
         <Wrapper isLandscape={isLandscape}>

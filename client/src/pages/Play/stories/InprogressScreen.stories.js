@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import _ from "lodash";
 import { action } from "@storybook/addon-actions";
@@ -39,7 +39,8 @@ const genContet = (state, context) => {
   });
 };
 
-const render = (state, context) => {
+const Render = ({ state, context }) => {
+  const [interactionMenuTarget, setInteractionMenuTarget] = useState(-1);
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
@@ -52,10 +53,13 @@ const render = (state, context) => {
               vote: action("vote"),
               revealVote: action("revealVote"),
               selectACardToRemove: action("selectACardToRemove"),
-              enactAPolicy: action("enactAPolicy")
+              enactAPolicy: action("enactAPolicy"),
+              setInteractionMenuTarget
             }}
           >
-            <StateContext.Provider value={genContet(state, context)}>
+            <StateContext.Provider
+              value={{ ...genContet(state, context), interactionMenuTarget }}
+            >
               <InprogressScreen />
             </StateContext.Provider>
           </ActionContext.Provider>
@@ -67,75 +71,75 @@ const render = (state, context) => {
 
 export const ChancellorSelection = () => {
   const { state, context } = states.chancellorSelection;
-  return render(state, context);
+  return <Render state={state} context={context} />;
 };
 
 export const Election = () => {
   const { state, context } = states.election;
-  return render(state, context);
+  return <Render state={state} context={context} />;
 };
 
 export const voted = () => {
   const { state, context } = states.voted;
-  return render(state, context);
+  return <Render state={state} context={context} />;
 };
 
 export const revealVote = () => {
   const { state, context } = states.revealVote;
-  return render(state, context);
+  return <Render state={state} context={context} />;
 };
 
 export const revealVoteWithDead = () => {
   const { state, context } = states.revealVoteWithDead;
-  return render(state, context);
+  return <Render state={state} context={context} />;
 };
 
 export const filterCards = () => {
   const { state, context } = states.filterCards;
-  return render(state, context);
+  return <Render state={state} context={context} />;
 };
 
 export const enactPolicy = () => {
   const { state, context } = states.enactPolicy;
-  return render(state, context);
+  return <Render state={state} context={context} />;
 };
 
 export const enactPolicyWithVeto = () => {
   const { state, context } = states.enactPolicyWithVeto;
-  return render(state, context);
+  return <Render state={state} context={context} />;
 };
 
 export const vetoRequested = () => {
   const { state, context } = states.vetoRequested;
-  return render(state, context);
+  return <Render state={state} context={context} />;
 };
 
 export const awaitingVetoApproval = () => {
   const { state, context } = states.awaitingVetoApproval;
-  return render(state, context);
+  return <Render state={state} context={context} />;
 };
 
 export const vetoRequestRejected = () => {
   const { state, context } = states.vetoRequestRejected;
-  return render(state, context);
+  return <Render state={state} context={context} />;
 };
 
 export const viewThreeCards = () => {
   const { state, context } = states.viewThreeCards;
-  return render(state, context);
+  return <Render state={state} context={context} />;
 };
 
 export const investigatePlayer = () => {
   const { state, context } = states.investigatePlayer;
-  return render(state, context);
+  return <Render state={state} context={context} />;
 };
 
 export const killPlayer = () => {
   const { state, context } = states.killPlayer;
-  return render(state, context);
+  return <Render state={state} context={context} />;
 };
 
 export const fascistWin = () => {
   const { state, context } = states.fascistWin;
-  return render(state, context);
+  return <Render state={state} context={context} />;
 };

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { DoneOutline } from "@styled-icons/material-sharp/DoneOutline";
 import { CloseOutline } from "@styled-icons/evaicons-outline/CloseOutline";
@@ -12,6 +12,101 @@ import liberal from "../../../img/liberal.png";
 import hitler from "../../../img/hitler.png";
 import { StateContext } from "../Play";
 import { motion } from "framer-motion";
+import { NotificationWrapper } from "../../../lib/Notification";
+
+export const Player = ({
+  currentPlayerRole = "liberal",
+  role,
+  vote,
+  scale = 1,
+  isPresident = false,
+  isChancellor = false,
+  displayName = "<no display name>",
+  isCurrentPlayer = false,
+  selectable = false,
+  onClick,
+  chatBubbleContent: propChatBubbleContent,
+  isActive
+}) => {
+  const { state } = useContext(StateContext);
+  const [isChatBubbleShowing, setIsChatBubbleShowing] = useState(false);
+  const [chatBubbleContent, setChatBubbleContent] = useState("");
+  useEffect(() => {
+    if (propChatBubbleContent !== "") {
+      setIsChatBubbleShowing(true);
+      setChatBubbleContent(propChatBubbleContent);
+    }
+  }, [propChatBubbleContent]);
+
+  const srcs = {
+    "L": liberal,
+    "F": fascist,
+    "H": hitler
+  };
+  const roleToDisplay = !role
+    ? ""
+    : currentPlayerRole === "F" || isCurrentPlayer
+    ? role
+    : currentPlayerRole === "H" && isCurrentPlayer
+    ? "H"
+    : "L";
+  return (
+    <PlayerWrapper
+      tabIndex="0"
+      selectable={selectable && isActive}
+      onClick={isActive && onClick}
+      scale={scale}
+    >
+      {roleToDisplay ? (
+        <>
+          <PlayerImage scale={scale} src={srcs[roleToDisplay]}>
+            {isPresident && (
+              <PresidentMarker scale={scale} layoutId="presidentMarker">
+                P
+              </PresidentMarker>
+            )}
+            {state !== "election" && isChancellor && (
+              <ChancellorMarker scale={scale} layoutId="chancellorMarker">
+                C
+              </ChancellorMarker>
+            )}
+            {state === "election" && typeof vote === "boolean" && <Voted />}
+            {state !== "election" &&
+              typeof vote === "boolean" &&
+              (vote ? <VotedYes /> : <VotedNo />)}
+            {state === "fascistWin" && (role === "H" || role === "F") && (
+              <Win />
+            )}
+            {state === "liberalWin" && role === "L" && <Win />}
+            {state === "fascistWin" && role === "L" && <Lose />}
+            {state === "liberalWin" && (role === "H" || role === "F") && (
+              <Lose />
+            )}
+            {isChatBubbleShowing && (
+              <NotificationWrapper
+                duration={3000}
+                killSelf={() => setIsChatBubbleShowing(false)}
+              >
+                <SpeechBubble>{chatBubbleContent}</SpeechBubble>
+              </NotificationWrapper>
+            )}
+          </PlayerImage>
+          {!isActive && (
+            <DeathOverlay scale={scale}>
+              <DeadIcon />
+            </DeathOverlay>
+          )}
+        </>
+      ) : (
+        <UnknownRole scale={scale} />
+      )}
+      <PlayerLabel highlight={isCurrentPlayer} scale={scale}>
+        {displayName}
+        {!isActive ? "(Killed)" : ""}
+      </PlayerLabel>
+    </PlayerWrapper>
+  );
+};
 
 const playerImageSize = css`
   border-radius: 20%;
@@ -37,7 +132,6 @@ const playerImageSize = css`
     width: ${(props) => 100 * props.scale}px;
   }
 `;
-
 const PlayerImage = styled.div`
   display: flex;
   align-items: flex-end;
@@ -47,7 +141,6 @@ const PlayerImage = styled.div`
   box-shadow: 0px 5px 10px #444444;
   ${playerImageSize}
 `;
-
 const PlayerLabel = styled.p`
   box-sizing: border-box;
   border-radius: 10%;
@@ -84,7 +177,6 @@ const PlayerLabel = styled.p`
     max-width: ${(props) => 240 * props.scale}px;
   }
 `;
-
 const PlayerWrapper = styled.div`
   display: flex;
   position: relative;
@@ -101,7 +193,6 @@ const PlayerWrapper = styled.div`
       }
     `}
 `;
-
 const Marker = styled(motion.div)`
   display: flex;
   align-items: center;
@@ -130,24 +221,20 @@ const Marker = styled(motion.div)`
     font-size: ${(props) => 20 * props.scale}px;
   }
 `;
-
 const PresidentMarker = styled(Marker)`
   border-color: ${(props) => props.theme.blue_dark};
   background-color: ${(props) => props.theme.blue_light};
 `;
-
 const ChancellorMarker = styled(Marker)`
   border-color: ${(props) => props.theme.orange_dark};
   background-color: ${(props) => props.theme.orange_light};
 `;
-
 const Voted = styled(HowToVote)`
   height: 30%;
   width: 30%;
   background-color: blue;
   color: white;
 `;
-
 const DeathOverlay = styled.div`
   position: absolute;
   top: 0;
@@ -158,25 +245,21 @@ const DeathOverlay = styled.div`
   box-shadow: none;
   ${playerImageSize}
 `;
-
 const DeadIcon = styled(Skull)`
   height: 50%;
   width: 50%;
   color: white;
 `;
-
 const UnknownRole = styled(QuestionCircle)`
   height: 80%;
   color: white;
   background-color: gray;
   ${playerImageSize}
 `;
-
 const VotedYes = styled(Voted).attrs({ as: DoneOutline })`
   background-color: green;
   color: white;
 `;
-
 const VotedNo = styled(Voted).attrs({ as: CloseOutline })`
   background-color: red;
   color: white;
@@ -185,12 +268,10 @@ const Win = styled(Voted).attrs({ as: Trophy })`
   color: gold;
   background-color: black;
 `;
-
 const Lose = styled(Voted).attrs({ as: SadCry })`
   color: white;
   background-color: indianred;
 `;
-
 const SpeechBubble = styled.div`
   position: absolute;
   padding: 5px;
@@ -242,82 +323,3 @@ const SpeechBubble = styled.div`
     }
   }
 `;
-
-export const Player = ({
-  currentPlayerRole = "liberal",
-  role,
-  vote,
-  scale = 1,
-  isPresident = false,
-  isChancellor = false,
-  displayName = "<no display name>",
-  isCurrentPlayer = false,
-  selectable = false,
-  onClick,
-  chancellorIndex,
-  isActive
-}) => {
-  const { state } = useContext(StateContext);
-
-  const srcs = {
-    "L": liberal,
-    "F": fascist,
-    "H": hitler
-  };
-  const roleToDisplay = !role
-    ? ""
-    : currentPlayerRole === "F" || isCurrentPlayer
-    ? role
-    : currentPlayerRole === "H" && isCurrentPlayer
-    ? "H"
-    : "L";
-  return (
-    <PlayerWrapper
-      tabIndex="0"
-      selectable={selectable && isActive}
-      onClick={isActive && onClick}
-      scale={scale}
-    >
-      {roleToDisplay ? (
-        <>
-          <PlayerImage scale={scale} src={srcs[roleToDisplay]}>
-            {isPresident && (
-              <PresidentMarker scale={scale} layoutId="presidentMarker">
-                P
-              </PresidentMarker>
-            )}
-            {state !== "election" && isChancellor && (
-              <ChancellorMarker scale={scale} layoutId="chancellorMarker">
-                C
-              </ChancellorMarker>
-            )}
-            {state === "election" && typeof vote === "boolean" && <Voted />}
-            {state !== "election" &&
-              typeof vote === "boolean" &&
-              (vote ? <VotedYes /> : <VotedNo />)}
-            {state === "fascistWin" && (role === "H" || role === "F") && (
-              <Win />
-            )}
-            {state === "liberalWin" && role === "L" && <Win />}
-            {state === "fascistWin" && role === "L" && <Lose />}
-            {state === "liberalWin" && (role === "H" || role === "F") && (
-              <Lose />
-            )}
-            <SpeechBubble>Mike Tamis is hitler!</SpeechBubble>
-          </PlayerImage>
-          {!isActive && (
-            <DeathOverlay scale={scale}>
-              <DeadIcon />
-            </DeathOverlay>
-          )}
-        </>
-      ) : (
-        <UnknownRole scale={scale} />
-      )}
-      <PlayerLabel highlight={isCurrentPlayer} scale={scale}>
-        {displayName}
-        {!isActive ? "(Killed)" : ""}
-      </PlayerLabel>
-    </PlayerWrapper>
-  );
-};

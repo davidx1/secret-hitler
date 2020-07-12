@@ -10,12 +10,16 @@ export const Overlay = styled.div`
   align-items: center;
   justify-content: center;
 
-  background-color: #000000dd;
+  background-color: #00000099;
   bottom: 0;
   left: 0;
   right: 0;
   display: flex;
   z-index: 1;
+`;
+
+export const OverlayTransparent = styled(Overlay)`
+  background-color: transparent;
 `;
 
 export const InstructionText = styled.h1`

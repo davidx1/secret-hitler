@@ -54,6 +54,16 @@ export class MyRoom extends Room {
           }: ${payload.content}`
         }
       });
+    } else if (payload.type === "chatBubble") {
+      this.broadcast({
+        type: "chatBubble",
+        payload: {
+          content: {
+            id: client.sessionId,
+            content: payload.content
+          }
+        }
+      });
     } else {
       this.roomState = stateMachine.transition(this.roomState, { ...payload });
       console.log(this.roomState.value);

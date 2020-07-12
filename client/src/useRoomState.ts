@@ -33,6 +33,7 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
   );
   const [youId, setYouId] = useState(1);
   const [attemptedToJoin, setAttemptedToJoin] = useState(false);
+  const [chatBubbleContent, setChatBubbleContent] = useState("");
 
   const newMsg = (message: string, isSystem = false) => {
     setChatState((prevChatState) => [
@@ -60,6 +61,9 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
         }
         if (message.type === "systemChat") {
           newMsg(message.payload.content, true);
+        }
+        if (message.type === "chatBubble") {
+          setChatBubbleContent(message.payload);
         }
       });
       return () => {
@@ -142,6 +146,10 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
     trigger("chat", { content: s });
   }
 
+  function sendChatBubble(s: string) {
+    trigger("chatBubble", { content: s });
+  }
+
   return {
     state,
     chatState,
@@ -163,6 +171,8 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
     requestVeto,
     rejectVeto,
     approveVeto,
-    sendChat
+    sendChat,
+    sendChatBubble,
+    chatBubbleContent
   };
 };

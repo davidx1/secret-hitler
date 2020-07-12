@@ -11,6 +11,7 @@ import { PresidentSelection } from "./PresidentSelection";
 import { GameOver } from "./GameOver";
 import { StateContext, ActionContext } from "../Play";
 import { Button } from "../../../lib/Button";
+import { InteractionMenu } from "./InteractionMenu";
 
 const PlayerWrapper = styled.div`
   display: flex;
@@ -40,7 +41,8 @@ export const InprogressScreen = () => {
     isYouChancellor,
     players,
     vetoRequested,
-    vetoApproved
+    vetoApproved,
+    interactionMenuTarget
   } = useContext(StateContext);
 
   const { revealVote, approveVeto, rejectVeto } = useContext(ActionContext);
@@ -80,6 +82,9 @@ export const InprogressScreen = () => {
           {isYouPresident && state === "killPlayer" && <KillPlayer />}
           {isYouPresident && state === "presidentSelection" && (
             <PresidentSelection />
+          )}
+          {interactionMenuTarget && interactionMenuTarget !== -1 && (
+            <InteractionMenu />
           )}
         </>
       )}
