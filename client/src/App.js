@@ -34,6 +34,7 @@ export const GlobalWrapper = styled(Div100vh)`
   }
   @media only screen and (min-width: 1200px) {
     padding: 30px;
+    max-height: 100vh;
   }
 `;
 

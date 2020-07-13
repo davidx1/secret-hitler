@@ -15,7 +15,7 @@ const Board = styled.div`
   box-sizing: border-box;
   margin: 0 auto;
   width: 300px;
-  height: 20%;
+  padding: 5px;
   min-height: fit-content;
   border-width: 1px;
   border-style: solid;
@@ -24,27 +24,27 @@ const Board = styled.div`
     width: 450px;
   }
   @media only screen and (min-width: 768px) {
-    height: 25%;
     width: 500px;
     border-width: 1px;
+    padding: 10px;
   }
   @media only screen and (min-width: 992px) {
-    height: 25%;
-    width: 700px;
+    width: 850px;
     border-width: 3px;
   }
   @media only screen and (min-width: 1200px) {
-    width: 800px;
+    width: 1000px;
+    padding: 15px;
   }
   @media only screen and (min-width: 1450px) {
-    width: 1100px;
+    width: 1200px;
     max-height: 230px;
     border-width: 4px;
   }
 `;
 
 const CardSlot = styled.div`
-  height: 90%;
+  height: 40px;
   width: 40px;
   border-width: 2px;
   border-style: dotted;
@@ -54,25 +54,22 @@ const CardSlot = styled.div`
 
   @media only screen and (min-width: 512px) {
     width: 60px;
-    min-height: 50px;
+    height: 60px;
   }
-
   @media only screen and (min-width: 768px) {
     width: 60px;
-    min-height: 60px;
+    height: 80px;
   }
   @media only screen and (min-width: 992px) {
     width: 120px;
-    min-height: 120px;
-
+    height: 140px;
     border-width: 3px;
   }
   @media only screen and (min-width: 1200px) {
   }
   @media only screen and (min-width: 1450px) {
     width: 150px;
-    min-height: 150px;
-
+    height: 180px;
     border-width: 5px;
   }
 `;

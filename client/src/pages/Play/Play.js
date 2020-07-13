@@ -26,10 +26,11 @@ export const Wrapper = styled.div`
 
 export const ChatWrapper = styled.div`
   background-color: purple;
-  height: ${({ isLandscape }) => (isLandscape ? "inherit" : "100%")};
+  height: ${({ isLandscape }) => (isLandscape ? "60%" : "100%")};
   width: ${({ isLandscape }) => (isLandscape ? "30%" : "100%")};
   margin: 0 auto;
   max-width: 1920px;
+  overflow: hidden;
 
   ${({ isLandscape }) =>
     isLandscape &&
