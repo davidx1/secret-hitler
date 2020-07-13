@@ -9,6 +9,8 @@ export class MyRoom extends Room {
   roomStateMachine = stateMachine;
   roomState = this.roomStateMachine.initialState;
 
+  chatBubbles = {};
+
   br() {
     const { value, context } = this.roomState;
     this.broadcast({
@@ -55,13 +57,33 @@ export class MyRoom extends Room {
         }
       });
     } else if (payload.type === "chatBubble") {
+      console.log("server received chat bubble");
+      console.log(payload.content);
+      if (this.chatBubbles[client.sessionId] !== "") {
+        this.chatBubbles[client.sessionId] = "";
+        this.broadcast({
+          type: "chatBubble",
+          payload: this.chatBubbles
+        });
+      }
+
+      //This delay is to clear the existing bubble, unmount it, so the timeout resets
+      this.clock.setTimeout(() => {
+        this.chatBubbles[client.sessionId] = payload.content;
+        this.broadcast({
+          type: "chatBubble",
+          payload: this.chatBubbles
+        });
+      }, 300);
+
       this.broadcast({
-        type: "chatBubble",
+        type: "chat",
         payload: {
-          content: {
-            id: client.sessionId,
-            content: payload.content
-          }
+          content: `${
+            this.roomState.context.players.find(
+              (p) => p.id === client.sessionId
+            ).displayName
+          }: ${payload.content}`
         }
       });
     } else {

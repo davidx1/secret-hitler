@@ -158,8 +158,7 @@ export default function Lobby({ client, playUrl, setRoom }) {
       <SkullIcon2 />
       <AboutWrapper>
         <li>
-          Licensed by{" "}
-          <a href="https://github.com/davidx1/secret-hitler">David Xu</a> under{" "}
+          Licensed under{" "}
           <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
             CC BY-NC-SA 4.0{" "}
           </a>

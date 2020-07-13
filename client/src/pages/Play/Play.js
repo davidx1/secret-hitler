@@ -92,7 +92,8 @@ export default function Game({ room, setRoom, client }) {
     rejectVeto,
     sendChat,
     chatState,
-    sendChatBubble
+    sendChatBubble,
+    chatBubbleContent
   } = useRoomState(room, joinRoom);
 
   if (!state) {
@@ -131,7 +132,8 @@ export default function Game({ room, setRoom, client }) {
           players: playersToDisplay,
           chatState,
           roomId,
-          interactionMenuTarget
+          interactionMenuTarget,
+          chatBubbleContent
         }}
       >
         <Wrapper isLandscape={isLandscape}>

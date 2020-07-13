@@ -23,18 +23,17 @@ export const Player = ({
   isChancellor = false,
   displayName = "<no display name>",
   isCurrentPlayer = false,
-  selectable = false,
   onClick,
   chatBubbleContent: propChatBubbleContent,
   isActive
 }) => {
   const { state } = useContext(StateContext);
   const [isChatBubbleShowing, setIsChatBubbleShowing] = useState(false);
-  const [chatBubbleContent, setChatBubbleContent] = useState("");
   useEffect(() => {
-    if (propChatBubbleContent !== "") {
+    console.log(propChatBubbleContent);
+
+    if (propChatBubbleContent) {
       setIsChatBubbleShowing(true);
-      setChatBubbleContent(propChatBubbleContent);
     }
   }, [propChatBubbleContent]);
 
@@ -51,12 +50,7 @@ export const Player = ({
     ? "H"
     : "L";
   return (
-    <PlayerWrapper
-      tabIndex="0"
-      selectable={selectable && isActive}
-      onClick={isActive && onClick}
-      scale={scale}
-    >
+    <PlayerWrapper tabIndex="0" onClick={isActive && onClick} scale={scale}>
       {roleToDisplay ? (
         <>
           <PlayerImage scale={scale} src={srcs[roleToDisplay]}>
@@ -82,12 +76,12 @@ export const Player = ({
             {state === "liberalWin" && (role === "H" || role === "F") && (
               <Lose />
             )}
-            {isChatBubbleShowing && (
+            {isChatBubbleShowing && propChatBubbleContent && (
               <NotificationWrapper
                 duration={3000}
                 killSelf={() => setIsChatBubbleShowing(false)}
               >
-                <SpeechBubble>{chatBubbleContent}</SpeechBubble>
+                <SpeechBubble>{propChatBubbleContent}</SpeechBubble>
               </NotificationWrapper>
             )}
           </PlayerImage>
@@ -183,16 +177,13 @@ const PlayerWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  cursor: ${(props) => (props.selectable ? "pointer" : "auto")};
-  outline: ${(props) => (props.selectable ? "default" : "none")};
-  ${(props) =>
-    props.selectable &&
-    css`
-      &:hover {
-        filter: brightness(1.2);
-      }
-    `}
+  cursor: pointer;
+  outline: none;
+  &:hover {
+    filter: brightness(1.2);
+  }
 `;
+
 const Marker = styled(motion.div)`
   display: flex;
   align-items: center;

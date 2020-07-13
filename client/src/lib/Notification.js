@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 
 export const NotificationWrapper = ({ duration, killSelf, children }) => {
   useEffect(() => {
-    setTimeout(killSelf, duration);
+    const id = setTimeout(killSelf, duration);
+    return () => clearTimeout(id);
   }, []);
 
   return <div>{children}</div>;

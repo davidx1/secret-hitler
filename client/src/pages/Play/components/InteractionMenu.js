@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { Overlay, InstructionText } from "../../../lib/Overlay";
+import { Overlay } from "../../../lib/Overlay";
 import { StateContext, ActionContext } from "../Play";
 import { Button } from "../../../lib/Button";
 import { Player } from "./Player";
@@ -21,6 +21,8 @@ export const InteractionMenu = () => {
     state,
     isYouPresident,
     players,
+    prevChancellorIndex,
+    prevPresidentIndex,
     interactionMenuTarget,
     youInfo,
     youId
@@ -32,6 +34,9 @@ export const InteractionMenu = () => {
   } = useContext(ActionContext);
 
   const targetPlayer = players[interactionMenuTarget];
+  const alivePlayerCount = players.filter((p) => p.isActive).length;
+  const canPrevPresidentBeNominated = alivePlayerCount <= 5;
+
   return (
     <Overlay onClick={() => setInteractionMenuTarget(-1)}>
       <Wrapper>
@@ -44,11 +49,15 @@ export const InteractionMenu = () => {
           isActive={targetPlayer.isActive}
         />
         <ButtonList>
-          {isYouPresident && state === "chancellorSelection" && (
-            <Button onClick={() => selectChancellor(interactionMenuTarget)}>
-              Select as Chancellor
-            </Button>
-          )}
+          {isYouPresident &&
+            state === "chancellorSelection" &&
+            interactionMenuTarget !== prevChancellorIndex &&
+            (canPrevPresidentBeNominated ||
+              interactionMenuTarget !== prevPresidentIndex) && (
+              <Button onClick={() => selectChancellor(interactionMenuTarget)}>
+                Nominate Chancellor
+              </Button>
+            )}
           <Button
             onClick={() =>
               sendChatBubble(`${targetPlayer.displayName} is Hitler!`)

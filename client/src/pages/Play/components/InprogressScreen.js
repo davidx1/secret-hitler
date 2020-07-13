@@ -83,9 +83,9 @@ export const InprogressScreen = () => {
           {isYouPresident && state === "presidentSelection" && (
             <PresidentSelection />
           )}
-          {interactionMenuTarget && interactionMenuTarget !== -1 && (
-            <InteractionMenu />
-          )}
+          {interactionMenuTarget !== undefined &&
+            interactionMenuTarget !== null &&
+            interactionMenuTarget !== -1 && <InteractionMenu />}
         </>
       )}
     </>
