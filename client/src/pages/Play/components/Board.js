@@ -14,8 +14,8 @@ const Board = styled.div`
   border-color: ${(props) => props.theme.black};
   box-sizing: border-box;
   margin: 0 auto;
-  width: 300px;
-  padding: 5px;
+  width: 290px;
+  padding: 2px;
   min-height: fit-content;
   border-width: 1px;
   border-style: solid;
@@ -24,20 +24,20 @@ const Board = styled.div`
     width: 450px;
   }
   @media only screen and (min-width: 768px) {
-    width: 500px;
+    width: 520px;
     border-width: 1px;
     padding: 10px;
   }
   @media only screen and (min-width: 992px) {
-    width: 850px;
+    width: 700px;
     border-width: 3px;
   }
   @media only screen and (min-width: 1200px) {
-    width: 1000px;
+    width: 800px;
     padding: 15px;
   }
   @media only screen and (min-width: 1450px) {
-    width: 1200px;
+    width: 1000px;
     max-height: 230px;
     border-width: 4px;
   }
