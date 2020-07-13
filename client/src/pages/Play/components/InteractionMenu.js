@@ -17,25 +17,14 @@ const Wrapper = styled.div`
 `;
 
 export const InteractionMenu = () => {
-  const {
-    state,
-    isYouPresident,
-    players,
-    prevChancellorIndex,
-    prevPresidentIndex,
-    interactionMenuTarget,
-    youInfo,
-    youId
-  } = useContext(StateContext);
-  const {
-    selectChancellor,
-    setInteractionMenuTarget,
-    sendChatBubble
-  } = useContext(ActionContext);
+  const { youInfo, youId, players, interactionMenuTarget } = useContext(
+    StateContext
+  );
+  const { setInteractionMenuTarget, sendChatBubble } = useContext(
+    ActionContext
+  );
 
   const targetPlayer = players[interactionMenuTarget];
-  const alivePlayerCount = players.filter((p) => p.isActive).length;
-  const canPrevPresidentBeNominated = alivePlayerCount <= 5;
 
   return (
     <Overlay onClick={() => setInteractionMenuTarget(-1)}>
@@ -49,15 +38,6 @@ export const InteractionMenu = () => {
           isActive={targetPlayer.isActive}
         />
         <ButtonList>
-          {isYouPresident &&
-            state === "chancellorSelection" &&
-            interactionMenuTarget !== prevChancellorIndex &&
-            (canPrevPresidentBeNominated ||
-              interactionMenuTarget !== prevPresidentIndex) && (
-              <Button onClick={() => selectChancellor(interactionMenuTarget)}>
-                Nominate Chancellor
-              </Button>
-            )}
           <Button
             onClick={() =>
               sendChatBubble(`${targetPlayer.displayName} is Hitler!`)

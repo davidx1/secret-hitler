@@ -11,15 +11,27 @@ const PlayerWrapper = styled.div`
   margin-bottom: 16px;
 `;
 
-export const PresidentSelection = () => {
-  const { players, youInfo } = useContext(StateContext);
-  const { setNewPresident } = useContext(ActionContext);
+export const ChancellorSelection = () => {
+  const {
+    players,
+    youInfo,
+    prevPresidentIndex,
+    prevChancellorIndex
+  } = useContext(StateContext);
+  const { selectChancellor } = useContext(ActionContext);
+
+  const alivePlayerCount = players.filter((p) => p.isActive).length;
+  const canPrevPresidentBeNominated = alivePlayerCount <= 5;
+
   return (
     <Overlay>
-      <InstructionText>Select Next President</InstructionText>
+      <InstructionText>Nominate Chancellor</InstructionText>
       <PlayerWrapper>
         {players.map((p, i) =>
-          p.id !== youInfo.id && p.isActive ? (
+          p.id !== youInfo.id &&
+          i !== prevChancellorIndex &&
+          p.isActive &&
+          (canPrevPresidentBeNominated || i !== prevPresidentIndex) ? (
             <Player
               displayName={p.displayName}
               isActive={true}
@@ -28,7 +40,7 @@ export const PresidentSelection = () => {
               role={p.role}
               scale={1}
               selectable={true}
-              onClick={() => setNewPresident(i)}
+              onClick={() => selectChancellor(i)}
             />
           ) : null
         )}

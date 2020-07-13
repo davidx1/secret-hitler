@@ -8,6 +8,7 @@ import { ViewThreeCards } from "./ViewThreeCards";
 import { InvestigatePlayer } from "./InvestigatePlayer";
 import { KillPlayer } from "./KillPlayer";
 import { PresidentSelection } from "./PresidentSelection";
+import { ChancellorSelection } from "./ChancellorSelection";
 import { GameOver } from "./GameOver";
 import { StateContext, ActionContext } from "../Play";
 import { Button } from "../../../lib/Button";
@@ -71,6 +72,9 @@ export const InprogressScreen = () => {
       </PlayerWrapper>
       {youInfo.isActive && (
         <>
+          {isYouPresident && state === "chancellorSelection" && (
+            <ChancellorSelection />
+          )}
           {(state === "fascistWin" || state === "liberalWin") && <GameOver />}
           {state === "election" && youInfo.vote === null && <VoteSelection />}
           {state === "filterCards" && isYouPresident && <PolicySelection />}
