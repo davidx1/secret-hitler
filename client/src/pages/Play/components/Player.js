@@ -105,9 +105,13 @@ const playerImageSize = css`
 
   height: ${(props) => 25 * props.scale}px;
   width: ${(props) => 25 * props.scale}px;
+  @media only screen and (min-width: 512px) {
+    height: ${(props) => 32 * props.scale}px;
+    width: ${(props) => 32 * props.scale}px;
+  }
   @media only screen and (min-width: 768px) {
-    height: ${(props) => 50 * props.scale}px;
-    width: ${(props) => 50 * props.scale}px;
+    height: ${(props) => 40 * props.scale}px;
+    width: ${(props) => 40 * props.scale}px;
   }
   @media only screen and (min-width: 992px) {
     height: ${(props) => 60 * props.scale}px;
@@ -153,12 +157,12 @@ const PlayerLabel = styled.p`
   @media only screen and (min-width: 768px) {
     font-size: ${(props) => 14 * props.scale}px;
     min-width: ${(props) => 40 * props.scale}px;
-    padding: 5px 10px;
   }
   @media only screen and (min-width: 992px) {
     font-size: ${(props) => 16 * props.scale}px;
     min-width: ${(props) => 60 * props.scale}px;
     max-width: ${(props) => 150 * props.scale}px;
+    padding: 5px 10px;
   }
   @media only screen and (min-width: 1200px) {
     font-size: ${(props) => 20 * props.scale}px;

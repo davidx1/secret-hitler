@@ -10,7 +10,7 @@ export const Overlay = styled.div`
   align-items: center;
   justify-content: center;
 
-  background-color: #00000099;
+  background-color: #000000aa;
   bottom: 0;
   left: 0;
   right: 0;
@@ -25,10 +25,20 @@ export const OverlayTransparent = styled(Overlay)`
 export const InstructionText = styled.h1`
   color: white;
   margin: 0 0 15px 0;
-  font-size: 25px;
+  font-size: 18px;
+
+  @media only screen and (min-width: 512px) {
+    font-size: 24px;
+  }
   @media only screen and (min-width: 768px) {
     margin: 0 0 30px 0;
+    font-size: 32px;
+  }
+  @media only screen and (min-width: 992px) {
     font-size: 40px;
+  }
+  @media only screen and (min-width: 1200px) {
+    font-size: 48px;
   }
 `;
 

@@ -59,7 +59,7 @@ export class MyRoom extends Room {
         type: "chat",
         payload: {
           content: `${
-            this.roomState.context.players.find(
+            this.service.state.context.players.find(
               (p) => p.id === client.sessionId
             ).displayName
           }: ${payload.content}`
@@ -89,7 +89,7 @@ export class MyRoom extends Room {
         type: "chat",
         payload: {
           content: `${
-            this.roomState.context.players.find(
+            this.service.state.context.players.find(
               (p) => p.id === client.sessionId
             ).displayName
           }: ${payload.content}`

@@ -13,6 +13,8 @@ import { GameOver } from "./GameOver";
 import { StateContext, ActionContext } from "../Play";
 import { Button } from "../../../lib/Button";
 import { InteractionMenu } from "./InteractionMenu";
+import { ElectionTracker } from "./ElectionTracker";
+import { HandleVetoRequest } from "./HandleVetoRequest";
 
 const PlayerWrapper = styled.div`
   display: flex;
@@ -28,12 +30,6 @@ const PlayerWrapper = styled.div`
   }
 `;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-`;
-
 export const InprogressScreen = () => {
   const {
     state,
@@ -46,26 +42,18 @@ export const InprogressScreen = () => {
     interactionMenuTarget
   } = useContext(StateContext);
 
-  const { revealVote, approveVeto, rejectVeto } = useContext(ActionContext);
+  const { revealVote } = useContext(ActionContext);
   return (
     <>
       <PlayerWrapper>
         <HalfThePlayers allPlayers={players} />
       </PlayerWrapper>
       <LibralBoard></LibralBoard>
+      <ElectionTracker />
       {isYouPresident &&
         state === "election" &&
         players.filter((p) => typeof p.vote !== "boolean" && p.isActive)
           .length === 0 && <Button onClick={revealVote}>Reveal Vote</Button>}
-      {isYouPresident &&
-        state === "enactPolicy" &&
-        vetoRequested &&
-        vetoApproved === null && (
-          <ButtonWrapper>
-            <Button onClick={approveVeto}>Approve Veto</Button>
-            <Button onClick={rejectVeto}>Reject Veto</Button>
-          </ButtonWrapper>
-        )}
       <FascistBoard></FascistBoard>
       <PlayerWrapper>
         <HalfThePlayers allPlayers={players} secondHalf />
@@ -75,6 +63,10 @@ export const InprogressScreen = () => {
           {isYouPresident && state === "chancellorSelection" && (
             <ChancellorSelection />
           )}
+          {isYouPresident &&
+            state === "enactPolicy" &&
+            vetoRequested &&
+            vetoApproved === null && <HandleVetoRequest />}
           {(state === "fascistWin" || state === "liberalWin") && <GameOver />}
           {state === "election" && youInfo.vote === null && <VoteSelection />}
           {state === "filterCards" && isYouPresident && <PolicySelection />}

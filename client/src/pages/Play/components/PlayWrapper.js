@@ -4,13 +4,15 @@ export const PlayWrapper = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  border: 1px solid ${(props) => props.theme.black};
+  border-top: 1px solid ${(props) => props.theme.black};
+  border-bottom: 1px solid ${(props) => props.theme.black};
+
   margin: 0 auto;
   width: 100%;
   height: 100%;
   justify-content: space-between;
   min-width: 300px;
-  max-height: 250px;
+  max-height: 280px;
   padding: 10px 0;
   @media only screen and (min-width: 512px) {
     max-height: 350px;
@@ -27,6 +29,5 @@ export const PlayWrapper = styled.div`
   @media only screen and (min-width: 1450px) {
     max-height: 1450px;
     max-width: 1920px;
-    padding: 20px 0;
   }
 `;

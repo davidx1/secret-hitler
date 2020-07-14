@@ -310,16 +310,29 @@ const killPlayer = assign((context, event) => ({
   )
 }));
 
-const requestVeto = assign((context, event) => ({
+const requestVeto = assign(() => ({
   vetoRequested: true
 }));
 
-const approveVeto = assign((context, event) => ({
+const approveVeto = assign(() => ({
   vetoApproved: true
 }));
 
-const rejectVeto = assign((context, event) => ({
+const rejectVeto = assign(() => ({
   vetoApproved: false
+}));
+
+const incrementElectionTracker = assign((context) => ({
+  electionTracker: context.electionTracker + 1
+}));
+
+const resetElectionTracker = assign(() => ({
+  electionTracker: 0
+}));
+
+const resetTermLimits = assign(() => ({
+  prevChancellorIndex: null,
+  prevPresidentIndex: null
 }));
 
 function isElectionSuccess(context) {
@@ -417,6 +430,10 @@ function isVetoRequested(context) {
   return context.vetoRequested;
 }
 
+function isTooManyFailedElections(context) {
+  return context.electionTracker === 2;
+}
+
 const stateMachine = Machine(
   {
     id: "secret-hitler",
@@ -490,11 +507,30 @@ const stateMachine = Machine(
                 {
                   target: "filterCards",
                   cond: "isElectionSuccess",
-                  actions: "setPolicyInHand"
+                  actions: ["setPolicyInHand", "resetElectionTracker"]
+                },
+                {
+                  target: "enactRandomPolicy",
+                  cond: "isTooManyFailedElections",
+                  actions: ["incrementElectionTracker", "enactRandomPolicy"]
                 },
                 {
                   target: "chancellorSelection",
-                  actions: "setNewPresident"
+                  actions: ["setNewPresident", "incrementElectionTracker"]
+                }
+              ]
+            }
+          },
+          enactRandomPolicy: {
+            after: {
+              3000: [
+                {
+                  target: "chancellorSelection",
+                  actions: [
+                    "setNewPresident",
+                    "resetElectionTracker",
+                    "resetTermLimits"
+                  ]
                 }
               ]
             }
@@ -518,6 +554,15 @@ const stateMachine = Machine(
                 target: "enactPolicy",
                 actions: "rejectVeto",
                 cond: "isVetoRequested"
+              },
+              approveVeto: {
+                target: "enactRandomPolicy",
+                cond: "isTooManyFailedElections",
+                actions: [
+                  "incrementElectionTracker",
+                  "enactRandomPolicy",
+                  "setNewPolicy"
+                ]
               },
               approveVeto: {
                 target: "chancellorSelection",
@@ -608,7 +653,10 @@ const stateMachine = Machine(
       removePolicyFromHand,
       requestVeto,
       rejectVeto,
-      approveVeto
+      approveVeto,
+      incrementElectionTracker,
+      resetElectionTracker,
+      resetTermLimits
     },
     guards: {
       isElectionSuccess,
@@ -623,7 +671,8 @@ const stateMachine = Machine(
       isInvestigate,
       isValidKillingCandidate,
       isVetoAvailable,
-      isVetoRequested
+      isVetoRequested,
+      isTooManyFailedElections
     }
   }
 );
