@@ -18,18 +18,20 @@ export const KillPlayer = () => {
     <Overlay>
       <InstructionText>Select a player to kill</InstructionText>
       <PlayerWrapper>
-        {players.map((p, i) => (
-          <Player
-            displayName={p.displayName}
-            currentPlayerRole={youInfo.role}
-            isCurrentPlayer={p.id === youInfo.id}
-            role={p.role}
-            scale={1.5}
-            onClick={() => killPlayer(i)}
-            isActive={p.isActive}
-            selectable
-          ></Player>
-        ))}
+        {players.map((p, i) =>
+          p.isActive ? (
+            <Player
+              displayName={p.displayName}
+              currentPlayerRole={youInfo.role}
+              isCurrentPlayer={p.id === youInfo.id}
+              role={p.role}
+              scale={1.5}
+              onClick={() => killPlayer(i)}
+              isActive={p.isActive}
+              selectable
+            ></Player>
+          ) : null
+        )}
       </PlayerWrapper>
     </Overlay>
   );

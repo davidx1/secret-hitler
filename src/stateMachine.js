@@ -77,7 +77,7 @@ const boardFor = {
 };
 
 export const prodInitialState = {
-  value: "waiting",
+  value: "play",
   context: {
     players: [],
     board: [],
@@ -331,16 +331,6 @@ function isElectionSuccess(context) {
   return result;
 }
 
-function isHitlerElected(context) {
-  const elected = isElectionSuccess(context);
-  return (
-    elected &&
-    context.enactedFascistPolicies > 3 &&
-    typeof context.chancellorIndex === "number" &&
-    context.players[context.chancellorIndex].role === "H"
-  );
-}
-
 function isValidGovernmentCandidate(context, event) {
   const alivePlayerCount = context.players.filter((p) => p.isActive).length;
   const canPrevPresidentBeNominated = alivePlayerCount <= 5;
@@ -369,12 +359,22 @@ function isEnoughPlayers(context) {
   return count >= 5 && count <= 10;
 }
 
-function isLiberalWin(context) {
-  return context.enactedLiberalPolicies === 4;
+function isLiberalWin(context, action) {
+  return (
+    context.policiesInHand[action.index] === "L" &&
+    context.enactedLiberalPolicies === 5
+  );
 }
 
 function isFascistWin(context) {
-  return context.enactedFascistPolicies === 5;
+  const isHitlerElected =
+    context.enactedFascistPolicies > 3 &&
+    typeof context.chancellorIndex === "number" &&
+    context.players[context.chancellorIndex].role === "H";
+
+  const isFascistPoliciesEnacted = context.enactedFascistPolicies === 6;
+
+  return isHitlerElected || isFascistPoliciesEnacted;
 }
 
 function isViewThreeCards(context, event) {
@@ -385,7 +385,6 @@ function isViewThreeCards(context, event) {
     context.board[context.enactedFascistPolicies] === ability.TOP_THREE_CARD
   );
 }
-
 function isPickNextPresident(context, event) {
   if (context.policiesInHand[event.index] === "L") {
     return false;
@@ -421,167 +420,171 @@ function isVetoRequested(context) {
 const stateMachine = Machine(
   {
     id: "secret-hitler",
-    initial: initial.value,
+    initial: "play",
     context: initial.context,
     states: {
-      waiting: {
-        on: {
-          newPlayer: {
-            target: "waiting",
-            actions: "setNewPlayer"
-          },
-          removePlayer: {
-            target: "waiting",
-            actions: "setRemovePlayer"
-          },
-          start: {
-            target: "chancellorSelection",
-            cond: "isEnoughPlayers",
-            actions: [
-              "setPlayerRoles",
-              "setNewPresident",
-              "setNewDrawPile",
-              "setBoardToUse"
-            ]
-          }
-        }
-      },
-      chancellorSelection: {
-        on: {
-          selectChancellor: {
-            target: "election",
-            actions: "setNewChancellor",
-            cond: "isValidGovernmentCandidate"
-          }
-        }
-      },
-      election: {
-        on: {
-          vote: {
-            target: "checkVote",
-            actions: "setOneVote"
-          }
-        }
-      },
-      checkVote: {
+      play: {
+        initial: "waiting",
         always: [
           {
-            target: "revealVote",
-            cond: "isAllVotesIn"
+            target: "liberalWin",
+            cond: "isLiberalWin"
           },
-          { target: "election" }
-        ]
-      },
-      revealVote: {
-        after: {
-          3000: [
-            { target: "fascistWin", cond: "isHitlerElected" },
-            {
-              target: "filterCards",
-              cond: "isElectionSuccess",
-              actions: "setPolicyInHand"
-            },
-            {
-              target: "chancellorSelection",
-              actions: "setNewPresident"
+          {
+            target: "fascistWin",
+            cond: "isFascistWin"
+          }
+        ],
+        states: {
+          waiting: {
+            on: {
+              newPlayer: {
+                target: "waiting",
+                actions: "setNewPlayer"
+              },
+              removePlayer: {
+                target: "waiting",
+                actions: "setRemovePlayer"
+              },
+              start: {
+                target: "chancellorSelection",
+                cond: "isEnoughPlayers",
+                actions: [
+                  "setPlayerRoles",
+                  "setNewPresident",
+                  "setNewDrawPile",
+                  "setBoardToUse"
+                ]
+              }
             }
-          ]
-        }
-      },
-      filterCards: {
-        on: {
-          cardSelect: {
-            target: "enactPolicy",
-            actions: "removePolicyFromHand"
-          }
-        }
-      },
-      enactPolicy: {
-        on: {
-          requestVeto: {
-            target: "enactPolicy",
-            actions: "requestVeto",
-            cond: "isVetoAvailable"
           },
-          rejectVeto: {
-            target: "enactPolicy",
-            actions: "rejectVeto",
-            cond: "isVetoRequested"
-          },
-          approveVeto: {
-            target: "chancellorSelection",
-            actions: ["setNewPolicy", "setNewPresident"],
-            cond: "isVetoRequested"
-          },
-          enact: [
-            {
-              target: "liberalWin",
-              actions: "setNewPolicy",
-              cond: "isLiberalWin"
-            },
-            {
-              target: "fascistWin",
-              actions: "setNewPolicy",
-              cond: "isFascistWin"
-            },
-            {
-              target: "viewThreeCards",
-              cond: "isViewThreeCards",
-              actions: "setNewPolicy"
-            },
-            {
-              target: "investigatePlayer",
-              cond: "isInvestigate",
-              actions: "setNewPolicy"
-            },
-            {
-              target: "killPlayer",
-              cond: "isKillPlayer",
-              actions: "setNewPolicy"
-            },
-            {
-              target: "presidentSelection",
-              cond: "isPickNextPresident",
-              actions: "setNewPolicy"
-            },
-            {
-              target: "chancellorSelection",
-              actions: ["setNewPolicy", "setNewPresident"]
+          chancellorSelection: {
+            on: {
+              selectChancellor: {
+                target: "election",
+                actions: "setNewChancellor",
+                cond: "isValidGovernmentCandidate"
+              }
             }
-          ]
-        }
-      },
-      viewThreeCards: {
-        on: {
-          doneViewingCards: {
-            target: "chancellorSelection",
-            actions: "setNewPresident"
-          }
-        }
-      },
-      investigatePlayer: {
-        on: {
-          doneInvestigating: {
-            target: "chancellorSelection",
-            actions: "setNewPresident"
-          }
-        }
-      },
-      killPlayer: {
-        on: {
+          },
+          election: {
+            on: {
+              vote: {
+                target: "checkVote",
+                actions: "setOneVote"
+              }
+            }
+          },
+          checkVote: {
+            always: [
+              {
+                target: "revealVote",
+                cond: "isAllVotesIn"
+              },
+              { target: "election" }
+            ]
+          },
+          revealVote: {
+            after: {
+              3000: [
+                {
+                  target: "filterCards",
+                  cond: "isElectionSuccess",
+                  actions: "setPolicyInHand"
+                },
+                {
+                  target: "chancellorSelection",
+                  actions: "setNewPresident"
+                }
+              ]
+            }
+          },
+          filterCards: {
+            on: {
+              cardSelect: {
+                target: "enactPolicy",
+                actions: "removePolicyFromHand"
+              }
+            }
+          },
+          enactPolicy: {
+            on: {
+              requestVeto: {
+                target: "enactPolicy",
+                actions: "requestVeto",
+                cond: "isVetoAvailable"
+              },
+              rejectVeto: {
+                target: "enactPolicy",
+                actions: "rejectVeto",
+                cond: "isVetoRequested"
+              },
+              approveVeto: {
+                target: "chancellorSelection",
+                actions: ["setNewPolicy", "setNewPresident"],
+                cond: "isVetoRequested"
+              },
+              enact: [
+                {
+                  target: "viewThreeCards",
+                  cond: "isViewThreeCards",
+                  actions: "setNewPolicy"
+                },
+                {
+                  target: "investigatePlayer",
+                  cond: "isInvestigate",
+                  actions: "setNewPolicy"
+                },
+                {
+                  target: "killPlayer",
+                  cond: "isKillPlayer",
+                  actions: "setNewPolicy"
+                },
+                {
+                  target: "presidentSelection",
+                  cond: "isPickNextPresident",
+                  actions: "setNewPolicy"
+                },
+                {
+                  target: "chancellorSelection",
+                  actions: ["setNewPolicy", "setNewPresident"]
+                }
+              ]
+            }
+          },
+          viewThreeCards: {
+            on: {
+              doneViewingCards: {
+                target: "chancellorSelection",
+                actions: "setNewPresident"
+              }
+            }
+          },
+          investigatePlayer: {
+            on: {
+              doneInvestigating: {
+                target: "chancellorSelection",
+                actions: "setNewPresident"
+              }
+            }
+          },
           killPlayer: {
-            target: "chancellorSelection",
-            actions: ["killPlayer", "setNewPresident"],
-            cond: "isValidKillingCandidate"
-          }
-        }
-      },
-      presidentSelection: {
-        on: {
-          selectPresident: {
-            target: "chancellorSelection",
-            actions: "setNewPresident",
-            cond: "isValidGovernmentCandidate"
+            on: {
+              killPlayer: {
+                target: "chancellorSelection",
+                actions: ["killPlayer", "setNewPresident"],
+                cond: "isValidKillingCandidate"
+              }
+            }
+          },
+          presidentSelection: {
+            on: {
+              selectPresident: {
+                target: "chancellorSelection",
+                actions: "setNewPresident",
+                cond: "isValidGovernmentCandidate"
+              }
+            }
           }
         }
       },
@@ -611,7 +614,6 @@ const stateMachine = Machine(
       isElectionSuccess,
       isEnoughPlayers,
       isAllVotesIn,
-      isHitlerElected,
       isValidGovernmentCandidate,
       isLiberalWin,
       isFascistWin,

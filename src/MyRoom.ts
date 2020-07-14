@@ -21,10 +21,11 @@ export class MyRoom extends Room {
     }
   })
     .onTransition(({ value, context }) => {
+      console.log(value);
       this.broadcast({
         type: "state",
         payload: {
-          state: value,
+          state: typeof value === "string" ? value : value["play"],
           context
         }
       });
@@ -39,17 +40,16 @@ export class MyRoom extends Room {
   }
 
   onJoin(client: { sessionId: any }, data: { displayName: string }) {
-    this.roomState = this.service.send({
-      "type": "newPlayer",
-      "id": client.sessionId,
-      "displayName": data.displayName
+    console.log(`${data.displayName} attempts to join`);
+    this.service.send("newPlayer", {
+      id: client.sessionId,
+      displayName: data.displayName
     });
   }
 
   onLeave(client: { sessionId: any }) {
-    this.roomState = this.service.send({
-      "type": "removePlayer",
-      "id": client.sessionId
+    this.service.send("removePlayer", {
+      id: client.sessionId
     });
   }
 
@@ -118,8 +118,9 @@ function getSystemChatMessage(state, context) {
   const { presidentIndex, chancellorIndex, players } = context;
   const president = players[presidentIndex];
   const chancellor = players[chancellorIndex];
+  const simplifiedState = typeof state === "string" ? state : state["play"];
 
-  switch (state) {
+  switch (simplifiedState) {
     case "chancellorSelection":
       return `${president.displayName}(President) to select new chancellor`;
     case "election":
@@ -127,9 +128,7 @@ function getSystemChatMessage(state, context) {
       const votes = players.filter(
         (p) => p.isActive && typeof p.vote === "boolean"
       ).length;
-      if (activePlayerCount - votes > 0) {
-        return `${votes}/${activePlayerCount} votes casted in election of ${chancellor.displayName}`;
-      }
+      return `${votes}/${activePlayerCount} votes casted`;
     case "revealVote":
       return `All votes in`;
     case "filterCards":
