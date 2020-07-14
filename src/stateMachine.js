@@ -335,6 +335,30 @@ const resetTermLimits = assign(() => ({
   prevPresidentIndex: null
 }));
 
+const enactRandomPolicy = assign((context) => {
+  let newDrawPile;
+  if (context.drawPile && context.drawPile.length >= 3) {
+    newDrawPile = [...context.drawPile];
+  } else {
+    newDrawPile = [...allPolicyCards];
+    shuffle(newDrawPile);
+  }
+
+  const topPolicyCard = newDrawPile.pop();
+
+  return {
+    drawPile: newDrawPile,
+    enactedFascistPolicies:
+      topPolicyCard === "F"
+        ? context.enactedFascistPolicies + 1
+        : context.enactedFascistPolicies,
+    enactedLiberalPolicies:
+      topPolicyCard === "L"
+        ? context.enactedLiberalPolicies + 1
+        : context.enactedLiberalPolicies
+  };
+});
+
 function isElectionSuccess(context) {
   const result =
     isAllVotesIn(context) &&
@@ -656,7 +680,8 @@ const stateMachine = Machine(
       approveVeto,
       incrementElectionTracker,
       resetElectionTracker,
-      resetTermLimits
+      resetTermLimits,
+      enactRandomPolicy
     },
     guards: {
       isElectionSuccess,

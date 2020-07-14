@@ -6,8 +6,7 @@ export const PlayWrapper = styled.div`
   box-sizing: border-box;
   border-top: 1px solid ${(props) => props.theme.black};
   border-bottom: 1px solid ${(props) => props.theme.black};
-
-  margin: 0 auto;
+  margin: 0 auto 20px auto;
   width: 100%;
   height: 100%;
   justify-content: space-between;

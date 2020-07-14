@@ -29,6 +29,16 @@ export class MyRoom extends Room {
           context
         }
       });
+
+      const newSystemMessage = getSystemChatMessage(value, context);
+      if (newSystemMessage) {
+        this.broadcast({
+          type: "systemChat",
+          payload: {
+            content: newSystemMessage
+          }
+        });
+      }
     })
     .start();
 
@@ -97,15 +107,6 @@ export class MyRoom extends Room {
       });
     } else {
       this.roomState = this.service.send({ ...payload });
-      this.broadcast({
-        type: "systemChat",
-        payload: {
-          content: getSystemChatMessage(
-            this.roomState.value,
-            this.roomState.context
-          )
-        }
-      });
     }
   }
 
@@ -130,7 +131,9 @@ function getSystemChatMessage(state, context) {
       ).length;
       return `${votes}/${activePlayerCount} votes casted`;
     case "revealVote":
-      return `All votes in`;
+      return `All votes in. Ja: ${
+        context.players.filter((p) => p.vote === true).length
+      }, Nein: ${context.players.filter((p) => p.vote === false).length}`;
     case "filterCards":
       return `${president.displayName}(President) to discard one policy card`;
     case "enactPolicy":
@@ -146,6 +149,6 @@ function getSystemChatMessage(state, context) {
     case "liberalWin":
     case "fascistWin":
     default:
-      return "Default system message";
+      return "";
   }
 }

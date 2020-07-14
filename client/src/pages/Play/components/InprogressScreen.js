@@ -39,7 +39,8 @@ export const InprogressScreen = () => {
     players,
     vetoRequested,
     vetoApproved,
-    interactionMenuTarget
+    interactionMenuTarget,
+    electionTracker
   } = useContext(StateContext);
 
   const { revealVote } = useContext(ActionContext);
@@ -49,7 +50,7 @@ export const InprogressScreen = () => {
         <HalfThePlayers allPlayers={players} />
       </PlayerWrapper>
       <LibralBoard></LibralBoard>
-      <ElectionTracker />
+      <ElectionTracker points={electionTracker} />
       {isYouPresident &&
         state === "election" &&
         players.filter((p) => typeof p.vote !== "boolean" && p.isActive)
