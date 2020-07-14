@@ -30,8 +30,6 @@ export const Player = ({
   const { state } = useContext(StateContext);
   const [isChatBubbleShowing, setIsChatBubbleShowing] = useState(false);
   useEffect(() => {
-    console.log(propChatBubbleContent);
-
     if (propChatBubbleContent) {
       setIsChatBubbleShowing(true);
     }
@@ -65,7 +63,7 @@ export const Player = ({
               </ChancellorMarker>
             )}
             {state === "election" && typeof vote === "boolean" && <Voted />}
-            {state !== "election" &&
+            {state === "revealVote" &&
               typeof vote === "boolean" &&
               (vote ? <VotedYes /> : <VotedNo />)}
             {state === "fascistWin" && (role === "H" || role === "F") && (

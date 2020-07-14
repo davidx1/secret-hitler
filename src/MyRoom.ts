@@ -1,26 +1,37 @@
 import { Room, Client } from "colyseus";
-import { Schema } from "@colyseus/schema";
-import stateMachine, { prodInitialState } from "./stateMachine";
+import stateMachine from "./stateMachine";
 import { customAlphabet } from "nanoid";
+import { interpret } from "xstate";
 
 const nanoid = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890", 6);
+const machine = stateMachine;
 
 export class MyRoom extends Room {
-  roomStateMachine = stateMachine;
-  roomState = this.roomStateMachine.initialState;
+  roomState = stateMachine.initialState;
+  transitionDelay = null;
+
+  // Interpret the machine, and add a listener for whenever a transition occurs.
+  service = interpret(stateMachine, {
+    clock: {
+      setTimeout: (fn, delay) => {
+        this.transitionDelay = this.clock.setTimeout(fn, delay);
+        return 1;
+      },
+      clearTimeout: () => this.transitionDelay.clear()
+    }
+  })
+    .onTransition(({ value, context }) => {
+      this.broadcast({
+        type: "state",
+        payload: {
+          state: value,
+          context
+        }
+      });
+    })
+    .start();
 
   chatBubbles = {};
-
-  br() {
-    const { value, context } = this.roomState;
-    this.broadcast({
-      type: "state",
-      payload: {
-        state: value,
-        context
-      }
-    });
-  }
 
   onCreate(options: any) {
     console.log("BasicRoom created!", options);
@@ -28,20 +39,18 @@ export class MyRoom extends Room {
   }
 
   onJoin(client: { sessionId: any }, data: { displayName: string }) {
-    this.roomState = stateMachine.transition(this.roomState, {
+    this.roomState = this.service.send({
       "type": "newPlayer",
       "id": client.sessionId,
       "displayName": data.displayName
     });
-    this.br();
   }
 
   onLeave(client: { sessionId: any }) {
-    this.roomState = stateMachine.transition(this.roomState, {
+    this.roomState = this.service.send({
       "type": "removePlayer",
       "id": client.sessionId
     });
-    this.br();
   }
 
   onMessage(client: { sessionId: any }, payload: any) {
@@ -87,8 +96,7 @@ export class MyRoom extends Room {
         }
       });
     } else {
-      this.roomState = stateMachine.transition(this.roomState, { ...payload });
-      console.log(this.roomState.value);
+      this.roomState = this.service.send({ ...payload });
       this.broadcast({
         type: "systemChat",
         payload: {
@@ -98,7 +106,6 @@ export class MyRoom extends Room {
           )
         }
       });
-      this.br();
     }
   }
 
@@ -123,7 +130,8 @@ function getSystemChatMessage(state, context) {
       if (activePlayerCount - votes > 0) {
         return `${votes}/${activePlayerCount} votes casted in election of ${chancellor.displayName}`;
       }
-      return `All votes in ${president.displayName}(President) to reveal election result`;
+    case "revealVote":
+      return `All votes in`;
     case "filterCards":
       return `${president.displayName}(President) to discard one policy card`;
     case "enactPolicy":
@@ -139,6 +147,6 @@ function getSystemChatMessage(state, context) {
     case "liberalWin":
     case "fascistWin":
     default:
-      return "hello world";
+      return "Default system message";
   }
 }

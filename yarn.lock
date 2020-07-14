@@ -3809,7 +3809,7 @@ xdg-basedir@^4.0.0:
   resolved "https://registry.yarnpkg.com/xdg-basedir/-/xdg-basedir-4.0.0.tgz#4bc8d9984403696225ef83a1573cbbcb4e79db13"
   integrity sha512-PSNhEJDejZYV7h50BohL09Er9VaIefr2LMAf3OEmpCkjOi34eYyQYAXUTjEQtZJTKcF0E2UKTh+osDLsgNim9Q==
 
-xstate@^4.8.0:
+xstate@^4.11.0:
   version "4.11.0"
   resolved "https://registry.yarnpkg.com/xstate/-/xstate-4.11.0.tgz#dc0bd31079fe22918c2c27c118d6310bef3dcd9e"
   integrity sha512-v+S3jF2YrM2tFOit8o7+4N3FuFd9IIGcIKHyfHeeNjMlmNmwuiv/IbY9uw7ECifx7H/A9aGLcxPSr0jdjTGDww==

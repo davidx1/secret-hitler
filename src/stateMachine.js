@@ -83,6 +83,7 @@ export const prodInitialState = {
     board: [],
     drawPile: [],
     policiesInHand: [],
+    electionTracker: 0,
     prevPresidentIndex: null,
     prevChancellorIndex: null,
     presidentIndex: null,
@@ -357,10 +358,10 @@ function isValidKillingCandidate(context, event) {
 }
 
 function isAllVotesIn(context) {
-  return (
+  const result =
     context.players.filter((p) => typeof p.vote !== "boolean" && p.isActive)
-      .length === 0
-  );
+      .length === 0;
+  return result;
 }
 
 function isEnoughPlayers(context) {
@@ -456,7 +457,24 @@ const stateMachine = Machine(
       },
       election: {
         on: {
-          revealVote: [
+          vote: {
+            target: "checkVote",
+            actions: "setOneVote"
+          }
+        }
+      },
+      checkVote: {
+        always: [
+          {
+            target: "revealVote",
+            cond: "isAllVotesIn"
+          },
+          { target: "election" }
+        ]
+      },
+      revealVote: {
+        after: {
+          3000: [
             { target: "fascistWin", cond: "isHitlerElected" },
             {
               target: "filterCards",
@@ -465,14 +483,9 @@ const stateMachine = Machine(
             },
             {
               target: "chancellorSelection",
-              actions: "setNewPresident",
-              cond: "isAllVotesIn"
+              actions: "setNewPresident"
             }
-          ],
-          vote: {
-            target: "election",
-            actions: "setOneVote"
-          }
+          ]
         }
       },
       filterCards: {
