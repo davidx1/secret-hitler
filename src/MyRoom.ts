@@ -134,6 +134,8 @@ function getSystemChatMessage(state, context) {
       return `All votes in. Ja: ${
         context.players.filter((p) => p.vote === true).length
       }, Nein: ${context.players.filter((p) => p.vote === false).length}`;
+    case "enactRandomPolicy":
+      return `Enacting top policy from the policy deck`;
     case "filterCards":
       return `${president.displayName}(President) to discard one policy card`;
     case "enactPolicy":
