@@ -5,6 +5,7 @@ import { Dove } from "@styled-icons/fa-solid/Dove";
 import { Skull } from "@styled-icons/fa-solid/Skull";
 
 import { Loader } from "../../lib/Loader";
+import { Error } from "../../lib/Error";
 import { OptionCard, OptionWrapper } from "./components/OptionCard";
 import { LogoImage } from "./components/LogoImage";
 import { JoinRoomModal } from "./components/JoinRoomModal";
@@ -111,6 +112,7 @@ export default function Lobby({ client, playUrl, setRoom }) {
   const [isNewRoomModalOpen, setIsNewRoomModalOpen] = useState(false);
   const [isJoinRoomModalOpen, setIsJoinRoomModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isErrorOpen, setIsErrorOpen] = useState(true);
   const history = useHistory();
 
   const postJoiningCallback = (newRoom) => {
@@ -120,12 +122,26 @@ export default function Lobby({ client, playUrl, setRoom }) {
 
   const createRoom = async (displayName) => {
     setIsLoading(true);
-    await client.create("my_room", { displayName }).then(postJoiningCallback);
+    await client
+      .create("my_room", { displayName })
+      .then(postJoiningCallback)
+      .catch((e) => {
+        setIsLoading(false);
+        setIsNewRoomModalOpen(false);
+        setIsErrorOpen(true);
+      });
   };
 
   const joinRoom = async (id, displayName) => {
     setIsLoading(true);
-    await client.joinById(id, { displayName }).then(postJoiningCallback);
+    await client
+      .joinById(id, { displayName })
+      .then(postJoiningCallback)
+      .catch((e) => {
+        setIsLoading(false);
+        setIsJoinRoomModalOpen(false);
+        setIsErrorOpen(true);
+      });
   };
 
   return (
@@ -152,6 +168,7 @@ export default function Lobby({ client, playUrl, setRoom }) {
         />
       )}
       {isLoading && <Loader />}
+      {isErrorOpen && <Error closeModal={() => setIsErrorOpen(false)} />}
       <DoveIcon />
       <DoveIcon2 />
       <SkullIcon />

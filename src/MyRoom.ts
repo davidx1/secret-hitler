@@ -2,9 +2,11 @@ import { Room, Client } from "colyseus";
 import stateMachine from "./stateMachine";
 import { customAlphabet } from "nanoid";
 import { interpret } from "xstate";
+import Chance from "chance";
 
 const nanoid = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890", 6);
 const machine = stateMachine;
+const chance = new Chance();
 
 export class MyRoom extends Room {
   roomState = stateMachine.initialState;
@@ -53,7 +55,7 @@ export class MyRoom extends Room {
     console.log(`${data.displayName} attempts to join`);
     this.service.send("newPlayer", {
       id: client.sessionId,
-      displayName: data.displayName
+      displayName: data?.displayName || chance.first()
     });
   }
 

@@ -1,7 +1,6 @@
 import React, { createContext, useState } from "react";
 import styled, { css } from "styled-components";
 import { useParams } from "react-router-dom";
-import Chance from "chance";
 import useWindowSize from "react-use-window-size";
 
 import { PlayWrapper } from "./components/PlayWrapper";
@@ -56,8 +55,6 @@ export const ChatWrapper = styled.div`
 export const StateContext = createContext();
 export const ActionContext = createContext();
 
-const chance = new Chance();
-
 export default function Game({ room, setRoom, client }) {
   const { roomId } = useParams();
   const [interactionMenuTarget, setInteractionMenuTarget] = useState(-1);
@@ -66,9 +63,7 @@ export default function Game({ room, setRoom, client }) {
   const isLandscape = width > height;
 
   const joinRoom = async () => {
-    client
-      .joinById(roomId, { displayName: chance.first() })
-      .then((newRoom) => setRoom(newRoom));
+    client.joinById(roomId).then((newRoom) => setRoom(newRoom));
   };
 
   const {

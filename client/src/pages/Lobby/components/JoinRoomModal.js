@@ -1,11 +1,21 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import { Overlay, OverlayCross } from "../../../lib/Overlay";
 import { Button } from "../../../lib/Button";
 import { Input } from "../../../lib/Input";
 
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const JoinRoomModal = ({ closeModal, onRoomJoin }) => {
   const [displayName, setDisplayName] = useState("");
   const [roomId, setRoomId] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onRoomJoin(roomId, displayName);
+  };
 
   // const getAvailableRooms = () => {
   //   client
@@ -35,17 +45,20 @@ export const JoinRoomModal = ({ closeModal, onRoomJoin }) => {
     ))}
   </ul> */}
       <OverlayCross onClick={closeModal} />
-      <Input
-        value={roomId}
-        onChange={(e) => setRoomId(e.target.value)}
-        placeholder="Game PIN"
-      />
-      <Input
-        value={displayName}
-        onChange={(e) => setDisplayName(e.target.value)}
-        placeholder="Your Display Name"
-      />
-      <Button onClick={() => onRoomJoin(roomId, displayName)}>Join Room</Button>
+      <Form onSubmit={handleSubmit}>
+        <Input
+          required
+          value={roomId}
+          onChange={(e) => setRoomId(e.target.value)}
+          placeholder="Game PIN"
+        />
+        <Input
+          value={displayName}
+          onChange={(e) => setDisplayName(e.target.value)}
+          placeholder="Your Display Name"
+        />
+        <Button type="submit">Join Room</Button>
+      </Form>
     </Overlay>
   );
 };
