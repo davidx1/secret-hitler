@@ -21,7 +21,7 @@ const Board = styled.div`
   border-style: solid;
 
   @media only screen and (min-width: 512px) {
-    width: 450px;
+    width: 430px;
   }
   @media only screen and (min-width: 768px) {
     width: 520px;

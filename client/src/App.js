@@ -24,17 +24,17 @@ export const GlobalWrapper = styled(Div100vh)`
   align-items: center;
   justify-content: center;
   width: 100vw;
+  height: 100vh;
   padding: 15px;
   background-color: ${(props) => props.theme.orange_light};
   box-sizing: border-box;
-  overflow: scroll;
+  overflow: auto;
   min-height: 320px;
   @media only screen and (min-width: 512px) {
     padding: 30px 20px;
   }
   @media only screen and (min-width: 1200px) {
     padding: 30px;
-    max-height: 100vh;
   }
 `;
 
@@ -73,9 +73,17 @@ export default function App() {
                 <Route path={`/play/:roomId`}>
                   <Play room={room} setRoom={setRoom} client={client} />
                 </Route>
-                <Route path={"/"}>
-                  <Lobby client={client} playUrl={`play`} setRoom={setRoom} />
-                </Route>
+                <Route
+                  path={"/"}
+                  render={(props) => (
+                    <Lobby
+                      client={client}
+                      playUrl={`play`}
+                      setRoom={setRoom}
+                      isError={props.location.state?.isError}
+                    />
+                  )}
+                ></Route>
               </Switch>
             </Router>
           </GlobalWrapper>

@@ -107,12 +107,12 @@ const AboutWrapper = styled.ul`
   }
 `;
 
-export default function Lobby({ client, playUrl, setRoom }) {
+export default function Lobby({ client, playUrl, setRoom, isError = false }) {
   // const [rooms, setAvaliableRooms] = useState([]);
   const [isNewRoomModalOpen, setIsNewRoomModalOpen] = useState(false);
   const [isJoinRoomModalOpen, setIsJoinRoomModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isErrorOpen, setIsErrorOpen] = useState(true);
+  const [isErrorOpen, setIsErrorOpen] = useState(isError);
   const history = useHistory();
 
   const postJoiningCallback = (newRoom) => {

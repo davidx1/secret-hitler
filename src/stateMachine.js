@@ -527,7 +527,7 @@ const stateMachine = Machine(
           },
           revealVote: {
             after: {
-              3000: [
+              5000: [
                 {
                   target: "filterCards",
                   cond: "isElectionSuccess",
@@ -547,7 +547,7 @@ const stateMachine = Machine(
           },
           enactRandomPolicy: {
             after: {
-              3000: [
+              5000: [
                 {
                   target: "chancellorSelection",
                   actions: [

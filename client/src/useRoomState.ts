@@ -65,9 +65,6 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
         if (message.type === "chat") {
           newMsg(message.payload.content);
         }
-        if (message.type === "systemChat") {
-          newMsg(message.payload.content, true);
-        }
         if (message.type === "chatBubble") {
           setChatBubbleContent(message.payload);
         }

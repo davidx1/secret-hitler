@@ -1,17 +1,21 @@
 import React, { useContext, useState, useEffect } from "react";
 import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
 import { DoneOutline } from "@styled-icons/material-sharp/DoneOutline";
 import { CloseOutline } from "@styled-icons/evaicons-outline/CloseOutline";
 import { HowToVote } from "@styled-icons/material/HowToVote";
 import { Trophy } from "@styled-icons/fa-solid/Trophy";
 import { SadCry } from "@styled-icons/fa-regular/SadCry";
 import { Skull } from "@styled-icons/fa-solid/Skull";
+
 import { QuestionCircle } from "@styled-icons/fa-solid/QuestionCircle";
 import fascist from "../../../img/fascist.png";
 import liberal from "../../../img/liberal.png";
 import hitler from "../../../img/hitler.png";
+import president from "../../../img/president.png";
+import chancellor from "../../../img/chancellor.png";
+
 import { StateContext } from "../Play";
-import { motion } from "framer-motion";
 import { NotificationWrapper } from "../../../lib/Notification";
 
 export const Player = ({
@@ -53,16 +57,26 @@ export const Player = ({
         <>
           <PlayerImage scale={scale} src={srcs[roleToDisplay]}>
             {isPresident && (
-              <PresidentMarker scale={scale} layoutId="presidentMarker">
-                P
-              </PresidentMarker>
+              <PresidentMarker
+                scale={scale}
+                layoutId="presidentMarker"
+              ></PresidentMarker>
             )}
             {state !== "election" && isChancellor && (
-              <ChancellorMarker scale={scale} layoutId="chancellorMarker">
-                C
-              </ChancellorMarker>
+              <ChancellorMarker
+                scale={scale}
+                layoutId="chancellorMarker"
+              ></ChancellorMarker>
             )}
-            {state === "election" && typeof vote === "boolean" && <Voted />}
+            {state === "election" && typeof vote === "boolean" && (
+              <VotedWrapper
+                initial={{ y: 30, opacity: 0, zIndex: 0 }}
+                animate={{ y: 0, opacity: 1, zIndex: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Voted />
+              </VotedWrapper>
+            )}
             {state === "revealVote" &&
               typeof vote === "boolean" &&
               (vote ? <VotedYes /> : <VotedNo />)}
@@ -101,6 +115,9 @@ export const Player = ({
 };
 
 const playerImageSize = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 20%;
 
   height: ${(props) => 25 * props.scale}px;
@@ -130,7 +147,6 @@ const playerImageSize = css`
 `;
 const PlayerImage = styled.div`
   display: flex;
-  align-items: flex-end;
   background-image: url(${(props) => props.src});
   background-size: cover;
   background-position: center;
@@ -153,6 +169,7 @@ const PlayerLabel = styled.p`
   display: block;
   min-width: ${(props) => 40 * props.scale}px;
   max-width: ${(props) => 100 * props.scale}px;
+  z-index: 1;
 
   @media only screen and (min-width: 768px) {
     font-size: ${(props) => 14 * props.scale}px;
@@ -187,44 +204,51 @@ const PlayerWrapper = styled.div`
 `;
 
 const Marker = styled(motion.div)`
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 30%;
-  width: 30%;
-  border-width: 2px;
-  border-style: solid;
-  border-radius: 50%;
-  font-size: ${(props) => 10 * props.scale}px;
-  margin-right: 2px;
+  background-size: cover;
+  top: -8px;
+  width: ${(props) => 50 * props.scale}px;
+  height: ${(props) => 15 * props.scale}px;
+  z-index: 1;
 
   @media only screen and (min-width: 768px) {
-    font-size: ${(props) => 10 * props.scale}px;
-    height: 25%;
-    width: 25%;
-    border-width: 5px;
+    top: -10px;
+    width: ${(props) => 66 * props.scale}px;
+    height: ${(props) => 20 * props.scale}px;
   }
   @media only screen and (min-width: 992px) {
-    font-size: ${(props) => 14 * props.scale}px;
+    top: -15px;
+    width: ${(props) => 95 * props.scale}px;
+    height: ${(props) => 30 * props.scale}px;
   }
   @media only screen and (min-width: 1200px) {
-    font-size: ${(props) => 18 * props.scale}px;
+    top: -15px;
+    width: ${(props) => 133 * props.scale}px;
+    height: ${(props) => 41 * props.scale}px;
   }
   @media only screen and (min-width: 1450px) {
-    font-size: ${(props) => 20 * props.scale}px;
+    width: ${(props) => 147 * props.scale}px;
+    height: ${(props) => 45 * props.scale}px;
   }
 `;
 const PresidentMarker = styled(Marker)`
-  border-color: ${(props) => props.theme.blue_dark};
-  background-color: ${(props) => props.theme.blue_light};
+  background-image: url(${president});
 `;
 const ChancellorMarker = styled(Marker)`
-  border-color: ${(props) => props.theme.orange_dark};
-  background-color: ${(props) => props.theme.orange_light};
+  background-image: url(${chancellor});
 `;
+
+const VotedWrapper = styled(motion.div)`
+  height: 100%;
+  width: 100%;
+`;
+
 const Voted = styled(HowToVote)`
-  height: 30%;
-  width: 30%;
+  height: 100%;
+  width: 100%;
   background-color: blue;
   color: white;
 `;

@@ -31,16 +31,6 @@ export class MyRoom extends Room {
           context
         }
       });
-
-      const newSystemMessage = getSystemChatMessage(value, context);
-      if (newSystemMessage) {
-        this.broadcast({
-          type: "systemChat",
-          payload: {
-            content: newSystemMessage
-          }
-        });
-      }
     })
     .start();
 
@@ -114,45 +104,5 @@ export class MyRoom extends Room {
 
   onDispose() {
     console.log("Dispose BasicRoom");
-  }
-}
-
-function getSystemChatMessage(state, context) {
-  const { presidentIndex, chancellorIndex, players } = context;
-  const president = players[presidentIndex];
-  const chancellor = players[chancellorIndex];
-  const simplifiedState = typeof state === "string" ? state : state["play"];
-
-  switch (simplifiedState) {
-    case "chancellorSelection":
-      return `${president.displayName}(President) to select new chancellor`;
-    case "election":
-      const activePlayerCount = players.filter((p) => p.isActive).length;
-      const votes = players.filter(
-        (p) => p.isActive && typeof p.vote === "boolean"
-      ).length;
-      return `${votes}/${activePlayerCount} votes casted`;
-    case "revealVote":
-      return `All votes in. Ja: ${
-        context.players.filter((p) => p.vote === true).length
-      }, Nein: ${context.players.filter((p) => p.vote === false).length}`;
-    case "enactRandomPolicy":
-      return `Enacting top policy from the policy deck`;
-    case "filterCards":
-      return `${president.displayName}(President) to discard one policy card`;
-    case "enactPolicy":
-      return `${chancellor.displayName}(Chancellor) to enact one policy card`;
-    case "viewThreeCards":
-      return `${president.displayName}(President) to view next three policy cards`;
-    case "investigatePlayer":
-      return `${president.displayName}(President) to investigate a player's true identity`;
-    case "killPlayer":
-      return `${president.displayName}(President) to kill a player`;
-    case "presidentSelection":
-      return `${president.displayName}(President) to select next president`;
-    case "liberalWin":
-    case "fascistWin":
-    default:
-      return "";
   }
 }
