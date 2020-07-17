@@ -36,13 +36,19 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
   const [chatBubbleContent, setChatBubbleContent] = useState("");
 
   const newMsg = (message: string, isSystem = false) => {
-    setChatState((prevChatState) => [
-      ...prevChatState,
-      {
-        isSystem,
-        message
-      }
-    ]);
+    setChatState((prevChatState) => {
+      const l = prevChatState.length;
+      const messageToKeep =
+        l < 40 ? prevChatState : prevChatState.slice(l - 40);
+
+      return [
+        ...messageToKeep,
+        {
+          isSystem,
+          message
+        }
+      ];
+    });
   };
 
   useLayoutEffect(() => {

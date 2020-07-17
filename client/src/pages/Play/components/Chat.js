@@ -12,11 +12,13 @@ const Wrapper = styled.div`
 `;
 
 const ChatWindow = styled.div`
+  height: 100%;
   width: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  overflow: auto;
 `;
 
 const Form = styled.form``;
