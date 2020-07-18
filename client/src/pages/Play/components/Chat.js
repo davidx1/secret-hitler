@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { StateContext, ActionContext } from "../Play";
 
@@ -12,11 +13,12 @@ const Wrapper = styled.div`
 `;
 
 const StatusWindow = styled.div`
-  height: min-content;
+  position: relative;
+  height: 56px;
   width: 100%;
   border-bottom: 1px solid white;
-  padding: 10px;
   text-align: center;
+  overflow: hidden;
 `;
 
 const ChatWindow = styled.div`
@@ -38,14 +40,29 @@ const ChatWindow = styled.div`
 
 const Form = styled.form``;
 
-const Message = styled.p`
+const Message = styled(motion.p)`
   font-size: 14px;
   margin: 0;
-  color: ${(props) => (props.isSystem ? "yellow" : "#f4f4f4")};
-  background-color: transparent;
+  color: #f4f4f4;
   @media only screen and (min-width: 992px) {
     font-size: 18px;
   }
+`;
+
+const StatusWrapper = styled(motion.div)`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  padding: 10px;
+  width: 100%;
+`;
+
+const Status = styled.p`
+  font-size: 16px;
+  margin: 0;
+  color: #f4f4f4;
 `;
 
 const ChatInput = styled.input`
@@ -110,13 +127,13 @@ function StatusBar() {
       case "enactRandomPolicy":
         return `Enacting top policy from the policy deck`;
       case "filterCards":
-        return `${president.displayName} (President) to discard one policy card`;
+        return `${president.displayName} (President) to filter policy`;
       case "enactPolicy":
-        return `${chancellor.displayName} (Chancellor) to enact one policy card`;
+        return `${chancellor.displayName} (Chancellor) to enact policy`;
       case "viewThreeCards":
-        return `${president.displayName} (President) to view next three policy cards`;
+        return `${president.displayName} (President) to view next three policies`;
       case "investigatePlayer":
-        return `${president.displayName} (President) to investigate a player's true identity`;
+        return `${president.displayName} (President) to investigate a player`;
       case "killPlayer":
         return `${president.displayName} (President) to kill a player`;
       case "presidentSelection":
@@ -130,7 +147,31 @@ function StatusBar() {
 
   return (
     <StatusWindow>
-      <Message isSystem>{getSystemMessage()}</Message>
+      <AnimatePresence initial={false}>
+        <StatusWrapper
+          initial={false}
+          key={getSystemMessage()}
+          initial={{
+            x: 500,
+            opacity: 0
+          }}
+          animate={{
+            zIndex: 1,
+            x: 0,
+            opacity: 1
+          }}
+          exit={{
+            zIndex: 0,
+            x: -500,
+            opacity: 0
+          }}
+          transition={{
+            duration: 0.5
+          }}
+        >
+          <Status>{getSystemMessage()}</Status>
+        </StatusWrapper>
+      </AnimatePresence>
     </StatusWindow>
   );
 }
