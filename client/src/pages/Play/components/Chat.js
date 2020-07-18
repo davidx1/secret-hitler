@@ -60,9 +60,12 @@ const StatusWrapper = styled(motion.div)`
 `;
 
 const Status = styled.p`
-  font-size: 16px;
+  font-size: 14px;
   margin: 0;
   color: #f4f4f4;
+  @media only screen and (min-width: 992px) {
+    font-size: 18px;
+  }
 `;
 
 const ChatInput = styled.input`
