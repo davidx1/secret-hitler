@@ -36,6 +36,7 @@ export const InteractionMenu = () => {
           currentPlayerRole={youInfo.role}
           role={targetPlayer.role}
           isActive={targetPlayer.isActive}
+          color={targetPlayer.color}
         />
         <ButtonList>
           <Button

@@ -41,6 +41,7 @@ export const ChancellorSelection = () => {
               scale={1}
               selectable={true}
               onClick={() => selectChancellor(i)}
+              color={p.color}
             />
           ) : null
         )}

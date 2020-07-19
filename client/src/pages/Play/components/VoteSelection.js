@@ -67,6 +67,7 @@ export const VoteSelection = ({ displayName }) => {
           currentPlayerRole={youInfo.role}
           role={p.role}
           isActive={p.isActive}
+          color={p.color}
         />
         <Vote onClick={() => vote(false)} src={nein} />
       </VotesWrapper>

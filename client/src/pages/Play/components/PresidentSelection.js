@@ -29,6 +29,7 @@ export const PresidentSelection = () => {
               scale={1}
               selectable={true}
               onClick={() => setNewPresident(i)}
+              color={p.color}
             />
           ) : null
         )}

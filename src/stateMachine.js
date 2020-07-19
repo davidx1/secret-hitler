@@ -289,7 +289,8 @@ const setNewPlayer = assign((context, action) => ({
       displayName: action.displayName,
       vote: null,
       role: null,
-      isActive: true
+      isActive: true,
+      color: action.color
     }
   ]
 }));

@@ -29,7 +29,8 @@ export const Player = ({
   isCurrentPlayer = false,
   onClick,
   chatBubbleContent: propChatBubbleContent,
-  isActive
+  isActive,
+  color
 }) => {
   const { state } = useContext(StateContext);
   const [isChatBubbleShowing, setIsChatBubbleShowing] = useState(false);
@@ -52,7 +53,13 @@ export const Player = ({
     ? "H"
     : "L";
   return (
-    <PlayerWrapper tabIndex="0" onClick={isActive && onClick} scale={scale}>
+    <PlayerWrapper
+      tabIndex="0"
+      onClick={isActive && onClick}
+      scale={scale}
+      color={color}
+      highlight={isCurrentPlayer}
+    >
       {roleToDisplay ? (
         <>
           {isPresident && (
@@ -115,7 +122,7 @@ export const Player = ({
       ) : (
         <UnknownRole scale={scale} />
       )}
-      <PlayerLabel highlight={isCurrentPlayer} scale={scale}>
+      <PlayerLabel scale={scale} color={color}>
         {displayName}
         {!isActive ? "(Killed)" : ""}
       </PlayerLabel>
@@ -169,7 +176,7 @@ const PlayerLabel = styled.p`
   padding: 2px 2px;
   line-height: 1;
   text-align: center;
-  background-color: ${(props) => (props.highlight ? "#7ffa99" : "#ffffff")};
+  background-color: ${(props) => `${props.color}`};
   font-size: ${(props) => 10 * props.scale}px;
   margin: 0;
   box-shadow: 0px 3px 5px #444444;
@@ -201,12 +208,15 @@ const PlayerLabel = styled.p`
   }
 `;
 const PlayerWrapper = styled.div`
+  border: ${(props) =>
+    props.highlight ? `5px double ${props.color}` : "unset"};
+  padding: 3px;
   display: flex;
   position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-F  cursor: pointer;
+  cursor: pointer;
   outline: none;
   &:hover {
     filter: brightness(1.2);

@@ -94,6 +94,7 @@ export const GameOver = ({ winner }) => {
             currentPlayerRole="F"
             role={w.role}
             isActive={true}
+            color={w.color}
           />
         ))}
       </FascistWrapper>
@@ -106,6 +107,7 @@ export const GameOver = ({ winner }) => {
             currentPlayerRole="F"
             role={l.role}
             isActive={true}
+            color={l.color}
           />
         ))}
       </FascistWrapper>

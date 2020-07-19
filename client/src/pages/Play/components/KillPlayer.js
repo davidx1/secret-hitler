@@ -29,6 +29,7 @@ export const KillPlayer = () => {
               onClick={() => killPlayer(i)}
               isActive={p.isActive}
               selectable
+              color={p.color}
             ></Player>
           ) : null
         )}

@@ -38,6 +38,7 @@ export const InvestigatePlayer = () => {
               scale={1.25}
               selectable={selectedIndex === null}
               onClick={() => handlePlayerClick(i)}
+              color={p.color}
             />
           ))}
       </PlayerWrapper>
