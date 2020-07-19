@@ -181,7 +181,11 @@ export default function Lobby({ client, playUrl, setRoom, isError = false }) {
           </a>
         </li>
         <li>
-          Based on the hit boardgame{" "}
+          Source Code:{" "}
+          <a href="https://github.com/davidx1/secret-hitler">Github</a>
+        </li>
+        <li>
+          Based on the boardgame{" "}
           <a href="https://www.secrethitler.com/">Secret Hitler</a>
         </li>
       </AboutWrapper>
