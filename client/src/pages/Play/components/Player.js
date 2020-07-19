@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import styled, { css } from "styled-components";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { DoneOutline } from "@styled-icons/material-sharp/DoneOutline";
 import { CloseOutline } from "@styled-icons/evaicons-outline/CloseOutline";
 import { HowToVote } from "@styled-icons/material/HowToVote";
@@ -55,31 +55,40 @@ export const Player = ({
     <PlayerWrapper tabIndex="0" onClick={isActive && onClick} scale={scale}>
       {roleToDisplay ? (
         <>
+          {isPresident && (
+            <PresidentMarker
+              scale={scale}
+              layoutId="presidentMarker"
+            ></PresidentMarker>
+          )}
+          {state !== "election" && state !== "revealVote" && isChancellor && (
+            <ChancellorMarker
+              scale={scale}
+              layoutId="chancellorMarker"
+            ></ChancellorMarker>
+          )}
           <PlayerImage scale={scale} src={srcs[roleToDisplay]}>
-            {isPresident && (
-              <PresidentMarker
-                scale={scale}
-                layoutId="presidentMarker"
-              ></PresidentMarker>
-            )}
-            {state !== "election" && isChancellor && (
-              <ChancellorMarker
-                scale={scale}
-                layoutId="chancellorMarker"
-              ></ChancellorMarker>
-            )}
             {state === "election" && typeof vote === "boolean" && (
               <VotedWrapper
-                initial={{ y: 30, opacity: 0, zIndex: 0 }}
-                animate={{ y: 0, opacity: 1, zIndex: 0 }}
-                transition={{ duration: 0.3 }}
+                initial={{ y: 40, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
               >
                 <Voted />
               </VotedWrapper>
             )}
-            {state === "revealVote" &&
-              typeof vote === "boolean" &&
-              (vote ? <VotedYes /> : <VotedNo />)}
+            <AnimatePresence>
+              {state === "revealVote" && typeof vote === "boolean" && (
+                <VotedWrapper
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 40, opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {vote ? <VotedYes /> : <VotedNo />}
+                </VotedWrapper>
+              )}
+            </AnimatePresence>
+
             {state === "fascistWin" && (role === "H" || role === "F") && (
               <Win />
             )}
@@ -151,6 +160,7 @@ const PlayerImage = styled.div`
   background-size: cover;
   background-position: center;
   box-shadow: 0px 5px 10px #444444;
+  overflow: hidden;
   ${playerImageSize}
 `;
 const PlayerLabel = styled.p`
@@ -196,7 +206,7 @@ const PlayerWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+F  cursor: pointer;
   outline: none;
   &:hover {
     filter: brightness(1.2);
