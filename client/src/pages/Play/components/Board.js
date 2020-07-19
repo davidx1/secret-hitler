@@ -6,6 +6,7 @@ import { Skull } from "@styled-icons/fa-solid/Skull";
 import { Menu } from "@styled-icons/evaicons-solid/Menu";
 import { UserSolidSquare } from "@styled-icons/zondicons/UserSolidSquare";
 import { MagnifyingGlass } from "@styled-icons/entypo/MagnifyingGlass";
+import { motion } from "framer-motion";
 
 const Board = styled.div`
   display: flex;
@@ -97,7 +98,19 @@ export const LibralBoard = () => {
   for (var i = 0; i < 5; i++) {
     liberalSlots.push(
       <CardSlotLibral>
-        {i < enactedLiberalPolicies && <PolicyLiberal />}
+        {i < enactedLiberalPolicies && (
+          <motion.div
+            initial={{ scale: 3, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{
+              delay: 1,
+              duration: 2,
+              scale: { type: "spring", stiffness: 100 }
+            }}
+          >
+            <PolicyLiberal />
+          </motion.div>
+        )}
       </CardSlotLibral>
     );
   }
@@ -196,7 +209,17 @@ export const FascistBoard = () => {
       {board.map((b, i) => (
         <CardSlotFascist>
           {i < enactedFascistPolicies ? (
-            <PolicyFascist />
+            <motion.div
+              initial={{ scale: 4, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{
+                delay: 1,
+                duration: 3,
+                scale: { type: "spring", stiffness: 200 }
+              }}
+            >
+              <PolicyFascist />
+            </motion.div>
           ) : (
             <IconText abilityType={b} />
           )}
