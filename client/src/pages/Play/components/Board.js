@@ -209,7 +209,7 @@ export const FascistBoard = () => {
       {board.map((b, i) => (
         <CardSlotFascist>
           {i < enactedFascistPolicies ? (
-            <motion.div
+            <motion.span
               initial={{ scale: 4, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{
@@ -219,7 +219,7 @@ export const FascistBoard = () => {
               }}
             >
               <PolicyFascist />
-            </motion.div>
+            </motion.span>
           ) : (
             <IconText abilityType={b} />
           )}

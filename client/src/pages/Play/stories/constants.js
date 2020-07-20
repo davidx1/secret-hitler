@@ -77,8 +77,8 @@ export const chancellorSelection = {
     "prevChancellorIndex": null,
     "presidentIndex": 0,
     "chancellorIndex": null,
-    "enactedLiberalPolicies": 0,
-    "enactedFascistPolicies": 0
+    "enactedLiberalPolicies": 1,
+    "enactedFascistPolicies": 2
   }
 };
 
@@ -231,8 +231,8 @@ export const voted = {
     "prevChancellorIndex": null,
     "presidentIndex": 0,
     "chancellorIndex": 1,
-    "enactedLiberalPolicies": 0,
-    "enactedFascistPolicies": 0
+    "enactedLiberalPolicies": 1,
+    "enactedFascistPolicies": 2
   }
 };
 

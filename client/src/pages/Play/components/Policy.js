@@ -7,11 +7,19 @@ const PolicyImage = styled.button`
   background-image: url(${(props) => props.src});
   background-size: cover;
   background-position: center;
-  border-radius: 10%;
+  border-radius: 15%;
+  border: none;
   cursor: ${({ selectable }) => (selectable ? "pointer" : "auto")};
-  height: ${(props) => props.scale * 50}px;
-  width: ${(props) => props.scale * 40}px;
+  height: ${(props) => props.scale * 32}px;
+  width: ${(props) => props.scale * 32}px;
   outline: none;
+  padding: 0;
+  margin: 0;
+
+  @media only screen and (min-width: 512px) {
+    height: ${(props) => props.scale * 40}px;
+    width: ${(props) => props.scale * 40}px;
+  }
   @media only screen and (min-width: 768px) {
     height: ${(props) => props.scale * 50}px;
     width: ${(props) => props.scale * 40}px;

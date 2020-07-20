@@ -235,15 +235,15 @@ const Marker = styled(motion.div)`
   align-items: center;
   justify-content: center;
   background-size: cover;
-  top: -8px;
-  width: ${(props) => 50 * props.scale}px;
-  height: ${(props) => 15 * props.scale}px;
+  top: -10px;
+  width: ${(props) => 66 * props.scale}px;
+  height: ${(props) => 20 * props.scale}px;
   z-index: 1;
 
   @media only screen and (min-width: 768px) {
-    top: -10px;
-    width: ${(props) => 66 * props.scale}px;
-    height: ${(props) => 20 * props.scale}px;
+    top: -13px;
+    width: ${(props) => 80 * props.scale}px;
+    height: ${(props) => 24 * props.scale}px;
   }
   @media only screen and (min-width: 992px) {
     top: -15px;
