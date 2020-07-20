@@ -41,21 +41,33 @@ export const InteractionMenu = () => {
         <ButtonList>
           <Button
             onClick={() =>
-              sendChatBubble(`${targetPlayer.displayName} is Hitler!`)
+              sendChatBubble({
+                targetName: targetPlayer.displayName,
+                targetColor: targetPlayer.color,
+                content: " is Hitler!"
+              })
             }
           >
             Accuse as Hitler
           </Button>
           <Button
             onClick={() =>
-              sendChatBubble(`${targetPlayer.displayName} is Fascist!`)
+              sendChatBubble({
+                targetName: targetPlayer.displayName,
+                targetColor: targetPlayer.color,
+                content: " is Fascist!"
+              })
             }
           >
             Accuse as Fascist
           </Button>
           <Button
             onClick={() =>
-              sendChatBubble(`${targetPlayer.displayName} is Liberal!`)
+              sendChatBubble({
+                targetName: targetPlayer.displayName,
+                targetColor: targetPlayer.color,
+                content: " is Liberal!"
+              })
             }
           >
             Support as Liberal

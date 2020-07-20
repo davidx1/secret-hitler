@@ -29,25 +29,23 @@ export interface RootObject {
 export const useRoomState = (room: any, joinRoom: () => void) => {
   const [roomState, setRoomState] = useState({} as RootObject);
   const [chatState, setChatState] = useState(
-    [] as { isSystem: boolean; message: string }[]
+    [] as { color: string; name: string; content: string }[]
   );
   const [youId, setYouId] = useState(1);
   const [attemptedToJoin, setAttemptedToJoin] = useState(false);
   const [chatBubbleContent, setChatBubbleContent] = useState("");
 
-  const newMsg = (message: string, isSystem = false) => {
+  const newMsg = (message: {
+    color: string;
+    name: string;
+    content: string;
+  }) => {
     setChatState((prevChatState) => {
       const l = prevChatState.length;
       const messageToKeep =
         l < 40 ? prevChatState : prevChatState.slice(l - 40);
 
-      return [
-        ...messageToKeep,
-        {
-          isSystem,
-          message
-        }
-      ];
+      return [...messageToKeep, message];
     });
   };
 
@@ -63,7 +61,8 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
           setRoomState({ ...message.payload });
         }
         if (message.type === "chat") {
-          newMsg(message.payload.content);
+          console.log(message.payload);
+          newMsg(message.payload);
         }
         if (message.type === "chatBubble") {
           setChatBubbleContent(message.payload);
@@ -149,8 +148,12 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
     trigger("chat", { content: s });
   }
 
-  function sendChatBubble(s: string) {
-    trigger("chatBubble", { content: s });
+  function sendChatBubble(payload: {
+    targetName: string;
+    targetColor: string;
+    content: string;
+  }) {
+    trigger("chatBubble", payload);
   }
 
   return {

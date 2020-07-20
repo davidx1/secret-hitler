@@ -75,22 +75,22 @@ export class MyRoom extends Room {
   }
 
   onMessage(client: { sessionId: any }, payload: any) {
+    const person = this.service.state.context.players.find(
+      (p) => p.id === client.sessionId
+    );
+
     if (payload.type === "chat") {
       this.broadcast({
         type: "chat",
         payload: {
-          content: `${
-            this.service.state.context.players.find(
-              (p) => p.id === client.sessionId
-            ).displayName
-          }: ${payload.content}`
+          color: person.color,
+          name: person.displayName,
+          content: payload.content
         }
       });
     } else if (payload.type === "chatBubble") {
-      console.log("server received chat bubble");
-      console.log(payload.content);
       if (this.chatBubbles[client.sessionId] !== "") {
-        this.chatBubbles[client.sessionId] = "";
+        this.chatBubbles[client.sessionId] = undefined;
         this.broadcast({
           type: "chatBubble",
           payload: this.chatBubbles
@@ -99,7 +99,7 @@ export class MyRoom extends Room {
 
       //This delay is to clear the existing bubble, unmount it, so the timeout resets
       this.clock.setTimeout(() => {
-        this.chatBubbles[client.sessionId] = payload.content;
+        this.chatBubbles[client.sessionId] = payload;
         this.broadcast({
           type: "chatBubble",
           payload: this.chatBubbles
@@ -109,11 +109,11 @@ export class MyRoom extends Room {
       this.broadcast({
         type: "chat",
         payload: {
-          content: `${
-            this.service.state.context.players.find(
-              (p) => p.id === client.sessionId
-            ).displayName
-          }: ${payload.content}`
+          color: person.color,
+          name: person.displayName,
+          targetName: payload.targetName,
+          targetColor: payload.targetColor,
+          content: payload.content
         }
       });
     } else {

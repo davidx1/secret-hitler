@@ -17,6 +17,7 @@ import chancellor from "../../../img/chancellor.png";
 
 import { StateContext } from "../Play";
 import { NotificationWrapper } from "../../../lib/Notification";
+import { ColorSpan } from "./ColorSpan";
 
 export const Player = ({
   currentPlayerRole = "liberal",
@@ -109,7 +110,12 @@ export const Player = ({
                 duration={3000}
                 killSelf={() => setIsChatBubbleShowing(false)}
               >
-                <SpeechBubble>{propChatBubbleContent}</SpeechBubble>
+                <SpeechBubble>
+                  <ColorSpan color={propChatBubbleContent.targetColor}>
+                    {propChatBubbleContent.targetName}
+                  </ColorSpan>
+                  {propChatBubbleContent.content}
+                </SpeechBubble>
               </NotificationWrapper>
             )}
           </PlayerImage>
@@ -314,10 +320,11 @@ const SpeechBubble = styled.div`
   padding: 5px;
   top: -15px;
   left: -5px;
-  background: #00aabb;
+  background: #ffffff;
   border-radius: 0.4em;
   font-size: 10px;
   width: max-content;
+  border: 1px solid black;
   @media only screen and (min-width: 992px) {
     top: -25px;
     left: 0px;
@@ -337,22 +344,14 @@ const SpeechBubble = styled.div`
     width: 0;
     height: 0;
     border: 8px solid transparent;
-    border-top-color: #00aabb;
+    border-top-color: #ffffff;
     border-bottom: 0;
     border-left: 0;
     margin-left: -7px;
     margin-bottom: -8px;
     @media only screen and (min-width: 992px) {
       border: 20px solid transparent;
-      border-top-color: #00aabb;
-      border-bottom: 0;
-      border-left: 0;
-      margin-left: -10px;
-      margin-bottom: -20px;
-    }
-    @media only screen and (min-width: 1200px) {
-      border: 20px solid transparent;
-      border-top-color: #00aabb;
+      border-top-color: #ffffff;
       border-bottom: 0;
       border-left: 0;
       margin-left: -10px;

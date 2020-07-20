@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { StateContext, ActionContext } from "../Play";
+import { ColorSpan } from "./ColorSpan";
 
 const Wrapper = styled.div`
   display: flex;
@@ -90,7 +91,13 @@ export const Chat = () => {
       <StatusBar />
       <ChatWindow>
         {chatState.map((c) => (
-          <Message isSystem={c.isSystem}>{c.message}</Message>
+          <Message>
+            <ColorSpan color={c.color}>{c.name}</ColorSpan>:{" "}
+            {c.targetName ? (
+              <ColorSpan color={c.targetColor}>{c.targetName}</ColorSpan>
+            ) : null}
+            {c.content}
+          </Message>
         ))}
       </ChatWindow>
       <Form onSubmit={handleSubmit}>
