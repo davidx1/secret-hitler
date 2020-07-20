@@ -27,7 +27,8 @@ export const Wrapper = styled.div`
 export const ChatWrapper = styled.div`
   background-color: purple;
   height: 100%;
-  width: ${({ isLandscape }) => (isLandscape ? "30%" : "100%")};
+  width: ${({ isLandscape, isFullScreen }) =>
+    !isLandscape || isFullScreen ? "100%" : "30%"};
   margin: 0 auto;
   max-width: 1920px;
   overflow: hidden;
@@ -60,6 +61,7 @@ export default function Game({ room, setRoom, client }) {
   const { roomId } = useParams();
   const [interactionMenuTarget, setInteractionMenuTarget] = useState(-1);
   const history = useHistory();
+  const [isChatFullScreen, setIsChatFullScreen] = useState(false);
 
   const { width, height } = useWindowSize();
   const isLandscape = width > height;
@@ -142,15 +144,20 @@ export default function Game({ room, setRoom, client }) {
         <Wrapper isLandscape={isLandscape}>
           <FullScreenButton />
 
-          <PlayWrapper>
-            {state === "waiting" ? (
-              <StartScreen></StartScreen>
-            ) : (
-              <InprogressScreen></InprogressScreen>
-            )}
-          </PlayWrapper>
-          <ChatWrapper isLandscape={isLandscape}>
-            <Chat />
+          {!isChatFullScreen && (
+            <PlayWrapper>
+              {state === "waiting" ? (
+                <StartScreen></StartScreen>
+              ) : (
+                <InprogressScreen></InprogressScreen>
+              )}
+            </PlayWrapper>
+          )}
+          <ChatWrapper
+            isLandscape={isLandscape}
+            isFullScreen={isChatFullScreen}
+          >
+            <Chat onMobileInputFocus={setIsChatFullScreen} />
           </ChatWrapper>
         </Wrapper>
       </StateContext.Provider>

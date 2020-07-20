@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
+import { isMobile } from "react-device-detect";
 
 import { StateContext, ActionContext } from "../Play";
 import { ColorSpan } from "./ColorSpan";
@@ -77,10 +78,23 @@ const ChatInput = styled.input`
   }
 `;
 
-export const Chat = () => {
+export const Chat = ({ onMobileInputFocus }) => {
   const [chat, setChat] = useState("");
   const { chatState } = useContext(StateContext);
   const { sendChat } = useContext(ActionContext);
+
+  const handleInputFocus = () => {
+    if (isMobile) {
+      onMobileInputFocus(true);
+    }
+  };
+
+  const handleInputBlur = () => {
+    if (isMobile) {
+      onMobileInputFocus(false);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     sendChat(chat);
@@ -104,6 +118,8 @@ export const Chat = () => {
         <ChatInput
           placeholder="Enter a message..."
           onChange={(e) => setChat(e.target.value)}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
           value={chat}
         ></ChatInput>
       </Form>
