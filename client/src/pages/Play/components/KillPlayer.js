@@ -28,6 +28,7 @@ export const KillPlayer = () => {
               scale={1.5}
               onClick={() => killPlayer(i)}
               isActive={p.isActive}
+              isDisconnected={p.isDisconnected}
               selectable
               color={p.color}
             ></Player>

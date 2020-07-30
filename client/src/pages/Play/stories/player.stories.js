@@ -28,6 +28,7 @@ export const Basic = () => {
           <Player
             displayName="Default"
             isActive={true}
+            isDisconnected={false}
             isCurrentPlayer={true}
             role="L"
             scale={2}
@@ -36,12 +37,14 @@ export const Basic = () => {
             displayName="Hitler"
             isActive={true}
             isCurrentPlayer={true}
+            isDisconnected={false}
             role="H"
             scale={2}
           />
           <Player
             displayName="Fascist"
             isActive={true}
+            isDisconnected={true}
             isCurrentPlayer={true}
             role="F"
             scale={2}
@@ -49,6 +52,7 @@ export const Basic = () => {
           <Player
             displayName="Dead"
             isActive={true}
+            isDisconnected={false}
             isCurrentPlayer={true}
             role="L"
             scale={2}
@@ -57,6 +61,7 @@ export const Basic = () => {
           <Player
             displayName="President"
             isActive={true}
+            isDisconnected={true}
             isCurrentPlayer={true}
             role="L"
             scale={2}
@@ -65,6 +70,7 @@ export const Basic = () => {
           <Player
             displayName="Chancellor"
             isActive={true}
+            isDisconnected={false}
             isCurrentPlayer={true}
             role="L"
             scale={2}

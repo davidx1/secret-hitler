@@ -31,11 +31,11 @@ const Board = styled.div`
   @media only screen and (min-width: 992px) {
     width: 700px;
     border-width: 3px;
-    padding: 10px;
+    padding: 8px;
   }
   @media only screen and (min-width: 1200px) {
     width: 800px;
-    padding: 15px;
+    padding: 10px;
   }
   @media only screen and (min-width: 1450px) {
     width: 1000px;
@@ -62,8 +62,8 @@ const CardSlot = styled.div`
     height: 60px;
   }
   @media only screen and (min-width: 992px) {
-    width: 120px;
-    height: 140px;
+    width: 110px;
+    height: 130px;
     border-width: 3px;
   }
   @media only screen and (min-width: 1200px) {

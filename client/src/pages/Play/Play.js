@@ -2,7 +2,6 @@ import React, { createContext, useState } from "react";
 import styled, { css } from "styled-components";
 import { useParams } from "react-router-dom";
 import useWindowSize from "react-use-window-size";
-import { useHistory } from "react-router-dom";
 
 import { PlayWrapper } from "./components/PlayWrapper";
 import { FullScreenButton } from "./components/FullScreenButton";
@@ -27,8 +26,7 @@ export const Wrapper = styled.div`
 export const ChatWrapper = styled.div`
   background-color: purple;
   height: 100%;
-  width: ${({ isLandscape, isFullScreen }) =>
-    !isLandscape || isFullScreen ? "100%" : "30%"};
+  width: ${({ isLandscape, isFullScreen }) => (!isLandscape || isFullScreen ? "100%" : "30%")};
   margin: 0 auto;
   max-width: 1920px;
   overflow: hidden;
@@ -57,23 +55,13 @@ export const ChatWrapper = styled.div`
 export const StateContext = createContext();
 export const ActionContext = createContext();
 
-export default function Game({ room, setRoom, client }) {
+export default function Game({ room, setRoom, client, postJoiningCallback }) {
   const { roomId } = useParams();
   const [interactionMenuTarget, setInteractionMenuTarget] = useState(-1);
-  const history = useHistory();
   const [isChatFullScreen, setIsChatFullScreen] = useState(false);
 
   const { width, height } = useWindowSize();
   const isLandscape = width > height;
-
-  const joinRoom = async () => {
-    client
-      .joinById(roomId)
-      .then((newRoom) => setRoom(newRoom))
-      .catch((err) =>
-        history.replace({ pathname: "/", state: { isError: false } })
-      );
-  };
 
   const {
     state,
@@ -99,7 +87,7 @@ export default function Game({ room, setRoom, client }) {
     chatState,
     sendChatBubble,
     chatBubbleContent
-  } = useRoomState(room, joinRoom);
+  } = useRoomState(room, setRoom, client, postJoiningCallback);
 
   if (!state) {
     return <Loader />;
@@ -153,10 +141,7 @@ export default function Game({ room, setRoom, client }) {
               )}
             </PlayWrapper>
           )}
-          <ChatWrapper
-            isLandscape={isLandscape}
-            isFullScreen={isChatFullScreen}
-          >
+          <ChatWrapper isLandscape={isLandscape} isFullScreen={isChatFullScreen}>
             <Chat onMobileInputFocus={setIsChatFullScreen} />
           </ChatWrapper>
         </Wrapper>

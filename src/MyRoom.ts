@@ -68,8 +68,16 @@ export class MyRoom extends Room {
     });
   }
 
-  onLeave(client: { sessionId: any }) {
+  async onLeave(client) {
     this.service.send("removePlayer", {
+      id: client.sessionId
+    });
+
+    const reconnection = this.allowReconnection(client, 120);
+    // allow disconnected client to reconnect
+    await reconnection;
+
+    this.service.send("reconnectPlayer", {
       id: client.sessionId
     });
   }

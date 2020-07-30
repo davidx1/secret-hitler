@@ -7,6 +7,7 @@ import { HowToVote } from "@styled-icons/material/HowToVote";
 import { Trophy } from "@styled-icons/fa-solid/Trophy";
 import { SadCry } from "@styled-icons/fa-regular/SadCry";
 import { Skull } from "@styled-icons/fa-solid/Skull";
+import { PowerOff } from "@styled-icons/material/PowerOff";
 
 import { QuestionCircle } from "@styled-icons/fa-solid/QuestionCircle";
 import fascist from "../../../img/fascist.png";
@@ -31,7 +32,8 @@ export const Player = ({
   onClick,
   chatBubbleContent: propChatBubbleContent,
   isActive,
-  color
+  color,
+  isDisconnected
 }) => {
   const { state } = useContext(StateContext);
   const [isChatBubbleShowing, setIsChatBubbleShowing] = useState(false);
@@ -64,16 +66,10 @@ export const Player = ({
       {roleToDisplay ? (
         <>
           {isPresident && (
-            <PresidentMarker
-              scale={scale}
-              layoutId="presidentMarker"
-            ></PresidentMarker>
+            <PresidentMarker scale={scale} layoutId="presidentMarker"></PresidentMarker>
           )}
           {state !== "election" && state !== "revealVote" && isChancellor && (
-            <ChancellorMarker
-              scale={scale}
-              layoutId="chancellorMarker"
-            ></ChancellorMarker>
+            <ChancellorMarker scale={scale} layoutId="chancellorMarker"></ChancellorMarker>
           )}
           <PlayerImage scale={scale} src={srcs[roleToDisplay]}>
             {state === "election" && typeof vote === "boolean" && (
@@ -97,19 +93,12 @@ export const Player = ({
               )}
             </AnimatePresence>
 
-            {state === "fascistWin" && (role === "H" || role === "F") && (
-              <Win />
-            )}
+            {state === "fascistWin" && (role === "H" || role === "F") && <Win />}
             {state === "liberalWin" && role === "L" && <Win />}
             {state === "fascistWin" && role === "L" && <Lose />}
-            {state === "liberalWin" && (role === "H" || role === "F") && (
-              <Lose />
-            )}
+            {state === "liberalWin" && (role === "H" || role === "F") && <Lose />}
             {isChatBubbleShowing && propChatBubbleContent && (
-              <NotificationWrapper
-                duration={3000}
-                killSelf={() => setIsChatBubbleShowing(false)}
-              >
+              <NotificationWrapper duration={3000} killSelf={() => setIsChatBubbleShowing(false)}>
                 <SpeechBubble>
                   <ColorSpan color={propChatBubbleContent.targetColor}>
                     {propChatBubbleContent.targetName}
@@ -119,15 +108,16 @@ export const Player = ({
               </NotificationWrapper>
             )}
           </PlayerImage>
-          {!isActive && (
-            <DeathOverlay scale={scale}>
-              <DeadIcon />
-            </DeathOverlay>
-          )}
         </>
       ) : (
         <UnknownRole scale={scale} />
       )}
+      {!isActive ||
+        (isDisconnected && (
+          <StatusOverlay scale={scale}>
+            {!isActive ? <DeadIcon /> : <DisconnectedIcon />}
+          </StatusOverlay>
+        ))}
       <PlayerLabel scale={scale} color={color}>
         {displayName}
         {!isActive ? "(Killed)" : ""}
@@ -213,9 +203,11 @@ const PlayerLabel = styled.p`
     max-width: ${(props) => 240 * props.scale}px;
   }
 `;
+
 const PlayerWrapper = styled.div`
-  border: ${(props) =>
-    props.highlight ? `5px double ${props.color}` : "unset"};
+  border-width: 2px;
+  border-style: double;
+  border-color: ${({ highlight, color }) => (highlight ? color : "transparent")};
   padding: 3px;
   display: flex;
   position: relative;
@@ -224,8 +216,18 @@ const PlayerWrapper = styled.div`
   align-items: center;
   cursor: pointer;
   outline: none;
+  height: min-content;
   &:hover {
     filter: brightness(1.2);
+  }
+  @media only screen and (min-width: 768px) {
+    border-width: 3px;
+  }
+  @media only screen and (min-width: 992px) {
+    border-width: 4px;
+  }
+  @media only screen and (min-width: 1200px) {
+    border-width: 5px;
   }
 `;
 
@@ -278,17 +280,24 @@ const Voted = styled(HowToVote)`
   background-color: blue;
   color: white;
 `;
-const DeathOverlay = styled.div`
+const StatusOverlay = styled.div`
   position: absolute;
   top: 0;
+  margin: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #33333380;
   box-shadow: none;
+  padding: 3px;
   ${playerImageSize}
 `;
 const DeadIcon = styled(Skull)`
+  height: 50%;
+  width: 50%;
+  color: white;
+`;
+const DisconnectedIcon = styled(PowerOff)`
   height: 50%;
   width: 50%;
   color: white;

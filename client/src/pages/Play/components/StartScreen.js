@@ -50,6 +50,7 @@ export const StartScreen = () => {
               isCurrentPlayer={p.id === youId}
               scale={1.51}
               isActive={p.isActive}
+              isDisconnected={p.isDisconnected}
               color={p.color}
             ></Player>
           );

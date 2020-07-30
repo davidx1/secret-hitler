@@ -22,7 +22,8 @@ export const PresidentSelection = () => {
           p.id !== youInfo.id && p.isActive ? (
             <Player
               displayName={p.displayName}
-              isActive={true}
+              isActive={p.isActive}
+              isDisconnected={p.isDisconnected}
               currentPlayerRole={youInfo.role}
               isCurrentPlayer={false}
               role={p.role}

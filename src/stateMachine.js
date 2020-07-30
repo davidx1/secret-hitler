@@ -296,7 +296,15 @@ const setNewPlayer = assign((context, action) => ({
 }));
 
 const setRemovePlayer = assign((context, action) => ({
-  players: context.players.filter((p) => p.id !== action.id)
+  players: context.players.map((p) =>
+    p.id === action.id ? { ...p, isDisconnected: true } : p
+  )
+}));
+
+const setReconnectPlayer = assign((context, action) => ({
+  players: context.players.map((p) =>
+    p.id === action.id ? { ...p, isDisconnected: false } : p
+  )
 }));
 
 const removePolicyFromHand = assign((context, action) => ({
@@ -488,6 +496,10 @@ const stateMachine = Machine(
                 target: "waiting",
                 actions: "setRemovePlayer"
               },
+              reconnectPlayer: {
+                target: "waiting",
+                actions: "setReconnectPlayer"
+              },
               start: {
                 target: "chancellorSelection",
                 cond: "isEnoughPlayers",
@@ -502,6 +514,14 @@ const stateMachine = Machine(
           },
           chancellorSelection: {
             on: {
+              removePlayer: {
+                target: "chancellorSelection",
+                actions: "setRemovePlayer"
+              },
+              reconnectPlayer: {
+                target: "chancellorSelection",
+                actions: "setReconnectPlayer"
+              },
               selectChancellor: {
                 target: "election",
                 actions: "setNewChancellor",
@@ -511,6 +531,14 @@ const stateMachine = Machine(
           },
           election: {
             on: {
+              removePlayer: {
+                target: "election",
+                actions: "setRemovePlayer"
+              },
+              reconnectPlayer: {
+                target: "election",
+                actions: "setReconnectPlayer"
+              },
               vote: {
                 target: "checkVote",
                 actions: "setOneVote"
@@ -544,6 +572,16 @@ const stateMachine = Machine(
                   actions: ["setNewPresident", "incrementElectionTracker"]
                 }
               ]
+            },
+            on: {
+              removePlayer: {
+                target: "revealVote",
+                actions: "setRemovePlayer"
+              },
+              reconnectPlayer: {
+                target: "revealVote",
+                actions: "setReconnectPlayer"
+              }
             }
           },
           enactRandomPolicy: {
@@ -558,10 +596,28 @@ const stateMachine = Machine(
                   ]
                 }
               ]
+            },
+            on: {
+              removePlayer: {
+                target: "enactRandomPolicy",
+                actions: "setRemovePlayer"
+              },
+              reconnectPlayer: {
+                target: "enactRandomPolicy",
+                actions: "setReconnectPlayer"
+              }
             }
           },
           filterCards: {
             on: {
+              removePlayer: {
+                target: "filterCards",
+                actions: "setRemovePlayer"
+              },
+              reconnectPlayer: {
+                target: "filterCards",
+                actions: "setReconnectPlayer"
+              },
               cardSelect: {
                 target: "enactPolicy",
                 actions: "removePolicyFromHand"
@@ -570,6 +626,14 @@ const stateMachine = Machine(
           },
           enactPolicy: {
             on: {
+              removePlayer: {
+                target: "enactPolicy",
+                actions: "setRemovePlayer"
+              },
+              reconnectPlayer: {
+                target: "enactPolicy",
+                actions: "setReconnectPlayer"
+              },
               requestVeto: {
                 target: "enactPolicy",
                 actions: "requestVeto",
@@ -624,6 +688,14 @@ const stateMachine = Machine(
           },
           viewThreeCards: {
             on: {
+              removePlayer: {
+                target: "viewThreeCards",
+                actions: "setRemovePlayer"
+              },
+              reconnectPlayer: {
+                target: "viewThreeCards",
+                actions: "setReconnectPlayer"
+              },
               doneViewingCards: {
                 target: "chancellorSelection",
                 actions: "setNewPresident"
@@ -632,6 +704,14 @@ const stateMachine = Machine(
           },
           investigatePlayer: {
             on: {
+              removePlayer: {
+                target: "investigatePlayer",
+                actions: "setRemovePlayer"
+              },
+              reconnectPlayer: {
+                target: "investigatePlayer",
+                actions: "setReconnectPlayer"
+              },
               doneInvestigating: {
                 target: "chancellorSelection",
                 actions: "setNewPresident"
@@ -640,6 +720,14 @@ const stateMachine = Machine(
           },
           killPlayer: {
             on: {
+              removePlayer: {
+                target: "killPlayer",
+                actions: "setRemovePlayer"
+              },
+              reconnectPlayer: {
+                target: "killPlayer",
+                actions: "setReconnectPlayer"
+              },
               killPlayer: {
                 target: "chancellorSelection",
                 actions: ["killPlayer", "setNewPresident"],
@@ -649,6 +737,14 @@ const stateMachine = Machine(
           },
           presidentSelection: {
             on: {
+              removePlayer: {
+                target: "presidentSelection",
+                actions: "setRemovePlayer"
+              },
+              reconnectPlayer: {
+                target: "presidentSelection",
+                actions: "setReconnectPlayer"
+              },
               selectPresident: {
                 target: "chancellorSelection",
                 actions: "setNewPresident",
@@ -667,6 +763,7 @@ const stateMachine = Machine(
       setBoardToUse,
       setNewPlayer,
       setRemovePlayer,
+      setReconnectPlayer,
       setNewChancellor,
       setOneVote,
       setNewPresident,

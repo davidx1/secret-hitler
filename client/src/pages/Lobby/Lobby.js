@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
 import { Dove } from "@styled-icons/fa-solid/Dove";
 import { Skull } from "@styled-icons/fa-solid/Skull";
 
@@ -107,18 +106,16 @@ const AboutWrapper = styled.ul`
   }
 `;
 
-export default function Lobby({ client, playUrl, setRoom, isError = false }) {
+export default function Lobby({
+  client,
+  isError = false,
+  postJoiningCallback
+}) {
   // const [rooms, setAvaliableRooms] = useState([]);
   const [isNewRoomModalOpen, setIsNewRoomModalOpen] = useState(false);
   const [isJoinRoomModalOpen, setIsJoinRoomModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isErrorOpen, setIsErrorOpen] = useState(isError);
-  const history = useHistory();
-
-  const postJoiningCallback = (newRoom) => {
-    setRoom(newRoom);
-    history.push(`${playUrl}/${newRoom.id}`);
-  };
 
   const createRoom = async (displayName) => {
     setIsLoading(true);

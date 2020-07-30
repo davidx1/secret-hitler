@@ -35,6 +35,7 @@ export const ChancellorSelection = () => {
             <Player
               displayName={p.displayName}
               isActive={true}
+              isDisconnected={p.isDisconnected}
               currentPlayerRole={youInfo.role}
               isCurrentPlayer={false}
               role={p.role}

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Colyseus from "colyseus.js";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Div100vh from "react-div-100vh";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
+import { useHistory, useLocation } from "react-router-dom";
 
 import { theme } from "./constants/theme";
 import Play from "./pages/Play";
@@ -25,17 +26,11 @@ export const GlobalWrapper = styled(Div100vh)`
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  padding: 15px;
+  padding: 10px;
   background-color: ${(props) => props.theme.orange_light};
   box-sizing: border-box;
   overflow: auto;
   min-height: 320px;
-  @media only screen and (min-width: 512px) {
-    padding: 30px 20px;
-  }
-  @media only screen and (min-width: 1200px) {
-    padding: 30px;
-  }
 `;
 
 // const NavigationBar = styled.nav`
@@ -52,15 +47,68 @@ export const GlobalWrapper = styled(Div100vh)`
 const host = window.document.location.host.replace(/:.*/, "");
 const location = window.location;
 const client = new Colyseus.Client(
-  location.protocol.replace("http", "ws") +
-    "//" +
-    host +
-    (location.port ? ":" + 3001 : "")
+  location.protocol.replace("http", "ws") + "//" + host + (location.port ? ":" + 3001 : "")
 );
 
-export default function App() {
+function App() {
   const [room, setRoom] = useState();
+  const history = useHistory();
 
+  const postJoiningCallback = (newRoom) => {
+    const playUrl = "play";
+    setRoom(newRoom);
+    sessionStorage.setItem("vsh-room-id", newRoom.id);
+    sessionStorage.setItem("vsh-session-id", newRoom.sessionId);
+    const currentLocation = window.location;
+
+    if (!currentLocation.pathname.includes(playUrl)) {
+      history.push(`${playUrl}/${newRoom.id}`);
+    }
+  };
+
+  const reconnect = () => {
+    const existingRoomId = sessionStorage.getItem("vsh-room-id");
+    const existingSessionId = sessionStorage.getItem("vsh-session-id");
+    if (existingRoomId && existingSessionId) {
+      client
+        .reconnect(existingRoomId, existingSessionId)
+        .then(postJoiningCallback)
+        .catch((e) => {
+          console.error("reconnection error", e);
+          sessionStorage.removeItem("vsh-room-id");
+          sessionStorage.removeItem("vsh-session-id");
+          history.push("/");
+        });
+    }
+  };
+
+  useEffect(reconnect, []);
+
+  return (
+    <Switch>
+      <Route path={`/play/:roomId`}>
+        <Play
+          room={room}
+          setRoom={setRoom}
+          client={client}
+          postJoiningCallback={postJoiningCallback}
+        />
+      </Route>
+      <Route
+        path={"/"}
+        render={(props) => (
+          <Lobby
+            client={client}
+            isError={props.location.state?.isError}
+            postJoiningCallback={postJoiningCallback}
+          />
+        )}
+      ></Route>
+    </Switch>
+  );
+}
+
+export default function AppWrapper() {
   return (
     <>
       <GlobalStyle />
@@ -69,22 +117,7 @@ export default function App() {
           {/* {!isFullscreen && <NavigationBar />} */}
           <GlobalWrapper>
             <Router>
-              <Switch>
-                <Route path={`/play/:roomId`}>
-                  <Play room={room} setRoom={setRoom} client={client} />
-                </Route>
-                <Route
-                  path={"/"}
-                  render={(props) => (
-                    <Lobby
-                      client={client}
-                      playUrl={`play`}
-                      setRoom={setRoom}
-                      isError={props.location.state?.isError}
-                    />
-                  )}
-                ></Route>
-              </Switch>
+              <App />
             </Router>
           </GlobalWrapper>
         </div>

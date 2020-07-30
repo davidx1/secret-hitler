@@ -67,6 +67,7 @@ export const VoteSelection = ({ displayName }) => {
           currentPlayerRole={youInfo.role}
           role={p.role}
           isActive={p.isActive}
+          isDisconnected={p.isDisconnected}
           color={p.color}
         />
         <Vote onClick={() => vote(false)} src={nein} />

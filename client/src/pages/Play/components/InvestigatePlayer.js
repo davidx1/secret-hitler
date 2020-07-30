@@ -32,7 +32,8 @@ export const InvestigatePlayer = () => {
           .map((p, i) => (
             <Player
               displayName={p.displayName}
-              isActive={true}
+              isActive={p.isActive}
+              isDisconnected={p.isDisconnected}
               isCurrentPlayer={i === selectedIndex}
               role={i === selectedIndex && p.role}
               scale={1.25}

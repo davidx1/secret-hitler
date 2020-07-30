@@ -1,5 +1,7 @@
 import { useState, useLayoutEffect } from "react";
 import _ from "lodash";
+import useInterval from "use-interval";
+import { useHistory, useParams } from "react-router-dom";
 
 export interface Player {
   displayName: string;
@@ -26,7 +28,7 @@ export interface RootObject {
   state: string;
 }
 
-export const useRoomState = (room: any, joinRoom: () => void) => {
+export const useRoomState = (room: any, setRoom: any, client: any, postJoiningCallback: any) => {
   const [roomState, setRoomState] = useState({} as RootObject);
   const [chatState, setChatState] = useState(
     [] as { color: string; name: string; content: string }[]
@@ -34,16 +36,31 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
   const [youId, setYouId] = useState(1);
   const [attemptedToJoin, setAttemptedToJoin] = useState(false);
   const [chatBubbleContent, setChatBubbleContent] = useState("");
+  const { roomId } = useParams();
+  const history = useHistory();
 
-  const newMsg = (message: {
-    color: string;
-    name: string;
-    content: string;
-  }) => {
+  const joinRoom = async () => {
+    client
+      .joinById(roomId)
+      .then((newRoom: any) => setRoom(newRoom))
+      .catch((err: any) => history.replace({ pathname: "/", state: { isError: false } }));
+  };
+
+  useInterval(() => {
+    // Your custom logic here
+    const existingRoomId = sessionStorage.getItem("vsh-room-id");
+    const existingSessionId = sessionStorage.getItem("vsh-session-id");
+    if (existingRoomId && existingSessionId) {
+      try {
+        client.reconnect(existingRoomId, existingSessionId).then(postJoiningCallback);
+      } catch (e) {}
+    }
+  }, 5000);
+
+  const newMsg = (message: { color: string; name: string; content: string }) => {
     setChatState((prevChatState) => {
       const l = prevChatState.length;
-      const messageToKeep =
-        l < 40 ? prevChatState : prevChatState.slice(l - 40);
+      const messageToKeep = l < 40 ? prevChatState : prevChatState.slice(l - 40);
 
       return [...messageToKeep, message];
     });
@@ -51,8 +68,12 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
 
   useLayoutEffect(() => {
     if (!room && !attemptedToJoin) {
-      setAttemptedToJoin(true);
-      joinRoom();
+      const existingRoomId = sessionStorage.getItem("vsh-room-id");
+      const existingSessionId = sessionStorage.getItem("vsh-session-id");
+      if (!existingRoomId && !existingSessionId) {
+        setAttemptedToJoin(true);
+        joinRoom();
+      }
     }
     if (room) {
       setYouId(room.sessionId);
@@ -68,6 +89,12 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
           setChatBubbleContent(message.payload);
         }
       });
+      room.onError((_: any, message: any) => {
+        console.log("oops, error ocurred:");
+        console.log(message);
+        alert(message);
+      });
+
       return () => {
         room.leave();
       };
@@ -79,13 +106,9 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
     context = { players: [], presidentIndex: -1, chancellorIndex: -1 }
   } = roomState as RootObject;
 
-  const playersToDisplay = context.players.filter(
-    (p) => p.displayName !== "secret-admin"
-  );
-  const isYouPresident =
-    _.get(playersToDisplay[context.presidentIndex], "id") === youId;
-  const isYouChancellor =
-    _.get(playersToDisplay[context.chancellorIndex], "id") === youId;
+  const playersToDisplay = context.players.filter((p) => p.displayName !== "secret-admin");
+  const isYouPresident = _.get(playersToDisplay[context.presidentIndex], "id") === youId;
+  const isYouChancellor = _.get(playersToDisplay[context.chancellorIndex], "id") === youId;
   const youInfo = playersToDisplay.find((p) => p.id === youId);
 
   function trigger(name: string, payload = {}) {
@@ -148,11 +171,7 @@ export const useRoomState = (room: any, joinRoom: () => void) => {
     trigger("chat", { content: s });
   }
 
-  function sendChatBubble(payload: {
-    targetName: string;
-    targetColor: string;
-    content: string;
-  }) {
+  function sendChatBubble(payload: { targetName: string; targetColor: string; content: string }) {
     trigger("chatBubble", payload);
   }
 

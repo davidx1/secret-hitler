@@ -107,6 +107,7 @@ export const GameOver = ({ winner }) => {
             currentPlayerRole="F"
             role={l.role}
             isActive={true}
+            isDisconnected={l.isDisconnected}
             color={l.color}
           />
         ))}

@@ -47,6 +47,7 @@ export const HalfThePlayers = ({ secondHalf }) => {
             currentPlayerRole={youInfo.role}
             scale={1}
             isActive={p.isActive}
+            isDisconnected={p.isDisconnected}
             color={p.color}
           ></Player>
         );

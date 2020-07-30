@@ -175,7 +175,6 @@ function StatusBar() {
     <StatusWindow>
       <AnimatePresence initial={false}>
         <StatusWrapper
-          initial={false}
           key={getSystemMessage()}
           initial={{
             x: 500,
