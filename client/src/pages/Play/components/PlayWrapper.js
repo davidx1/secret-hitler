@@ -23,10 +23,9 @@ export const PlayWrapper = styled.div`
     max-height: 700px;
   }
   @media only screen and (min-width: 1200px) {
-    max-height: 1000px;
+    max-height: 950px;
   }
   @media only screen and (min-width: 1450px) {
-    max-height: 1450px;
     max-width: 1920px;
   }
 `;

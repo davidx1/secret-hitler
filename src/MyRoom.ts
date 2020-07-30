@@ -83,9 +83,7 @@ export class MyRoom extends Room {
   }
 
   onMessage(client: { sessionId: any }, payload: any) {
-    const person = this.service.state.context.players.find(
-      (p) => p.id === client.sessionId
-    );
+    const person = this.service.state.context.players.find((p) => p.id === client.sessionId);
 
     if (payload.type === "chat") {
       this.broadcast({
@@ -97,33 +95,35 @@ export class MyRoom extends Room {
         }
       });
     } else if (payload.type === "chatBubble") {
-      if (this.chatBubbles[client.sessionId] !== "") {
-        this.chatBubbles[client.sessionId] = undefined;
+      if (!this.chatBubbles[client.sessionId]) {
+        //This delay is to clear the existing bubble, unmount it, so the timeout resets
+        this.clock.setTimeout(() => {
+          this.chatBubbles[client.sessionId] = payload;
+          this.broadcast({
+            type: "chatBubble",
+            payload: this.chatBubbles
+          });
+        }, 300);
+
+        this.clock.setTimeout(() => {
+          this.chatBubbles[client.sessionId] = "";
+          this.broadcast({
+            type: "chatBubble",
+            payload: this.chatBubbles
+          });
+        }, 5000);
+
         this.broadcast({
-          type: "chatBubble",
-          payload: this.chatBubbles
+          type: "chat",
+          payload: {
+            color: person.color,
+            name: person.displayName,
+            targetName: payload.targetName,
+            targetColor: payload.targetColor,
+            content: payload.content
+          }
         });
       }
-
-      //This delay is to clear the existing bubble, unmount it, so the timeout resets
-      this.clock.setTimeout(() => {
-        this.chatBubbles[client.sessionId] = payload;
-        this.broadcast({
-          type: "chatBubble",
-          payload: this.chatBubbles
-        });
-      }, 300);
-
-      this.broadcast({
-        type: "chat",
-        payload: {
-          color: person.color,
-          name: person.displayName,
-          targetName: payload.targetName,
-          targetColor: payload.targetColor,
-          content: payload.content
-        }
-      });
     } else {
       this.roomState = this.service.send({ ...payload });
     }

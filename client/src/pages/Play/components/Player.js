@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import styled, { css } from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { DoneOutline } from "@styled-icons/material-sharp/DoneOutline";
@@ -17,7 +17,6 @@ import president from "../../../img/president.png";
 import chancellor from "../../../img/chancellor.png";
 
 import { StateContext } from "../Play";
-import { NotificationWrapper } from "../../../lib/Notification";
 import { ColorSpan } from "./ColorSpan";
 
 export const Player = ({
@@ -36,12 +35,6 @@ export const Player = ({
   isDisconnected
 }) => {
   const { state } = useContext(StateContext);
-  const [isChatBubbleShowing, setIsChatBubbleShowing] = useState(false);
-  useEffect(() => {
-    if (propChatBubbleContent) {
-      setIsChatBubbleShowing(true);
-    }
-  }, [propChatBubbleContent]);
 
   const srcs = {
     "L": liberal,
@@ -97,15 +90,13 @@ export const Player = ({
             {state === "liberalWin" && role === "L" && <Win />}
             {state === "fascistWin" && role === "L" && <Lose />}
             {state === "liberalWin" && (role === "H" || role === "F") && <Lose />}
-            {isChatBubbleShowing && propChatBubbleContent && (
-              <NotificationWrapper duration={3000} killSelf={() => setIsChatBubbleShowing(false)}>
-                <SpeechBubble>
-                  <ColorSpan color={propChatBubbleContent.targetColor}>
-                    {propChatBubbleContent.targetName}
-                  </ColorSpan>
-                  {propChatBubbleContent.content}
-                </SpeechBubble>
-              </NotificationWrapper>
+            {propChatBubbleContent && (
+              <SpeechBubble>
+                <ColorSpan color={propChatBubbleContent.targetColor}>
+                  {propChatBubbleContent.targetName}
+                </ColorSpan>
+                {propChatBubbleContent.content}
+              </SpeechBubble>
             )}
           </PlayerImage>
         </>
@@ -143,13 +134,13 @@ const playerImageSize = css`
     width: ${(props) => 40 * props.scale}px;
   }
   @media only screen and (min-width: 992px) {
-    height: ${(props) => 60 * props.scale}px;
-    width: ${(props) => 60 * props.scale}px;
+    height: ${(props) => 50 * props.scale}px;
+    width: ${(props) => 50 * props.scale}px;
   }
   @media only screen and (min-width: 1200px) {
     padding: 0;
-    height: ${(props) => 100 * props.scale}px;
-    width: ${(props) => 100 * props.scale}px;
+    height: ${(props) => 80 * props.scale}px;
+    width: ${(props) => 80 * props.scale}px;
   }
   @media only screen and (min-width: 1450px) {
     padding: 0;
@@ -205,10 +196,10 @@ const PlayerLabel = styled.p`
 `;
 
 const PlayerWrapper = styled.div`
-  border-width: 2px;
+  border-width: 5px;
   border-style: double;
   border-color: ${({ highlight, color }) => (highlight ? color : "transparent")};
-  padding: 3px;
+  padding: 5px;
   display: flex;
   position: relative;
   flex-direction: column;
@@ -221,13 +212,13 @@ const PlayerWrapper = styled.div`
     filter: brightness(1.2);
   }
   @media only screen and (min-width: 768px) {
-    border-width: 3px;
+    border-width: 6px;
   }
   @media only screen and (min-width: 992px) {
-    border-width: 4px;
+    border-width: 7px;
   }
   @media only screen and (min-width: 1200px) {
-    border-width: 5px;
+    border-width: 8px;
   }
 `;
 

@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   justify-content: space-evenly;
 
   @media only screen and (min-width: 512px) {
-    height: 100%;
+    height: 80%;
   }
 `;
 
@@ -106,11 +106,7 @@ const AboutWrapper = styled.ul`
   }
 `;
 
-export default function Lobby({
-  client,
-  isError = false,
-  postJoiningCallback
-}) {
+export default function Lobby({ client, isError = false, postJoiningCallback }) {
   // const [rooms, setAvaliableRooms] = useState([]);
   const [isNewRoomModalOpen, setIsNewRoomModalOpen] = useState(false);
   const [isJoinRoomModalOpen, setIsJoinRoomModalOpen] = useState(false);
@@ -145,24 +141,14 @@ export default function Lobby({
     <Wrapper>
       <LogoImage />
       <OptionWrapper>
-        <OptionCard onClick={() => setIsNewRoomModalOpen(true)}>
-          Create Game
-        </OptionCard>
-        <OptionCard onClick={() => setIsJoinRoomModalOpen(true)}>
-          Join Game
-        </OptionCard>
+        <OptionCard onClick={() => setIsNewRoomModalOpen(true)}>Create Game</OptionCard>
+        <OptionCard onClick={() => setIsJoinRoomModalOpen(true)}>Join Game</OptionCard>
       </OptionWrapper>
       {isNewRoomModalOpen && (
-        <NewRoomModal
-          closeModal={() => setIsNewRoomModalOpen(false)}
-          onRoomCreate={createRoom}
-        />
+        <NewRoomModal closeModal={() => setIsNewRoomModalOpen(false)} onRoomCreate={createRoom} />
       )}
       {isJoinRoomModalOpen && (
-        <JoinRoomModal
-          closeModal={() => setIsJoinRoomModalOpen(false)}
-          onRoomJoin={joinRoom}
-        />
+        <JoinRoomModal closeModal={() => setIsJoinRoomModalOpen(false)} onRoomJoin={joinRoom} />
       )}
       {isLoading && <Loader />}
       {isErrorOpen && <Error closeModal={() => setIsErrorOpen(false)} />}
@@ -173,17 +159,13 @@ export default function Lobby({
       <AboutWrapper>
         <li>
           Licensed under{" "}
-          <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
-            CC BY-NC-SA 4.0{" "}
-          </a>
+          <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0 </a>
         </li>
         <li>
-          Source Code:{" "}
-          <a href="https://github.com/davidx1/secret-hitler">Github</a>
+          Source Code: <a href="https://github.com/davidx1/secret-hitler">Github</a>
         </li>
         <li>
-          Based on the boardgame{" "}
-          <a href="https://www.secrethitler.com/">Secret Hitler</a>
+          Based on the boardgame <a href="https://www.secrethitler.com/">Secret Hitler</a>
         </li>
       </AboutWrapper>
     </Wrapper>

@@ -18,8 +18,9 @@ export const Wrapper = styled.div`
   padding-top: 30px;
   width: 100%;
   height: 100%;
-  @media only screen and (min-width: 512px) {
-    padding-top: 0px;
+
+  @media only screen and (min-width: 1200px) {
+    max-height: 950px;
   }
 `;
 
