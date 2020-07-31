@@ -9,12 +9,12 @@ import { SadCry } from "@styled-icons/fa-regular/SadCry";
 import { Skull } from "@styled-icons/fa-solid/Skull";
 import { PowerOff } from "@styled-icons/material/PowerOff";
 
-import { QuestionCircle } from "@styled-icons/fa-solid/QuestionCircle";
 import fascist from "../../../img/fascist.png";
 import liberal from "../../../img/liberal.png";
 import hitler from "../../../img/hitler.png";
 import president from "../../../img/president.png";
 import chancellor from "../../../img/chancellor.png";
+import unknown from "../../../img/unknown.png";
 
 import { StateContext } from "../Play";
 import { ColorSpan } from "./ColorSpan";
@@ -39,7 +39,8 @@ export const Player = ({
   const srcs = {
     "L": liberal,
     "F": fascist,
-    "H": hitler
+    "H": hitler,
+    "U": unknown
   };
   const roleToDisplay = !role
     ? ""
@@ -47,7 +48,7 @@ export const Player = ({
     ? role
     : currentPlayerRole === "H" && isCurrentPlayer
     ? "H"
-    : "L";
+    : "U";
   return (
     <PlayerWrapper
       tabIndex="0"
@@ -64,7 +65,7 @@ export const Player = ({
           {state !== "election" && state !== "revealVote" && isChancellor && (
             <ChancellorMarker scale={scale} layoutId="chancellorMarker"></ChancellorMarker>
           )}
-          <PlayerImage scale={scale} src={srcs[roleToDisplay]}>
+          <PlayerImage scale={scale} src={srcs[roleToDisplay]} color={color}>
             {state === "election" && typeof vote === "boolean" && (
               <VotedWrapper
                 initial={{ y: 40, opacity: 0 }}
@@ -101,14 +102,13 @@ export const Player = ({
           </PlayerImage>
         </>
       ) : (
-        <UnknownRole scale={scale} />
+        <PlayerImage scale={scale} src={srcs["U"]} color={color} />
       )}
-      {!isActive ||
-        (isDisconnected && (
-          <StatusOverlay scale={scale}>
-            {!isActive ? <DeadIcon /> : <DisconnectedIcon />}
-          </StatusOverlay>
-        ))}
+      {(!isActive || isDisconnected) && (
+        <StatusOverlay scale={scale}>
+          {!isActive ? <DeadIcon /> : <DisconnectedIcon />}
+        </StatusOverlay>
+      )}
       <PlayerLabel scale={scale} color={color}>
         {displayName}
         {!isActive ? "(Killed)" : ""}
@@ -151,6 +151,8 @@ const playerImageSize = css`
 const PlayerImage = styled.div`
   display: flex;
   background-image: url(${(props) => props.src});
+  background-color: ${(props) => props.color};
+  border: 1px solid #666666;
   background-size: cover;
   background-position: center;
   box-shadow: 0px 5px 10px #444444;
@@ -274,13 +276,12 @@ const Voted = styled(HowToVote)`
 const StatusOverlay = styled.div`
   position: absolute;
   top: 0;
-  margin: 3px;
+  margin: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #33333380;
   box-shadow: none;
-  padding: 3px;
   ${playerImageSize}
 `;
 const DeadIcon = styled(Skull)`
@@ -292,12 +293,6 @@ const DisconnectedIcon = styled(PowerOff)`
   height: 50%;
   width: 50%;
   color: white;
-`;
-const UnknownRole = styled(QuestionCircle)`
-  height: 80%;
-  color: white;
-  background-color: gray;
-  ${playerImageSize}
 `;
 const VotedYes = styled(Voted).attrs({ as: DoneOutline })`
   background-color: green;

@@ -36,8 +36,7 @@ export class MyRoom extends Room {
   })
     .onTransition(({ value, context }) => {
       console.log(value);
-      this.broadcast({
-        type: "state",
+      this.broadcast("state", {
         payload: {
           state: typeof value === "string" ? value : value["play"],
           context
@@ -51,6 +50,54 @@ export class MyRoom extends Room {
   onCreate(options: any) {
     console.log("BasicRoom created!", options);
     this.roomId = nanoid();
+
+    this.onMessage("chat", (client, payload) => {
+      const person = this.service.state.context.players.find((p) => p.id === client.sessionId);
+      this.broadcast("chat", {
+        payload: {
+          color: person.color,
+          name: person.displayName,
+          content: payload.content
+        }
+      });
+    });
+
+    this.onMessage("chatBubble", (client, payload) => {
+      console.log("payload", payload);
+      const person = this.service.state.context.players.find((p) => p.id === client.sessionId);
+      if (!this.chatBubbles[client.sessionId]) {
+        //This delay is to clear the existing bubble, unmount it, so the timeout resets
+        this.clock.setTimeout(() => {
+          this.chatBubbles[client.sessionId] = payload;
+          this.broadcast("chatBubble", {
+            payload: this.chatBubbles
+          });
+        }, 300);
+
+        this.clock.setTimeout(() => {
+          this.chatBubbles[client.sessionId] = "";
+          this.broadcast("chatBubble", {
+            payload: this.chatBubbles
+          });
+        }, 5000);
+
+        this.broadcast("chat", {
+          payload: {
+            color: person.color,
+            name: person.displayName,
+            targetName: payload.targetName,
+            targetColor: payload.targetColor,
+            content: payload.content
+          }
+        });
+      }
+    });
+
+    this.onMessage("*", (_, type, payload: any) => {
+      console.log("type", type);
+      console.log("message", payload);
+      this.roomState = this.service.send({ type, ...payload });
+    });
   }
 
   onJoin(client: { sessionId: any }, data: { displayName: string }) {
@@ -58,6 +105,7 @@ export class MyRoom extends Room {
     const availableColors = this.playerColors.filter((c) => c.isFree);
     const randomIndex = Math.floor(Math.random() * availableColors.length);
     const newColor = availableColors[randomIndex];
+    console.log(this.playerColors);
     const index = this.playerColors.indexOf(newColor);
     this.playerColors[index].isFree = false;
 
@@ -73,60 +121,13 @@ export class MyRoom extends Room {
       id: client.sessionId
     });
 
-    const reconnection = this.allowReconnection(client, 120);
+    const reconnection = this.allowReconnection(client, 60);
     // allow disconnected client to reconnect
     await reconnection;
 
     this.service.send("reconnectPlayer", {
       id: client.sessionId
     });
-  }
-
-  onMessage(client: { sessionId: any }, payload: any) {
-    const person = this.service.state.context.players.find((p) => p.id === client.sessionId);
-
-    if (payload.type === "chat") {
-      this.broadcast({
-        type: "chat",
-        payload: {
-          color: person.color,
-          name: person.displayName,
-          content: payload.content
-        }
-      });
-    } else if (payload.type === "chatBubble") {
-      if (!this.chatBubbles[client.sessionId]) {
-        //This delay is to clear the existing bubble, unmount it, so the timeout resets
-        this.clock.setTimeout(() => {
-          this.chatBubbles[client.sessionId] = payload;
-          this.broadcast({
-            type: "chatBubble",
-            payload: this.chatBubbles
-          });
-        }, 300);
-
-        this.clock.setTimeout(() => {
-          this.chatBubbles[client.sessionId] = "";
-          this.broadcast({
-            type: "chatBubble",
-            payload: this.chatBubbles
-          });
-        }, 5000);
-
-        this.broadcast({
-          type: "chat",
-          payload: {
-            color: person.color,
-            name: person.displayName,
-            targetName: payload.targetName,
-            targetColor: payload.targetColor,
-            content: payload.content
-          }
-        });
-      }
-    } else {
-      this.roomState = this.service.send({ ...payload });
-    }
   }
 
   onDispose() {

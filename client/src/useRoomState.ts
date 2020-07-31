@@ -77,18 +77,18 @@ export const useRoomState = (room: any, setRoom: any, client: any, postJoiningCa
     }
     if (room) {
       setYouId(room.sessionId);
-      room.onMessage(function (message: any) {
-        if (message.type === "state") {
-          setRoomState({ ...message.payload });
-        }
-        if (message.type === "chat") {
-          console.log(message.payload);
-          newMsg(message.payload);
-        }
-        if (message.type === "chatBubble") {
-          setChatBubbleContent(message.payload);
-        }
+      room.onMessage("state", (message: any) => {
+        setRoomState({ ...message.payload });
       });
+
+      room.onMessage("chat", (message: any) => {
+        newMsg(message.payload);
+      });
+
+      room.onMessage("chatBubble", (message: any) => {
+        setChatBubbleContent(message.payload);
+      });
+
       room.onError((_: any, message: any) => {
         console.log("oops, error ocurred:");
         console.log(message);
@@ -112,7 +112,8 @@ export const useRoomState = (room: any, setRoom: any, client: any, postJoiningCa
   const youInfo = playersToDisplay.find((p) => p.id === youId);
 
   function trigger(name: string, payload = {}) {
-    room.send({ "type": name, ...payload });
+    console.log("trigger", name, payload);
+    room.send(name, payload);
   }
 
   function start() {
