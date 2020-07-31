@@ -55,7 +55,7 @@ export const useRoomState = (room: any, setRoom: any, client: any, postJoiningCa
         client.reconnect(existingRoomId, existingSessionId).then(postJoiningCallback);
       } catch (e) {}
     }
-  }, 5000);
+  }, 6000);
 
   const newMsg = (message: { color: string; name: string; content: string }) => {
     setChatState((prevChatState) => {
