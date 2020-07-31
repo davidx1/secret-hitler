@@ -10,6 +10,16 @@ const Title = styled.p`
 
   @media only screen and (min-width: 768px) {
     display: block;
+    font-size: 12px;
+  }
+  @media only screen and (min-width: 992px) {
+    font-size: 14px;
+  }
+  @media only screen and (min-width: 1200px) {
+    font-size: 16px;
+  }
+  @media only screen and (min-width: 1450px) {
+    font-size: 18px;
   }
 `;
 
@@ -24,8 +34,7 @@ const Wrapper = styled.div`
   padding: 0 15px;
   margin: 0 auto;
 
-  color: ${({ points }) =>
-    points === 3 ? "black" : points ? "orange" : "lightgray"};
+  color: ${({ points }) => (points === 3 ? "black" : points ? "orange" : "lightgray")};
 `;
 
 const iconStyle = css`
@@ -36,6 +45,8 @@ const iconStyle = css`
   @media only screen and (min-width: 992px) {
   }
   @media only screen and (min-width: 1200px) {
+    width: 18px;
+    height: 18px;
   }
   @media only screen and (min-width: 1450px) {
   }
