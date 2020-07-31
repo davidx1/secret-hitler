@@ -12,13 +12,12 @@ export const LogoImage = styled.div`
   margin: 0px auto;
 
   @media only screen and (min-width: 512px) {
-    width: 400px;
-    height: 280px;
+    width: 450px;
   }
 
   @media only screen and (min-width: 768px) {
-    width: 590px;
-    height: 300px;
+    width: 500px;
+    height: 280px;
   }
   @media only screen and (min-width: 992px) {
     width: 800px;

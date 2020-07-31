@@ -10,18 +10,16 @@ export const OptionCard = styled.button`
   font-size: 24px;
 
   @media only screen and (min-width: 512px) {
-    width: 350px;
+    width: 280px;
     height: 120px;
     font-size: 32px;
     border-radius: 24px;
   }
 
   @media only screen and (min-width: 768px) {
-    width: 364px;
-    height: 130px;
     font-size: 32px;
     border-radius: 24px;
-    border: 10px solid #4f0d00;
+    border: 8px solid #4f0d00;
   }
   @media only screen and (min-width: 992px) {
     width: 400px;
