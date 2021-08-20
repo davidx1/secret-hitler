@@ -71,8 +71,7 @@ export const useRoomState = (room: any, setRoom: any, client: any, postJoiningCa
       const existingRoomId = sessionStorage.getItem("vsh-room-id");
       const existingSessionId = sessionStorage.getItem("vsh-session-id");
       if (!existingRoomId && !existingSessionId) {
-        setAttemptedToJoin(true);
-        joinRoom();
+        history.replace('/');
       }
     }
     if (room) {
