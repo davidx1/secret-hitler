@@ -3,7 +3,7 @@ import * as Colyseus from "colyseus.js";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Div100vh from "react-div-100vh";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { theme } from "./constants/theme";
 import Play from "./pages/Play";

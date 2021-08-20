@@ -51,6 +51,16 @@ const Message = styled(motion.p)`
   }
 `;
 
+const Tip = styled(motion.p)`
+  font-size: 14px;
+  margin: 0;
+  color: white;
+  background-color: red;
+  @media only screen and (min-width: 992px) {
+    font-size: 18px;
+  }
+`;
+
 const StatusWrapper = styled(motion.div)`
   position: absolute;
   display: flex;
@@ -104,6 +114,9 @@ export const Chat = ({ onMobileInputFocus }) => {
     <Wrapper>
       <StatusBar />
       <ChatWindow>
+      <Tip>
+        Tip: All Fascists who are NOT Hitler will see everyone's identities. Hitler and Liberal can only see their own identity.
+      </Tip>
         {chatState.map((c) => (
           <Message>
             <ColorSpan color={c.color}>{c.name}</ColorSpan>:{" "}

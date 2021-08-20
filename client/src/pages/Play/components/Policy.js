@@ -12,7 +12,6 @@ const PolicyImage = styled.button`
   cursor: ${({ selectable }) => (selectable ? "pointer" : "auto")};
   height: ${(props) => props.scale * 32}px;
   width: ${(props) => props.scale * 32}px;
-  outline: none;
   padding: 0;
   margin: 0;
 

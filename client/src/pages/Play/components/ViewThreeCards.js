@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { Overlay, InstructionText } from "../../../lib/Overlay";
+import { Overlay, InstructionText, RuleText } from "../../../lib/Overlay";
 import { StateContext, ActionContext } from "../Play";
 import { Policy } from "./Policy";
 import { Button } from "../../../lib/Button";
@@ -25,13 +25,15 @@ export const ViewThreeCards = () => {
 
   return (
     <Overlay>
-      <InstructionText>Next 3 Policy</InstructionText>
+      <InstructionText>Policy Peek</InstructionText>
+      <RuleText>
+        The President secretly looks at the top three tiles in the Policy deck and then returns them
+        to the top of the deck without changing the order.
+      </RuleText>
       <PolicyWrapper>
-        {drawPile
-          .slice(drawPile.length - 3, drawPile.length)
-          .map((variation) => (
-            <Policy scale={2} variation={variation} />
-          ))}
+        {drawPile.slice(drawPile.length - 3, drawPile.length).map((variation) => (
+          <Policy scale={2} variation={variation} />
+        ))}
       </PolicyWrapper>
       <Button onClick={doneViewingCards}>Okay</Button>
     </Overlay>

@@ -10,7 +10,7 @@ export const Overlay = styled.div`
   align-items: center;
   justify-content: center;
 
-  background-color: #000000aa;
+  background-color: #00000077;
   bottom: 0;
   left: 0;
   right: 0;
@@ -39,6 +39,28 @@ export const InstructionText = styled.h1`
   }
   @media only screen and (min-width: 1200px) {
     font-size: 48px;
+  }
+`;
+
+export const RuleText = styled.p`
+  color: #FFFFFFbb;
+  margin: 0 0 15px 0;
+  text-align: center;
+  font-size: 12px;
+  width: 80%;
+
+  @media only screen and (min-width: 512px) {
+    font-size: 14px;
+  }
+  @media only screen and (min-width: 768px) {
+    margin: 0 0 30px 0;
+    font-size: 14px;
+  }
+  @media only screen and (min-width: 992px) {
+    font-size: 14px;
+  }
+  @media only screen and (min-width: 1200px) {
+    font-size: 16px;
   }
 `;
 

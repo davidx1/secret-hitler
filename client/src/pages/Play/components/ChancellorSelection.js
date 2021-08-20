@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { Overlay, InstructionText } from "../../../lib/Overlay";
+import { Overlay, InstructionText, RuleText } from "../../../lib/Overlay";
 import { StateContext, ActionContext } from "../Play";
 import { Player } from "./Player";
 
@@ -8,16 +8,11 @@ const PlayerWrapper = styled.div`
   display: flex;
   justify-content: space-around;
   width: 100%;
-  margin-bottom: 16px;
+  margin-bottom: 32px;
 `;
 
 export const ChancellorSelection = () => {
-  const {
-    players,
-    youInfo,
-    prevPresidentIndex,
-    prevChancellorIndex
-  } = useContext(StateContext);
+  const { players, youInfo, prevPresidentIndex, prevChancellorIndex } = useContext(StateContext);
   const { selectChancellor } = useContext(ActionContext);
 
   const alivePlayerCount = players.filter((p) => p.isActive).length;
@@ -47,6 +42,14 @@ export const ChancellorSelection = () => {
           ) : null
         )}
       </PlayerWrapper>
+      <RuleText>
+        The last elected President and Chancellor are “term-limited,” and ineligible to be nominated
+        as Chancellor Candidate.
+      </RuleText>
+      <RuleText>
+        If there are only five players left in the game, only the last elected Chancellor is
+        ineligible to be Chancellor Candidate; the last President may be nominated.
+      </RuleText>
     </Overlay>
   );
 };

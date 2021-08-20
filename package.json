@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "npm init template for bootstraping an empty Colyseus project",
   "main": "src/index.ts",
-  "engines": {
-    "node": "12.x"
-  },
   "scripts": {
     "start": "ts-node src/index.ts",
     "loadtest": "colyseus-loadtest loadtest/example.ts --room my_room --numClients 2",

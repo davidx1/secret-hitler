@@ -208,7 +208,6 @@ const PlayerWrapper = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  outline: none;
   height: min-content;
   &:hover {
     filter: brightness(1.2);

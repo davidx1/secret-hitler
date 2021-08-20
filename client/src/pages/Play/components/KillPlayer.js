@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { Overlay, InstructionText } from "../../../lib/Overlay";
+import { Overlay, InstructionText, RuleText } from "../../../lib/Overlay";
 import { StateContext, ActionContext } from "../Play";
 import { Player } from "./Player";
 
@@ -16,7 +16,11 @@ export const KillPlayer = () => {
   const { killPlayer } = useContext(ActionContext);
   return (
     <Overlay>
-      <InstructionText>Select a player to kill</InstructionText>
+      <InstructionText>Execution</InstructionText>
+      <RuleText>
+        The President executes one player at the table. If that player is Hitler, the game ends in a
+        Liberal victory. Otherwise the game carries on without revealing the executed player's identity.
+      </RuleText>
       <PlayerWrapper>
         {players.map((p, i) =>
           p.isActive ? (

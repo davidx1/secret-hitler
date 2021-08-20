@@ -10,7 +10,6 @@ export const Button = styled.button`
   background-color: ${({ theme }) => theme.interactive};
   font-size: 16px;
   border-radius: 5px;
-  outline: none;
 
   @media only screen and (min-width: 768px) {
     min-width: 200px;

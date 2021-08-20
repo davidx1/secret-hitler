@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
-import { Overlay, InstructionText } from "../../../lib/Overlay";
+import { Overlay, InstructionText, RuleText } from "../../../lib/Overlay";
 import { StateContext, ActionContext } from "../Play";
 import { Player } from "./Player";
 import { Button } from "../../../lib/Button";
@@ -23,9 +23,8 @@ export const InvestigatePlayer = () => {
   };
   return (
     <Overlay>
-      <InstructionText>
-        Select a player to see his/her true identity
-      </InstructionText>
+      <InstructionText>Investigate Loyalty</InstructionText>
+      <RuleText>The President chooses a player to investigate.</RuleText>
       <PlayerWrapper>
         {players
           .filter((p) => p.id !== youInfo.id)
@@ -43,9 +42,7 @@ export const InvestigatePlayer = () => {
             />
           ))}
       </PlayerWrapper>
-      {selectedIndex !== null && (
-        <Button onClick={doneInvestigating}>Okay</Button>
-      )}
+      {selectedIndex !== null && <Button onClick={doneInvestigating}>Okay</Button>}
     </Overlay>
   );
 };
