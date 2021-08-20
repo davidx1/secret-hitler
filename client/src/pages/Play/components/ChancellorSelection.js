@@ -44,10 +44,7 @@ export const ChancellorSelection = () => {
       </PlayerWrapper>
       <RuleText>
         The last elected President and Chancellor are “term-limited,” and ineligible to be nominated
-        as Chancellor Candidate.
-      </RuleText>
-      <RuleText>
-        If there are only five players left in the game, only the last elected Chancellor is
+        as Chancellor Candidate.If there are only five players left in the game, only the last elected Chancellor is
         ineligible to be Chancellor Candidate; the last President may be nominated.
       </RuleText>
     </Overlay>

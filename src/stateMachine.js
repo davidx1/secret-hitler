@@ -210,9 +210,7 @@ const setNewPresident = assign((context, action) => {
   }
 
   return {
-    prevChancellorIndex: context.chancellorIndex,
     prevPresidentIndex: context.presidentIndex,
-    chancellorIndex: null,
     policiesInHand: [],
     presidentIndex
   };
@@ -273,10 +271,14 @@ const setPolicyInHand = assign((context) => {
 const setNewPolicy = assign((context, action) => {
   if (context.policiesInHand[action.index] === "F") {
     return {
+      prevChancellorIndex: context.chancellorIndex,
+      chancellorIndex: null,
       enactedFascistPolicies: context.enactedFascistPolicies + 1
     };
   }
   return {
+    prevChancellorIndex: context.chancellorIndex,
+    chancellorIndex: null,
     enactedLiberalPolicies: context.enactedLiberalPolicies + 1
   };
 });
@@ -407,8 +409,7 @@ function isEnoughPlayers(context) {
 
 function isLiberalWin(context, action) {
   return (
-    context.policiesInHand[action.index] === "L" &&
-    context.enactedLiberalPolicies === 5
+    context.enactedLiberalPolicies === 5 || !context.players.filter(p => p.role === 'H')[0].isActive
   );
 }
 
