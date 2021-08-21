@@ -59,6 +59,7 @@ export const InprogressScreen = () => {
       <PlayerWrapper>
         <HalfThePlayers allPlayers={players} secondHalf />
       </PlayerWrapper>
+      {(state === "fascistWin" || state === "liberalWin") && <GameOver />}
       {youInfo.isActive && (
         <>
           {isYouPresident && state === "chancellorSelection" && (
@@ -68,7 +69,6 @@ export const InprogressScreen = () => {
             state === "enactPolicy" &&
             vetoRequested &&
             vetoApproved === null && <HandleVetoRequest />}
-          {(state === "fascistWin" || state === "liberalWin") && <GameOver />}
           {state === "election" && youInfo.vote === null && <VoteSelection />}
           {state === "filterCards" && isYouPresident && <PolicySelection />}
           {state === "enactPolicy" && isYouChancellor && <PolicySelection />}

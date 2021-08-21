@@ -319,6 +319,7 @@ const SpeechBubble = styled.div`
   font-size: 10px;
   width: max-content;
   border: 1px solid black;
+  z-index: 2;
   @media only screen and (min-width: 992px) {
     top: -25px;
     left: 0px;

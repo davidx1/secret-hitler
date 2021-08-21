@@ -54,8 +54,9 @@ const Message = styled(motion.p)`
 const Tip = styled(motion.p)`
   font-size: 14px;
   margin: 0;
-  color: white;
-  background-color: red;
+  color: black;
+  background-color: yellow;
+  margin-bottom: 8px;
   @media only screen and (min-width: 992px) {
     font-size: 18px;
   }
@@ -115,7 +116,10 @@ export const Chat = ({ onMobileInputFocus }) => {
       <StatusBar />
       <ChatWindow>
       <Tip>
-        Tip: All Fascists who are NOT Hitler will see everyone's identities. Hitler and Liberal can only see their own identity.
+        *DO NOT CLOSE THIS WINDOW* You will disconnect and be unable to rejoin
+      </Tip>
+      <Tip>
+        All Fascists who are NOT Hitler will see everyone's identities. Hitler and Liberals can only see their own identity.
       </Tip>
         {chatState.map((c) => (
           <Message>

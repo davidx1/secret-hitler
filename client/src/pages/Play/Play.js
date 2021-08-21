@@ -132,7 +132,6 @@ export default function Game({ room, setRoom, client, postJoiningCallback }) {
       >
         <Wrapper isLandscape={isLandscape}>
           <FullScreenButton />
-
           {!isChatFullScreen && (
             <PlayWrapper>
               {state === "waiting" ? (
