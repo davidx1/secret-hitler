@@ -408,8 +408,10 @@ function isEnoughPlayers(context) {
 }
 
 function isLiberalWin(context, action) {
+  const hitler = context.players.filter(p => p.role === 'H')[0]
   return (
-    context.enactedLiberalPolicies === 5 || !context.players.filter(p => p.role === 'H')[0].isActive
+    context.enactedLiberalPolicies === 5 || 
+    (hitler && !hitler.isActive)
   );
 }
 
