@@ -100,12 +100,12 @@ export const LibralBoard = () => {
       <CardSlotLibral>
         {i < enactedLiberalPolicies && (
           <motion.div
-            initial={{ scale: 3, opacity: 0 }}
+            initial={{ scale: 10, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{
               delay: 1,
-              duration: 2,
-              scale: { type: "spring", stiffness: 100 }
+              duration: 4,
+              scale: { type: "spring", stiffness: 150, mass: 1, damping: 13, velocity: 2}
             }}
           >
             <PolicyLiberal />

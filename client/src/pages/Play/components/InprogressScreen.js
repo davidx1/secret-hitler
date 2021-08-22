@@ -40,8 +40,23 @@ export const InprogressScreen = () => {
     vetoRequested,
     vetoApproved,
     interactionMenuTarget,
-    electionTracker
+    electionTracker,
+    drawPile,
+    policiesInHand,
+    enactedFascistPolicies,
+    enactedLiberalPolicies,
   } = useContext(StateContext);
+
+const allContext = useContext(StateContext);
+
+  console.dir(allContext);
+
+  const discardPileSize =
+    17 -
+    drawPile.length -
+    policiesInHand.length -
+    enactedFascistPolicies -
+    enactedLiberalPolicies;
 
   const { revealVote } = useContext(ActionContext);
   return (
@@ -50,11 +65,16 @@ export const InprogressScreen = () => {
         <HalfThePlayers allPlayers={players} />
       </PlayerWrapper>
       <LibralBoard></LibralBoard>
-      <ElectionTracker points={electionTracker} />
+      <MiddleWrapper>
+        <Title>Draw: {drawPile.length}</Title>
+        <ElectionTracker points={electionTracker} />
+        <Title>Discard: {discardPileSize}</Title>
+      </MiddleWrapper>
       {isYouPresident &&
         state === "election" &&
-        players.filter((p) => typeof p.vote !== "boolean" && p.isActive)
-          .length === 0 && <Button onClick={revealVote}>Reveal Vote</Button>}
+        players.filter((p) => typeof p.vote !== "boolean" && p.isActive).length === 0 && (
+          <Button onClick={revealVote}>Reveal Vote</Button>
+        )}
       <FascistBoard></FascistBoard>
       <PlayerWrapper>
         <HalfThePlayers allPlayers={players} secondHalf />
@@ -62,24 +82,17 @@ export const InprogressScreen = () => {
       {(state === "fascistWin" || state === "liberalWin") && <GameOver />}
       {youInfo.isActive && (
         <>
-          {isYouPresident && state === "chancellorSelection" && (
-            <ChancellorSelection />
+          {isYouPresident && state === "chancellorSelection" && <ChancellorSelection />}
+          {isYouPresident && state === "enactPolicy" && vetoRequested && vetoApproved === null && (
+            <HandleVetoRequest />
           )}
-          {isYouPresident &&
-            state === "enactPolicy" &&
-            vetoRequested &&
-            vetoApproved === null && <HandleVetoRequest />}
           {state === "election" && youInfo.vote === null && <VoteSelection />}
           {state === "filterCards" && isYouPresident && <PolicySelection />}
           {state === "enactPolicy" && isYouChancellor && <PolicySelection />}
           {isYouPresident && state === "viewThreeCards" && <ViewThreeCards />}
-          {isYouPresident && state === "investigatePlayer" && (
-            <InvestigatePlayer />
-          )}
+          {isYouPresident && state === "investigatePlayer" && <InvestigatePlayer />}
           {isYouPresident && state === "killPlayer" && <KillPlayer />}
-          {isYouPresident && state === "presidentSelection" && (
-            <PresidentSelection />
-          )}
+          {isYouPresident && state === "presidentSelection" && <PresidentSelection />}
           {interactionMenuTarget !== undefined &&
             interactionMenuTarget !== null &&
             interactionMenuTarget !== -1 && <InteractionMenu />}
@@ -88,3 +101,30 @@ export const InprogressScreen = () => {
     </>
   );
 };
+
+const MiddleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 4px auto;
+  > * {
+    margin-right: 16px;
+  }
+`;
+
+const Title = styled.p`
+  font-size: 10px;
+
+  @media only screen and (min-width: 768px) {
+    display: block;
+    font-size: 12px;
+  }
+  @media only screen and (min-width: 992px) {
+    font-size: 14px;
+  }
+  @media only screen and (min-width: 1200px) {
+    font-size: 16px;
+  }
+  @media only screen and (min-width: 1450px) {
+    font-size: 18px;
+  }
+`;

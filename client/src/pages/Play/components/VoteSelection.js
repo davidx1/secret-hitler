@@ -49,10 +49,10 @@ const Vote = styled.button`
 `;
 
 export const VoteSelection = ({ displayName }) => {
-  const { players, chancellorIndex, youId, youInfo } = useContext(StateContext);
+  const { players, chancellorCandidateIndex, youId, youInfo } = useContext(StateContext);
   const { vote } = useContext(ActionContext);
 
-  const p = players[chancellorIndex];
+  const p = players[chancellorCandidateIndex];
 
   return (
     <Overlay>

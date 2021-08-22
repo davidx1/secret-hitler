@@ -1,13 +1,4 @@
-import {
-  Machine,
-  State,
-  actions,
-  assign,
-  send,
-  sendParent,
-  interpret,
-  spawn
-} from "xstate";
+import { Machine, State, actions, assign, send, sendParent, interpret, spawn } from "xstate";
 
 const isProd = true;
 
@@ -105,22 +96,7 @@ const filterCardsInitialState = {
       ability.KILL_PLAYER,
       ability.KILL_PLAYER
     ],
-    "drawPile": [
-      "L",
-      "F",
-      "L",
-      "F",
-      "L",
-      "F",
-      "L",
-      "F",
-      "L",
-      "F",
-      "L",
-      "F",
-      "F",
-      "F"
-    ],
+    "drawPile": ["L", "F", "L", "F", "L", "F", "L", "F", "L", "F", "L", "F", "F", "F"],
     "enactedFascistPolicies": 0,
     "enactedLiberalPolicies": 0,
     "players": [
@@ -191,15 +167,19 @@ const setBoardToUse = assign({
 });
 
 const setNewChancellor = assign({
-  chancellorIndex: (_, event) => event.index,
+  chancellorIndex: (context) => context.chancellorCandidateIndex,
+  chancellorCandidateIndex: null,
   players: (context) => context.players.map((p) => ({ ...p, vote: null }))
 });
 
+const setNewChancellorCandidate = assign({
+    chancellorCandidateIndex: (_, event) => event.index,
+    players: (context) => context.players.map((p) => ({ ...p, vote: null }))
+})
+
 const setNewPresident = assign((context, action) => {
   let presidentIndex =
-    context.presidentIndex === null
-      ? 0
-      : (context.presidentIndex + 1) % context.players.length;
+    context.presidentIndex === null ? 0 : (context.presidentIndex + 1) % context.players.length;
 
   while (!context.players[presidentIndex].isActive) {
     presidentIndex = (presidentIndex + 1) % context.players.length;
@@ -247,18 +227,21 @@ const setNewDrawPile = assign({
 
 const setPolicyInHand = assign((context) => {
   let newDrawPile;
+
+  const reshuffle = () => {
+    const libralArray = Array(6 - context.enactedLiberalPolicies).fill("L");
+    const fascistArray = Array(11 - context.enactedFascistPolicies).fill("F");
+    newDrawPile = libralArray.concat(fascistArray);
+    shuffle(newDrawPile);
+  };
+
   if (context.drawPile && context.drawPile.length >= 3) {
     newDrawPile = [...context.drawPile];
   } else {
-    newDrawPile = [...allPolicyCards];
-    shuffle(newDrawPile);
+    reshuffle();
   }
 
-  const newPoliciesInHand = [
-    newDrawPile.pop(),
-    newDrawPile.pop(),
-    newDrawPile.pop()
-  ];
+  const newPoliciesInHand = [newDrawPile.pop(), newDrawPile.pop(), newDrawPile.pop()];
 
   return {
     drawPile: newDrawPile,
@@ -269,17 +252,39 @@ const setPolicyInHand = assign((context) => {
 });
 
 const setNewPolicy = assign((context, action) => {
+  let newDrawPile = [...context.drawPile];
+
+  const reshuffle = ([f, l]) => {
+    const libralArray = Array(6 - context.enactedLiberalPolicies - l).fill("L");
+    const fascistArray = Array(11 - context.enactedFascistPolicies - f).fill("F");
+    newDrawPile = libralArray.concat(fascistArray);
+    shuffle(newDrawPile);
+  };
+
   if (context.policiesInHand[action.index] === "F") {
+    if (context.drawPile.length < 3) {
+      reshuffle([1, 0]);
+    }
     return {
       prevChancellorIndex: context.chancellorIndex,
+      policiesInHand: [],
       chancellorIndex: null,
-      enactedFascistPolicies: context.enactedFascistPolicies + 1
+      enactedFascistPolicies: context.enactedFascistPolicies + 1,
+      drawPile: newDrawPile,
+      newestPolicy: "F"
     };
+  }
+
+  if (context.drawPile.length < 3) {
+    reshuffle([0, 1]);
   }
   return {
     prevChancellorIndex: context.chancellorIndex,
+    policiesInHand: [],
     chancellorIndex: null,
-    enactedLiberalPolicies: context.enactedLiberalPolicies + 1
+    enactedLiberalPolicies: context.enactedLiberalPolicies + 1,
+    drawPile: newDrawPile,
+    newestPolicy: "L"
   };
 });
 
@@ -298,15 +303,11 @@ const setNewPlayer = assign((context, action) => ({
 }));
 
 const setRemovePlayer = assign((context, action) => ({
-  players: context.players.map((p) =>
-    p.id === action.id ? { ...p, isDisconnected: true } : p
-  )
+  players: context.players.map((p) => (p.id === action.id ? { ...p, isDisconnected: true } : p))
 }));
 
 const setReconnectPlayer = assign((context, action) => ({
-  players: context.players.map((p) =>
-    p.id === action.id ? { ...p, isDisconnected: false } : p
-  )
+  players: context.players.map((p) => (p.id === action.id ? { ...p, isDisconnected: false } : p))
 }));
 
 const removePolicyFromHand = assign((context, action) => ({
@@ -316,9 +317,7 @@ const removePolicyFromHand = assign((context, action) => ({
 }));
 
 const killPlayer = assign((context, event) => ({
-  players: context.players.map((p, i) =>
-    i !== event.index ? p : { ...p, isActive: false }
-  )
+  players: context.players.map((p, i) => (i !== event.index ? p : { ...p, isActive: false }))
 }));
 
 const requestVeto = assign(() => ({
@@ -360,13 +359,9 @@ const enactRandomPolicy = assign((context) => {
   return {
     drawPile: newDrawPile,
     enactedFascistPolicies:
-      topPolicyCard === "F"
-        ? context.enactedFascistPolicies + 1
-        : context.enactedFascistPolicies,
+      topPolicyCard === "F" ? context.enactedFascistPolicies + 1 : context.enactedFascistPolicies,
     enactedLiberalPolicies:
-      topPolicyCard === "L"
-        ? context.enactedLiberalPolicies + 1
-        : context.enactedLiberalPolicies
+      topPolicyCard === "L" ? context.enactedLiberalPolicies + 1 : context.enactedLiberalPolicies
   };
 });
 
@@ -397,8 +392,7 @@ function isValidKillingCandidate(context, event) {
 
 function isAllVotesIn(context) {
   const result =
-    context.players.filter((p) => typeof p.vote !== "boolean" && p.isActive)
-      .length === 0;
+    context.players.filter((p) => typeof p.vote !== "boolean" && p.isActive).length === 0;
   return result;
 }
 
@@ -408,11 +402,8 @@ function isEnoughPlayers(context) {
 }
 
 function isLiberalWin(context, action) {
-  const hitler = context.players.filter(p => p.role === 'H')[0]
-  return (
-    context.enactedLiberalPolicies === 5 || 
-    (hitler && !hitler.isActive)
-  );
+  const hitler = context.players.filter((p) => p.role === "H")[0];
+  return context.enactedLiberalPolicies === 5 || (hitler && !hitler.isActive);
 }
 
 function isFascistWin(context) {
@@ -427,28 +418,23 @@ function isFascistWin(context) {
 }
 
 function isViewThreeCards(context, event) {
-  if (context.policiesInHand[event.index] === "L") {
+  if (context.newestPolicy === "L") {
     return false;
   }
-  return (
-    context.board[context.enactedFascistPolicies] === ability.TOP_THREE_CARD
-  );
+  return context.board[context.enactedFascistPolicies - 1] === ability.TOP_THREE_CARD;
 }
 function isPickNextPresident(context, event) {
-  if (context.policiesInHand[event.index] === "L") {
+  if (context.newestPolicy === "L") {
     return false;
   }
-  return (
-    context.board[context.enactedFascistPolicies] ===
-    ability.PICK_NEXT_PRESIDENT
-  );
+  return context.board[context.enactedFascistPolicies - 1] === ability.PICK_NEXT_PRESIDENT;
 }
 
 function isKillPlayer(context, event) {
-  if (context.policiesInHand[event.index] === "L") {
+  if (context.newestPolicy === "L") {
     return false;
   }
-  return context.board[context.enactedFascistPolicies] === ability.KILL_PLAYER;
+  return context.board[context.enactedFascistPolicies - 1] === ability.KILL_PLAYER;
 }
 
 function isInvestigate(context, event) {
@@ -506,12 +492,7 @@ const stateMachine = Machine(
               start: {
                 target: "chancellorSelection",
                 cond: "isEnoughPlayers",
-                actions: [
-                  "setPlayerRoles",
-                  "setNewPresident",
-                  "setNewDrawPile",
-                  "setBoardToUse"
-                ]
+                actions: ["setPlayerRoles", "setNewPresident", "setNewDrawPile", "setBoardToUse"]
               }
             }
           },
@@ -527,7 +508,7 @@ const stateMachine = Machine(
               },
               selectChancellor: {
                 target: "election",
-                actions: "setNewChancellor",
+                actions: "setNewChancellorCandidate",
                 cond: "isValidGovernmentCandidate"
               }
             }
@@ -563,7 +544,7 @@ const stateMachine = Machine(
                 {
                   target: "filterCards",
                   cond: "isElectionSuccess",
-                  actions: ["setPolicyInHand", "resetElectionTracker"]
+                  actions: ["setNewChancellor", "setPolicyInHand", "resetElectionTracker"]
                 },
                 {
                   target: "enactRandomPolicy",
@@ -592,11 +573,7 @@ const stateMachine = Machine(
               5000: [
                 {
                   target: "chancellorSelection",
-                  actions: [
-                    "setNewPresident",
-                    "resetElectionTracker",
-                    "resetTermLimits"
-                  ]
+                  actions: ["setNewPresident", "resetElectionTracker", "resetTermLimits"]
                 }
               ]
             },
@@ -650,43 +627,53 @@ const stateMachine = Machine(
               approveVeto: {
                 target: "enactRandomPolicy",
                 cond: "isTooManyFailedElections",
-                actions: [
-                  "incrementElectionTracker",
-                  "enactRandomPolicy",
-                  "setNewPolicy"
-                ]
+                actions: ["incrementElectionTracker", "enactRandomPolicy", "setNewPolicy"]
               },
               approveVeto: {
                 target: "chancellorSelection",
                 actions: ["setNewPolicy", "setNewPresident"],
                 cond: "isVetoRequested"
               },
-              enact: [
+              enact: {
+                target: "enactingPolicyCard",
+                actions: "setNewPolicy"
+              }
+            }
+          },
+          enactingPolicyCard: {
+            after: {
+              8000: [
                 {
                   target: "viewThreeCards",
-                  cond: "isViewThreeCards",
-                  actions: "setNewPolicy"
+                  cond: "isViewThreeCards"
                 },
                 {
                   target: "investigatePlayer",
-                  cond: "isInvestigate",
-                  actions: "setNewPolicy"
+                  cond: "isInvestigate"
                 },
                 {
                   target: "killPlayer",
-                  cond: "isKillPlayer",
-                  actions: "setNewPolicy"
+                  cond: "isKillPlayer"
                 },
                 {
                   target: "presidentSelection",
-                  cond: "isPickNextPresident",
-                  actions: "setNewPolicy"
+                  cond: "isPickNextPresident"
                 },
                 {
                   target: "chancellorSelection",
-                  actions: ["setNewPolicy", "setNewPresident"]
+                  actions: "setNewPresident"
                 }
               ]
+            },
+            on: {
+              removePlayer: {
+                target: "enactRandomPolicy",
+                actions: "setRemovePlayer"
+              },
+              reconnectPlayer: {
+                target: "enactRandomPolicy",
+                actions: "setReconnectPlayer"
+              }
             }
           },
           viewThreeCards: {
@@ -768,6 +755,7 @@ const stateMachine = Machine(
       setRemovePlayer,
       setReconnectPlayer,
       setNewChancellor,
+      setNewChancellorCandidate,
       setOneVote,
       setNewPresident,
       setPlayerRoles,
