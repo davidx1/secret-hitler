@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { ArrowCurveUpLeft } from "@styled-icons/fluentui-system-filled/ArrowCurveUpLeft";
+import { ArrowCurveDownRight } from "@styled-icons/fluentui-system-filled/ArrowCurveDownRight";
 import { LibralBoard, FascistBoard } from "./Board";
 import { HalfThePlayers } from "./HalfThePlayers";
 import { PolicySelection } from "./PolicySelection";
@@ -18,6 +20,7 @@ import { HandleVetoRequest } from "./HandleVetoRequest";
 
 const PlayerWrapper = styled.div`
   display: flex;
+  flex-direction: ${({ inverse }) => (inverse ? "row-reverse" : "row")};
   justify-content: space-around;
   margin: 5px 0;
 
@@ -28,6 +31,19 @@ const PlayerWrapper = styled.div`
   }
   @media only screen and (min-width: 1200px) {
   }
+`;
+
+const playerTurnArrowStyles = css`
+  height: 100%;
+  color: ${({ theme }) => theme.white};
+  opacity: 0.5;
+`;
+
+const PlayerTurnDown = styled(ArrowCurveDownRight)`
+  ${playerTurnArrowStyles}
+`;
+const PlayerTurnUp = styled(ArrowCurveUpLeft)`
+  ${playerTurnArrowStyles}
 `;
 
 export const InprogressScreen = () => {
@@ -44,19 +60,15 @@ export const InprogressScreen = () => {
     drawPile,
     policiesInHand,
     enactedFascistPolicies,
-    enactedLiberalPolicies,
+    enactedLiberalPolicies
   } = useContext(StateContext);
 
-const allContext = useContext(StateContext);
+  const allContext = useContext(StateContext);
 
-  console.dir(allContext);
+  window.getAllContext = allContext;
 
   const discardPileSize =
-    17 -
-    drawPile.length -
-    policiesInHand.length -
-    enactedFascistPolicies -
-    enactedLiberalPolicies;
+    17 - drawPile.length - policiesInHand.length - enactedFascistPolicies - enactedLiberalPolicies;
 
   const { revealVote } = useContext(ActionContext);
   return (
@@ -65,18 +77,22 @@ const allContext = useContext(StateContext);
         <HalfThePlayers allPlayers={players} />
       </PlayerWrapper>
       <LibralBoard></LibralBoard>
-      <MiddleWrapper>
-        <Title>Draw: {drawPile.length}</Title>
-        <ElectionTracker points={electionTracker} />
-        <Title>Discard: {discardPileSize}</Title>
-      </MiddleWrapper>
+      <MiddleOuterWrapper>
+        <PlayerTurnUp height={40}/>
+        <MiddleWrapper>
+          <Title>Draw: {drawPile.length}</Title>
+          <ElectionTracker points={electionTracker} />
+          <Title>Discard: {discardPileSize}</Title>
+        </MiddleWrapper>
+        <PlayerTurnDown height={40}/>
+      </MiddleOuterWrapper>
       {isYouPresident &&
         state === "election" &&
         players.filter((p) => typeof p.vote !== "boolean" && p.isActive).length === 0 && (
           <Button onClick={revealVote}>Reveal Vote</Button>
         )}
       <FascistBoard></FascistBoard>
-      <PlayerWrapper>
+      <PlayerWrapper inverse>
         <HalfThePlayers allPlayers={players} secondHalf />
       </PlayerWrapper>
       {(state === "fascistWin" || state === "liberalWin") && <GameOver />}
@@ -105,10 +121,16 @@ const allContext = useContext(StateContext);
 const MiddleWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin: 4px auto;
   > * {
     margin-right: 16px;
   }
+`;
+
+const MiddleOuterWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 0 16px;
+  justify-content: space-between;
 `;
 
 const Title = styled.p`

@@ -42,6 +42,38 @@ export class MyRoom extends Room {
           context
         }
       });
+      if (value['play'] === 'revealVote'){
+        this.broadcast("chat", {
+          payload: {
+            color: 'white',
+            highlight: true,
+            name: `***************`,
+          }
+        })
+        this.broadcast("chat", {
+          payload: {
+            color: 'white',
+            highlight: true,
+            name: `Votes for ${context.players[context.presidentIndex].displayName} and ${context.players[context.chancellorCandidateIndex].displayName}`,
+          }
+        })
+        context.players.forEach(p => {
+          this.broadcast("chat", {
+            payload: {
+              color: p.color,
+              name: p.displayName,
+              content: p.vote ? 'Ja' : 'Nein'
+            }
+          })
+        })
+        this.broadcast("chat", {
+          payload: {
+            color: 'white',
+            highlight: true,
+            name: `***************`,
+          }
+        })
+      }
     })
     .start();
 

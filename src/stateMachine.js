@@ -178,8 +178,9 @@ const setNewChancellorCandidate = assign({
 })
 
 const setNewPresident = assign((context, action) => {
+  const randomStartIndex = Math.floor(Math.random()*context.players.length);
   let presidentIndex =
-    context.presidentIndex === null ? 0 : (context.presidentIndex + 1) % context.players.length;
+    context.presidentIndex === null ? randomStartIndex : (context.presidentIndex + 1) % context.players.length;
 
   while (!context.players[presidentIndex].isActive) {
     presidentIndex = (presidentIndex + 1) % context.players.length;
