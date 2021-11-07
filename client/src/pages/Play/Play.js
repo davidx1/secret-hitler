@@ -9,6 +9,7 @@ import { StartScreen } from "./components/StartScreen";
 import { InprogressScreen } from "./components/InprogressScreen";
 import { Chat } from "./components/Chat";
 import { Loader } from "../../lib/Loader";
+import { SpectatorNotice } from "./components/SpectatorNotice";
 
 import { useRoomState } from "../../useRoomState";
 
@@ -145,6 +146,7 @@ export default function Game({ room, setRoom, client, postJoiningCallback }) {
             <Chat onMobileInputFocus={setIsChatFullScreen} />
           </ChatWrapper>
         </Wrapper>
+        <SpectatorNotice />
       </StateContext.Provider>
     </ActionContext.Provider>
   );

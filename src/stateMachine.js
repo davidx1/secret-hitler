@@ -71,6 +71,7 @@ export const prodInitialState = {
   value: "play",
   context: {
     players: [],
+    spectators: [],
     board: [],
     drawPile: [],
     policiesInHand: [],
@@ -137,6 +138,7 @@ const filterCardsInitialState = {
         "vote": true
       }
     ],
+    "spectators": [],
     "policiesInHand": ["F", "F", "F"],
     "presπidentIndex": 0,
     "prevChancellorIndex": null,
@@ -173,14 +175,16 @@ const setNewChancellor = assign({
 });
 
 const setNewChancellorCandidate = assign({
-    chancellorCandidateIndex: (_, event) => event.index,
-    players: (context) => context.players.map((p) => ({ ...p, vote: null }))
-})
+  chancellorCandidateIndex: (_, event) => event.index,
+  players: (context) => context.players.map((p) => ({ ...p, vote: null }))
+});
 
 const setNewPresident = assign((context, action) => {
-  const randomStartIndex = Math.floor(Math.random()*context.players.length);
+  const randomStartIndex = Math.floor(Math.random() * context.players.length);
   let presidentIndex =
-    context.presidentIndex === null ? randomStartIndex : (context.presidentIndex + 1) % context.players.length;
+    context.presidentIndex === null
+      ? randomStartIndex
+      : (context.presidentIndex + 1) % context.players.length;
 
   while (!context.players[presidentIndex].isActive) {
     presidentIndex = (presidentIndex + 1) % context.players.length;
@@ -303,8 +307,20 @@ const setNewPlayer = assign((context, action) => ({
   ]
 }));
 
+const setNewSpectator = assign((context, action) => ({
+  spectators: [
+    ...context.spectators,
+    {
+      id: action.id,
+      displayName: `${action.displayName} (Spectator)`,
+      color: "#666"
+    }
+  ]
+}));
+
 const setRemovePlayer = assign((context, action) => ({
-  players: context.players.map((p) => (p.id === action.id ? { ...p, isDisconnected: true } : p))
+  players: context.players.map((p) => (p.id === action.id ? { ...p, isDisconnected: true } : p)),
+  spectators: context.players.filter((s) => s.id !== action.id)
 }));
 
 const setReconnectPlayer = assign((context, action) => ({
@@ -499,6 +515,10 @@ const stateMachine = Machine(
           },
           chancellorSelection: {
             on: {
+              newPlayer: {
+                target: "chancellorSelection",
+                actions: "setNewSpectator"
+              },
               removePlayer: {
                 target: "chancellorSelection",
                 actions: "setRemovePlayer"
@@ -516,6 +536,10 @@ const stateMachine = Machine(
           },
           election: {
             on: {
+              newPlayer: {
+                target: "election",
+                actions: "setNewSpectator"
+              },
               removePlayer: {
                 target: "election",
                 actions: "setRemovePlayer"
@@ -559,6 +583,10 @@ const stateMachine = Machine(
               ]
             },
             on: {
+              newPlayer: {
+                target: "revealVote",
+                actions: "setNewSpectator"
+              },
               removePlayer: {
                 target: "revealVote",
                 actions: "setRemovePlayer"
@@ -579,6 +607,10 @@ const stateMachine = Machine(
               ]
             },
             on: {
+              newPlayer: {
+                target: "enactRandomPolicy",
+                actions: "setNewSpectator"
+              },
               removePlayer: {
                 target: "enactRandomPolicy",
                 actions: "setRemovePlayer"
@@ -591,6 +623,10 @@ const stateMachine = Machine(
           },
           filterCards: {
             on: {
+              newPlayer: {
+                target: "filterCards",
+                actions: "setNewSpectator"
+              },
               removePlayer: {
                 target: "filterCards",
                 actions: "setRemovePlayer"
@@ -607,6 +643,10 @@ const stateMachine = Machine(
           },
           enactPolicy: {
             on: {
+              newPlayer: {
+                target: "enactPolicy",
+                actions: "setNewSpectator"
+              },
               removePlayer: {
                 target: "enactPolicy",
                 actions: "setRemovePlayer"
@@ -667,6 +707,10 @@ const stateMachine = Machine(
               ]
             },
             on: {
+              newPlayer: {
+                target: "enactRandomPolicy",
+                actions: "setNewSpectator"
+              },
               removePlayer: {
                 target: "enactRandomPolicy",
                 actions: "setRemovePlayer"
@@ -679,6 +723,10 @@ const stateMachine = Machine(
           },
           viewThreeCards: {
             on: {
+              newPlayer: {
+                target: "viewThreeCards",
+                actions: "setNewSpectator"
+              },
               removePlayer: {
                 target: "viewThreeCards",
                 actions: "setRemovePlayer"
@@ -695,6 +743,10 @@ const stateMachine = Machine(
           },
           investigatePlayer: {
             on: {
+              newPlayer: {
+                target: "investigatePlayer",
+                actions: "setNewSpectator"
+              },
               removePlayer: {
                 target: "investigatePlayer",
                 actions: "setRemovePlayer"
@@ -711,6 +763,10 @@ const stateMachine = Machine(
           },
           killPlayer: {
             on: {
+              newPlayer: {
+                target: "killPlayer",
+                actions: "setNewSpectator"
+              },
               removePlayer: {
                 target: "killPlayer",
                 actions: "setRemovePlayer"
@@ -728,6 +784,10 @@ const stateMachine = Machine(
           },
           presidentSelection: {
             on: {
+              newPlayer: {
+                target: "presidentSelection",
+                actions: "setNewSpectator"
+              },
               removePlayer: {
                 target: "presidentSelection",
                 actions: "setRemovePlayer"
@@ -753,6 +813,7 @@ const stateMachine = Machine(
     actions: {
       setBoardToUse,
       setNewPlayer,
+      setNewSpectator,
       setRemovePlayer,
       setReconnectPlayer,
       setNewChancellor,

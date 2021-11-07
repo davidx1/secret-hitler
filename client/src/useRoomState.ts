@@ -17,6 +17,7 @@ export interface Context {
   enactedFascistPolicies: number;
   enactedLiberalPolicies: number;
   players: Player[];
+  spectators: Partial<Player>[];
   policiesInHand: string[];
   presidentIndex: number;
   prevChancellorIndex?: any;
@@ -71,7 +72,7 @@ export const useRoomState = (room: any, setRoom: any, client: any, postJoiningCa
       const existingRoomId = sessionStorage.getItem("vsh-room-id");
       const existingSessionId = sessionStorage.getItem("vsh-session-id");
       if (!existingRoomId && !existingSessionId) {
-        history.replace('/');
+        history.replace("/");
       }
     }
     if (room) {
@@ -102,13 +103,14 @@ export const useRoomState = (room: any, setRoom: any, client: any, postJoiningCa
 
   const {
     state,
-    context = { players: [], presidentIndex: -1, chancellorIndex: -1 }
+    context = { players: [], spectators: [], presidentIndex: -1, chancellorIndex: -1 }
   } = roomState as RootObject;
 
   const playersToDisplay = context.players.filter((p) => p.displayName !== "secret-admin");
   const isYouPresident = _.get(playersToDisplay[context.presidentIndex], "id") === youId;
   const isYouChancellor = _.get(playersToDisplay[context.chancellorIndex], "id") === youId;
-  const youInfo = playersToDisplay.find((p) => p.id === youId);
+  const youInfo =
+    playersToDisplay.find((p) => p.id === youId) || context.spectators.find((s) => s.id === youId);
 
   function trigger(name: string, payload = {}) {
     console.log("trigger", name, payload);

@@ -42,37 +42,40 @@ export class MyRoom extends Room {
           context
         }
       });
-      if (value['play'] === 'revealVote'){
+      // Listing out all the votes in the chat
+      if (value["play"] === "revealVote") {
         this.broadcast("chat", {
           payload: {
-            color: 'white',
+            color: "white",
             highlight: true,
-            name: `***************`,
+            name: `***************`
           }
-        })
+        });
         this.broadcast("chat", {
           payload: {
-            color: 'white',
+            color: "white",
             highlight: true,
-            name: `Votes for ${context.players[context.presidentIndex].displayName} and ${context.players[context.chancellorCandidateIndex].displayName}`,
+            name: `Votes for ${context.players[context.presidentIndex].displayName} and ${
+              context.players[context.chancellorCandidateIndex].displayName
+            }`
           }
-        })
-        context.players.forEach(p => {
+        });
+        context.players.forEach((p) => {
           this.broadcast("chat", {
             payload: {
               color: p.color,
               name: p.displayName,
-              content: p.vote ? 'Ja' : 'Nein'
+              content: p.vote ? "Ja" : "Nein"
             }
-          })
-        })
+          });
+        });
         this.broadcast("chat", {
           payload: {
-            color: 'white',
+            color: "white",
             highlight: true,
-            name: `***************`,
+            name: `***************`
           }
-        })
+        });
       }
     })
     .start();
@@ -84,7 +87,13 @@ export class MyRoom extends Room {
     this.roomId = nanoid();
 
     this.onMessage("chat", (client, payload) => {
-      const person = this.service.state.context.players.find((p) => p.id === client.sessionId);
+      const playerPerson = this.service.state.context.players.find(
+        (p) => p.id === client.sessionId
+      );
+      const spectatorPerson = this.service.state.context.spectators.find(
+        (s) => s.id === client.sessionId
+      );
+      const person = playerPerson || spectatorPerson;
       this.broadcast("chat", {
         payload: {
           color: person.color,
