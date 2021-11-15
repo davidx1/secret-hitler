@@ -159,6 +159,12 @@ function shuffle(array) {
   }
 }
 
+const playAgain = assign({
+  ...initial.context,
+  players: (context) => context.players.map((p) => ({ ...p, isActive: true })),
+  spectators: (context) => [...context.spectators]
+});
+
 const setBoardToUse = assign({
   board: (context) =>
     context.players.length <= 6
@@ -805,8 +811,22 @@ const stateMachine = Machine(
           }
         }
       },
-      liberalWin: { type: "final" },
-      fascistWin: { type: "final" }
+      liberalWin: {
+        on: {
+          playAgain: {
+            target: "play",
+            actions: "playAgain"
+          }
+        }
+      },
+      fascistWin: {
+        on: {
+          playAgain: {
+            target: "play",
+            actions: "playAgain"
+          }
+        }
+      }
     }
   },
   {
@@ -832,7 +852,8 @@ const stateMachine = Machine(
       incrementElectionTracker,
       resetElectionTracker,
       resetTermLimits,
-      enactRandomPolicy
+      enactRandomPolicy,
+      playAgain
     },
     guards: {
       isElectionSuccess,

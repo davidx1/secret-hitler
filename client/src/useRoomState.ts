@@ -177,6 +177,10 @@ export const useRoomState = (room: any, setRoom: any, client: any, postJoiningCa
     trigger("chatBubble", payload);
   }
 
+  function playAgain() {
+    trigger("playAgain");
+  }
+
   return {
     state,
     chatState,
@@ -185,6 +189,7 @@ export const useRoomState = (room: any, setRoom: any, client: any, postJoiningCa
     isYouPresident,
     isYouChancellor,
     youInfo,
+    chatBubbleContent,
     start,
     selectChancellor,
     vote,
@@ -200,6 +205,6 @@ export const useRoomState = (room: any, setRoom: any, client: any, postJoiningCa
     approveVeto,
     sendChat,
     sendChatBubble,
-    chatBubbleContent
+    playAgain
   };
 };

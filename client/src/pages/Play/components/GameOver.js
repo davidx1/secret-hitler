@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 
 import { Player } from "./Player";
 import { Overlay } from "../../../lib/Overlay";
-import { StateContext } from "../Play";
+import { ActionContext, StateContext } from "../Play";
 import { Button } from "../../../lib/Button";
 
 const Wrapper = styled(Overlay)`
@@ -26,14 +26,9 @@ const FascistWrapper = styled.div`
   justify-content: space-around;
 `;
 export const GameOver = ({ winner }) => {
-  const {
-    players,
-    state,
-    youId,
-    enactedFascistPolicies,
-    enactedLiberalPolicies,
-    chancellorIndex
-  } = useContext(StateContext);
+  const { players, state, youId, enactedFascistPolicies, enactedLiberalPolicies, chancellorIndex } =
+    useContext(StateContext);
+  const { playAgain } = useContext(ActionContext);
   const history = useHistory();
 
   const winners = players.filter((p) => {
@@ -64,20 +59,15 @@ export const GameOver = ({ winner }) => {
     } else if (!players.find((p) => p.role === "H").isActive) {
       reason = "Hitler was killed";
     } else {
-      reason =
-        "There may be a bug, liberal somehow won for no reason, contact developer";
+      reason = "There may be a bug, liberal somehow won for no reason, contact developer";
     }
   } else if (state === "fascistWin") {
     if (enactedFascistPolicies === 6) {
       reason = "Six fascist policies was enacted";
-    } else if (
-      enactedFascistPolicies > 3 &&
-      players[chancellorIndex].role === "H"
-    ) {
+    } else if (enactedFascistPolicies > 3 && players[chancellorIndex].role === "H") {
       reason = "Hitler was elected chancellor";
     } else {
-      reason =
-        "There may be a bug, fascist somehow won for no reason, contact developer";
+      reason = "There may be a bug, fascist somehow won for no reason, contact developer";
     }
   }
 
@@ -113,6 +103,7 @@ export const GameOver = ({ winner }) => {
         ))}
       </FascistWrapper>
       <Button onClick={() => history.push("/")}>Home</Button>
+      <Button onClick={playAgain}>Play Again</Button>
     </Wrapper>
   );
 };

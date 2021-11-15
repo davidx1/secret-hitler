@@ -88,7 +88,8 @@ export default function Game({ room, setRoom, client, postJoiningCallback }) {
     sendChat,
     chatState,
     sendChatBubble,
-    chatBubbleContent
+    chatBubbleContent,
+    playAgain
   } = useRoomState(room, setRoom, client, postJoiningCallback);
 
   if (!state) {
@@ -113,7 +114,8 @@ export default function Game({ room, setRoom, client, postJoiningCallback }) {
         rejectVeto,
         sendChat,
         setInteractionMenuTarget,
-        sendChatBubble
+        sendChatBubble,
+        playAgain
       }}
     >
       <StateContext.Provider
