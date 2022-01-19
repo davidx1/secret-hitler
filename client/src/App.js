@@ -33,17 +33,6 @@ export const GlobalWrapper = styled(Div100vh)`
   min-height: 320px;
 `;
 
-// const NavigationBar = styled.nav`
-//   position: fixed;
-//   background: ${(props) => props.theme.dark};
-//   backdrop-filter: saturate(180%) blur(20px);
-//   height: 25px;
-//   width: 100%;
-//   @media only screen and (min-width: 992px) {
-//     height: 40px;
-//   }
-// `;
-
 const host = window.document.location.host.replace(/:.*/, "");
 const location = window.location;
 const client = new Colyseus.Client(
@@ -114,7 +103,6 @@ export default function AppWrapper() {
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <div>
-          {/* {!isFullscreen && <NavigationBar />} */}
           <GlobalWrapper>
             <Router>
               <App />
