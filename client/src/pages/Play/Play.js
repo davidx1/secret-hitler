@@ -32,6 +32,7 @@ export const ChatWrapper = styled.div`
   margin: 0 auto;
   max-width: 1920px;
   overflow: hidden;
+  border-radius: 8px;
 
   ${({ isLandscape }) =>
     isLandscape &&

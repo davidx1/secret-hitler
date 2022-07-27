@@ -1,7 +1,9 @@
+import React from "react";
 import styled from "styled-components";
 import { Close } from "@styled-icons/evil/Close";
+import { motion } from "framer-motion";
 
-export const Overlay = styled.div`
+export const OverlayBase = styled(motion.div)`
   position: absolute;
   height: 100%;
   width: 100%;
@@ -17,6 +19,20 @@ export const Overlay = styled.div`
   display: flex;
   z-index: 1;
 `;
+
+export const Overlay = (props) => {
+  return (
+    <OverlayBase
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{
+        delay: 0,
+        duration: 0.5
+      }}
+      {...props}
+    />
+  );
+};
 
 export const OverlayTransparent = styled(Overlay)`
   background-color: transparent;
@@ -43,7 +59,7 @@ export const InstructionText = styled.h1`
 `;
 
 export const RuleText = styled.p`
-  color: #FFFFFFbb;
+  color: #ffffffbb;
   margin: 0 0 15px 0;
   text-align: center;
   font-size: 12px;

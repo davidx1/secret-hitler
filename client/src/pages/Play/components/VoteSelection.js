@@ -25,8 +25,10 @@ const Vote = styled.button`
   height: 80px;
   width: 120px;
   cursor: pointer;
+  transition: filter 0.2s ease, transform 0.2s ease;
   &:hover {
     filter: brightness(1.8);
+    transform: translateY(-15%) rotateZ(${(props) => (props.rLeft ? "-5deg" : "5deg")}) scale(1.1);
   }
   @media only screen and (min-width: 768px) {
     height: 100px;
@@ -59,7 +61,7 @@ export const VoteSelection = ({ displayName }) => {
       <InstructionText>{`Vote ${p.displayName} as Chancellor`}</InstructionText>
 
       <VotesWrapper>
-        <Vote onClick={() => vote(true)} src={ja} />
+        <Vote onClick={() => vote(true)} src={ja} rLeft />
         <Player
           displayName={p.displayName}
           scale={2}

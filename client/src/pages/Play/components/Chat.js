@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   height: 100%;
   width: 100%;
   background-color: #162447;
+  border-radius: 8px;
 `;
 
 const StatusWindow = styled.div`
@@ -21,6 +22,7 @@ const StatusWindow = styled.div`
   border-bottom: 1px solid white;
   text-align: center;
   overflow: hidden;
+  border-radius-top: 8px;
 `;
 
 const ChatWindow = styled.div`
@@ -32,6 +34,7 @@ const ChatWindow = styled.div`
   justify-content: flex-end;
   overflow: auto;
   padding: 5px;
+  border-radius: 8px;
   > * {
     margin-bottom: 5px;
     &:last-child {
@@ -115,18 +118,15 @@ export const Chat = ({ onMobileInputFocus }) => {
     <Wrapper>
       <StatusBar />
       <ChatWindow>
-      <Tip>
-        *DO NOT CLOSE THIS WINDOW* You will disconnect and be unable to rejoin
-      </Tip>
-      <Tip>
-        All Fascists who are NOT Hitler will see everyone's identities. Hitler and Liberals can only see their own identity.
-      </Tip>
+        <Tip>*DO NOT CLOSE THIS WINDOW* You will disconnect and be unable to rejoin</Tip>
+        <Tip>
+          All Fascists who are NOT Hitler will see everyone's identities. Hitler and Liberals can
+          only see their own identity.
+        </Tip>
         {chatState.map((c) => (
           <Message>
             <ColorSpan color={c.color}>{c.name}</ColorSpan>:{" "}
-            {c.targetName ? (
-              <ColorSpan color={c.targetColor}>{c.targetName}</ColorSpan>
-            ) : null}
+            {c.targetName ? <ColorSpan color={c.targetColor}>{c.targetName}</ColorSpan> : null}
             {c.content}
           </Message>
         ))}
@@ -145,9 +145,7 @@ export const Chat = ({ onMobileInputFocus }) => {
 };
 
 function StatusBar() {
-  const { state, presidentIndex, chancellorIndex, players } = useContext(
-    StateContext
-  );
+  const { state, presidentIndex, chancellorIndex, players } = useContext(StateContext);
   const president = players[presidentIndex];
   const chancellor = players[chancellorIndex];
 
@@ -159,14 +157,12 @@ function StatusBar() {
         return `${president.displayName} (President) to select new Chancellor`;
       case "election":
         const activePlayerCount = players.filter((p) => p.isActive).length;
-        const votes = players.filter(
-          (p) => p.isActive && typeof p.vote === "boolean"
-        ).length;
+        const votes = players.filter((p) => p.isActive && typeof p.vote === "boolean").length;
         return `${votes}/${activePlayerCount} votes casted`;
       case "revealVote":
-        return `All votes in: Ja: ${
-          players.filter((p) => p.vote === true).length
-        } --- Nein: ${players.filter((p) => p.vote === false).length}`;
+        return `All votes in: Ja: ${players.filter((p) => p.vote === true).length} --- Nein: ${
+          players.filter((p) => p.vote === false).length
+        }`;
       case "enactRandomPolicy":
         return `Enacting top policy from the policy deck`;
       case "filterCards":

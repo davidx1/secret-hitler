@@ -121,7 +121,7 @@ const playerImageSize = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 20%;
+  border-radius: 15%;
 
   height: ${(props) => 25 * props.scale}px;
   width: ${(props) => 25 * props.scale}px;
