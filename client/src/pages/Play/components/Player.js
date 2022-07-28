@@ -66,21 +66,23 @@ export const Player = ({
             <ChancellorMarker scale={scale} layoutId="chancellorMarker"></ChancellorMarker>
           )}
           <PlayerImage scale={scale} src={srcs[roleToDisplay]} color={color}>
-            {state === "election" && typeof vote === "boolean" && (
-              <VotedWrapper
-                initial={{ y: 40, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Voted />
-              </VotedWrapper>
-            )}
             <AnimatePresence>
+              {state === "election" && typeof vote === "boolean" && (
+                <VotedWrapper
+                  initial={{ y: 40, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1, width: "" }}
+                  exit={{ width: "0" }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Voted />
+                </VotedWrapper>
+              )}
               {state === "revealVote" && typeof vote === "boolean" && (
                 <VotedWrapper
-                  animate={{ y: 0, opacity: 1 }}
+                  initial={{ width: "0" }}
+                  animate={{ y: 0, opacity: 1, width: "" }}
                   exit={{ y: 40, opacity: 0 }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ delay: 0.5, duration: 0.5 }}
                 >
                   {vote ? <VotedYes /> : <VotedNo />}
                 </VotedWrapper>
@@ -92,7 +94,20 @@ export const Player = ({
             {state === "fascistWin" && role === "L" && <Lose />}
             {state === "liberalWin" && (role === "H" || role === "F") && <Lose />}
             {propChatBubbleContent && (
-              <SpeechBubble>
+              <SpeechBubble
+                initial={{ scale: 0.1, opacity: 0, y: "100%", x: "0" }}
+                animate={{
+                  scale: 1,
+                  opacity: 1,
+                  y: "-50%",
+                  x: "20%"
+                }}
+                transition={{
+                  delay: 0,
+                  duration: 0.2,
+                  scale: { type: "spring", stiffness: 150, mass: 1, damping: 15, velocity: 8 }
+                }}
+              >
                 <ColorSpan color={propChatBubbleContent.targetColor}>
                   {propChatBubbleContent.targetName}
                 </ColorSpan>
@@ -119,8 +134,8 @@ export const Player = ({
 
 const playerImageSize = css`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-end;
   border-radius: 15%;
 
   height: ${(props) => 25 * props.scale}px;
@@ -209,8 +224,10 @@ const PlayerWrapper = styled.div`
   align-items: center;
   cursor: pointer;
   height: min-content;
+  transition: filter 0.2s ease, transform 0.2s ease;
   &:hover {
-    filter: brightness(1.2);
+    filter: brightness(1.1);
+    transform: scale(1.05);
   }
   @media only screen and (min-width: 768px) {
     border-width: 6px;
@@ -269,7 +286,7 @@ const VotedWrapper = styled(motion.div)`
 const Voted = styled(HowToVote)`
   height: 100%;
   width: 100%;
-  background-color: blue;
+  background-color: ${({ theme }) => theme.interactive};
   color: white;
 `;
 const StatusOverlay = styled.div`
@@ -294,26 +311,28 @@ const DisconnectedIcon = styled(PowerOff)`
   color: white;
 `;
 const VotedYes = styled(Voted).attrs({ as: DoneOutline })`
-  background-color: green;
+  background-color: ${({ theme }) => theme.blue_mid};
   color: white;
 `;
 const VotedNo = styled(Voted).attrs({ as: CloseOutline })`
-  background-color: red;
+  background-color: ${({ theme }) => theme.orange_dark};
   color: white;
 `;
 const Win = styled(Voted).attrs({ as: Trophy })`
   color: gold;
-  background-color: black;
+  width: 30%;
+  height: 30%;
 `;
 const Lose = styled(Voted).attrs({ as: SadCry })`
   color: white;
-  background-color: indianred;
+  width: 30%;
+  height: 30%;
 `;
-const SpeechBubble = styled.div`
+const SpeechBubble = styled(motion.div)`
   position: absolute;
   padding: 5px;
   top: -15px;
-  left: -5px;
+  left: 0px;
   background: #ffffff;
   border-radius: 0.4em;
   font-size: 10px;

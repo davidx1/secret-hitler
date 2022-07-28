@@ -190,18 +190,17 @@ function StatusBar() {
         <StatusWrapper
           key={getSystemMessage()}
           initial={{
-            x: 500,
-            opacity: 0
+            x: 200,
+            backgroundColor: "hsl(0, 0%, 100%)"
           }}
           animate={{
             zIndex: 1,
             x: 0,
-            opacity: 1
+            backgroundColor: "hsl(0, 0, 0)"
           }}
           exit={{
             zIndex: 0,
-            x: -500,
-            opacity: 0
+            x: -200
           }}
           transition={{
             duration: 0.5

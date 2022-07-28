@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Close } from "@styled-icons/evil/Close";
 import { motion } from "framer-motion";
+import FocusLock from "react-focus-lock";
 
 export const OverlayBase = styled(motion.div)`
   position: absolute;
@@ -20,17 +21,19 @@ export const OverlayBase = styled(motion.div)`
   z-index: 1;
 `;
 
-export const Overlay = (props) => {
+export const Overlay = ({ children, ...props }) => {
   return (
     <OverlayBase
       initial={{ scale: 0.8, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{
         delay: 0,
-        duration: 0.5
+        duration: 0.2
       }}
       {...props}
-    />
+    >
+      <FocusLock persistentFocus={true}>{children}</FocusLock>
+    </OverlayBase>
   );
 };
 
@@ -80,7 +83,7 @@ export const RuleText = styled.p`
   }
 `;
 
-export const OverlayCross = styled(Close)`
+export const OverlayCrossButton = styled.button`
   height: 60px;
   width: 60px;
   margin: 10px;
@@ -89,12 +92,19 @@ export const OverlayCross = styled(Close)`
   right: 0;
   cursor: pointer;
   color: white;
+  background-color: transparent;
+  border: none;
 
   @media only screen and (min-width: 768px) {
-    min-width: 200px;
     margin: 8px auto;
     height: 80px;
     width: 80px;
     margin: 20px;
   }
 `;
+
+export const OverlayCross = (props) => (
+  <OverlayCrossButton {...props} type="button">
+    <Close />
+  </OverlayCrossButton>
+);
