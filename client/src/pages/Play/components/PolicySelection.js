@@ -13,6 +13,7 @@ const PolicyWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   margin-bottom: 24px;
   > * {
     margin-right: 20px;
