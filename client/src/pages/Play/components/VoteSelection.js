@@ -28,7 +28,7 @@ const Vote = styled.button`
   transition: filter 0.2s ease, transform 0.2s ease;
   &:hover {
     filter: brightness(1.8);
-    transform: translateY(-15%) rotateZ(${(props) => (props.rLeft ? "-5deg" : "5deg")}) scale(1.1);
+    transform: translateY(-15%) rotateZ(${(props) => (props.rLeft ? "-5deg" : "5deg")}) scale(1.05);
   }
   @media only screen and (min-width: 768px) {
     height: 100px;

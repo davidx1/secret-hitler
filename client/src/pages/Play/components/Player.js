@@ -226,8 +226,12 @@ const PlayerWrapper = styled.div`
   height: min-content;
   transition: filter 0.2s ease, transform 0.2s ease;
   &:hover {
-    filter: brightness(1.1);
-    transform: scale(1.05);
+    ${({ isClickable = true }) =>
+      isClickable &&
+      css`
+        filter: brightness(1.1);
+        transform: scale(1.05);
+      `}
   }
   @media only screen and (min-width: 768px) {
     border-width: 6px;

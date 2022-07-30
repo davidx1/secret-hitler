@@ -45,6 +45,7 @@ export const InstructionText = styled.h1`
   color: white;
   margin: 0 0 15px 0;
   font-size: 18px;
+  text-align: center;
 
   @media only screen and (min-width: 512px) {
     font-size: 24px;
@@ -63,16 +64,18 @@ export const InstructionText = styled.h1`
 
 export const RuleText = styled.p`
   color: #ffffffbb;
-  margin: 0 0 15px 0;
+  margin: auto;
+  margin-bottom: 15px;
   text-align: center;
   font-size: 12px;
   width: 80%;
+  text-align: center;
 
   @media only screen and (min-width: 512px) {
     font-size: 14px;
   }
   @media only screen and (min-width: 768px) {
-    margin: 0 0 30px 0;
+    margin-bottom: 30px;
     font-size: 14px;
   }
   @media only screen and (min-width: 992px) {
