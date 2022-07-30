@@ -13,7 +13,7 @@ const VotesWrapper = styled.div`
   align-items: center;
 
   @media only screen and (min-width: 1200px) {
-    width: 80%;
+    min-width: 80%;
   }
 `;
 
