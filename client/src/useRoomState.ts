@@ -35,17 +35,17 @@ export const useRoomState = (room: any, setRoom: any, client: any, postJoiningCa
     [] as { color: string; name: string; content: string }[]
   );
   const [youId, setYouId] = useState(1);
-  const [attemptedToJoin, setAttemptedToJoin] = useState(false);
+  const [attemptedToJoin] = useState(false);
   const [chatBubbleContent, setChatBubbleContent] = useState("");
   const { roomId } = useParams();
   const history = useHistory();
 
-  const joinRoom = async () => {
+  /*const joinRoom = async () => {
     client
       .joinById(roomId)
       .then((newRoom: any) => setRoom(newRoom))
       .catch((err: any) => history.replace({ pathname: "/", state: { isError: false } }));
-  };
+  };*/
 
   useInterval(() => {
     // Your custom logic here
@@ -99,7 +99,7 @@ export const useRoomState = (room: any, setRoom: any, client: any, postJoiningCa
         room.leave();
       };
     }
-  }, [room]);
+  }, [room, attemptedToJoin, history]);
 
   const {
     state,
