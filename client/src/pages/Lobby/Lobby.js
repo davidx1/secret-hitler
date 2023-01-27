@@ -89,7 +89,6 @@ const AboutWrapper = styled.ul`
 
   > li {
     list-style: none;
-    font-size: 12px;
     color: ${({ theme }) => theme.white};
     text-align: center;
     margin-bottom: 3px;
@@ -98,7 +97,7 @@ const AboutWrapper = styled.ul`
       font-size: 12px;
     }
     @media only screen and (min-width: 1450px) {
-      font-size: 18px;
+      font-size: 14px;
     }
     > a {
       color: ${({ theme }) => theme.link};
@@ -158,19 +157,11 @@ export default function Lobby({ client, isError = false, postJoiningCallback }) 
       <SkullIcon2 />
       <AboutWrapper>
         <li>
-          <a href="https://www.youtube.com/watch?v=mbGXIDYdtas">
-            How to Play Secret Hitler in 4 Minutes{" "}
-          </a>
+          Based on the boardgame <a href="https://www.secrethitler.com/">Secret Hitler</a>
         </li>
         <li>
           Licensed under{" "}
           <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0 </a>
-        </li>
-        <li>
-          Based on the boardgame <a href="https://www.secrethitler.com/">Secret Hitler</a>
-        </li>
-        <li>
-          Source Code: <a href="https://github.com/davidx1/secret-hitler">Github</a>
         </li>
       </AboutWrapper>
     </Wrapper>
