@@ -15,6 +15,11 @@ const PolicyImage = styled.button`
   padding: 0;
   margin: 0;
 
+  &:hover {
+    transform: scale(1.08);
+    transition: transform 0.2s;
+  }
+
   @media only screen and (min-width: 512px) {
     height: ${(props) => props.scale * 40}px;
     width: ${(props) => props.scale * 40}px;

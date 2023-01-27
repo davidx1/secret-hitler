@@ -4,10 +4,16 @@ export const OptionCard = styled.button`
   width: 300px;
   height: 100px;
   cursor: pointer;
-  background-color: #fbb969;
-  border: 6px solid #4f0d00;
+  background-color: ${({ theme }) => theme.neutral};
+  border: 6px solid ${({ theme }) => theme.dark};
   border-radius: 20px;
   font-size: 24px;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.neutralHover};
+    transform: scale(1.05);
+  }
 
   @media only screen and (min-width: 512px) {
     width: 280px;

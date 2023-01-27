@@ -11,6 +11,10 @@ export const Button = styled.button`
   font-size: 16px;
   border-radius: 5px;
 
+  &:hover {
+    background-color: ${({ theme }) => theme.interactiveHover};
+  }
+
   @media only screen and (min-width: 768px) {
     min-width: 200px;
     margin: 8px auto;
