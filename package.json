@@ -10,7 +10,7 @@
     "server:dev": "nodemon src/index.ts",
     "client:dev": "cd client && yarn dev",
     "dev": "concurrently --kill-others \"yarn run server:dev\" \"yarn run client:dev\"",
-    "heroku-postbuild": "cd client && yarn && yarn build"
+    "postbuild": "cd client && yarn && yarn build"
   },
   "author": "",
   "license": "UNLICENSED",
