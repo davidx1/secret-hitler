@@ -17,6 +17,9 @@
   "bugs": {
     "url": "https://github.com/colyseus/create-colyseus/issues"
   },
+  "compilerOptions": {
+    "esModuleInterop": true
+  },
   "homepage": "https://github.com/colyseus/create-colyseus#readme",
   "devDependencies": {
     "@babel/core": "^7.9.0",
